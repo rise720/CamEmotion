@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.FacefeatureTblMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.FacefeatureTbl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="courseId" property="courseid" jdbcType="INTEGER" />
+    <result column="cameraIp" property="cameraip" jdbcType="VARCHAR" />
+    <result column="faceCategory" property="facecategory" jdbcType="INTEGER" />
+    <result column="faceCategoryCombine" property="faceCategoryCombine" jdbcType="INTEGER" />
+    <result column="originFaceCategory" property="originfacecategory" jdbcType="INTEGER" />
+    <result column="frameId" property="frameid" jdbcType="DECIMAL" />
+    <result column="faceId" property="faceid" jdbcType="INTEGER" />
+    <result column="faceCategoryX" property="facecategoryx" jdbcType="INTEGER" />
+    <result column="faceCategoryY" property="facecategoryy" jdbcType="INTEGER" />
+    <result column="faceImageAddr" property="faceimageaddr" jdbcType="VARCHAR" />
+    <result column="pitch" property="pitch" jdbcType="DOUBLE" />
+    <result column="yaw" property="yaw" jdbcType="DOUBLE" />
+    <result column="roll" property="roll" jdbcType="DOUBLE" />
+    <result column="isDel" property="isdel" jdbcType="INTEGER" />
+    <result column="incidenceKey" jdbcType="BIGINT" property="incidencekey" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.cac.CamEmotion.model.FacefeatureTbl" extends="BaseResultMap" >
+    <result column="feature" property="feature" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, courseId, cameraIp, faceCategory, faceCategoryCombine,originFaceCategory, frameId, faceId, faceCategoryX, 
+    faceCategoryY, faceImageAddr, pitch, yaw, roll, isDel, incidenceKey
+  </sql>
+  <sql id="Blob_Column_List" >
+    feature
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from facefeature_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from facefeature_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.FacefeatureTbl" >
+    insert into facefeature_tbl (id, courseId, cameraIp, 
+      faceCategory, originFaceCategory, frameId, 
+      faceId, faceCategoryX, faceCategoryY, 
+      faceImageAddr, pitch, yaw, 
+      roll, isDel, feature
+      )
+    values (#{id,jdbcType=INTEGER}, #{courseid,jdbcType=INTEGER}, #{cameraip,jdbcType=VARCHAR}, 
+      #{facecategory,jdbcType=INTEGER}, #{originfacecategory,jdbcType=INTEGER}, #{frameid,jdbcType=DECIMAL}, 
+      #{faceid,jdbcType=INTEGER}, #{facecategoryx,jdbcType=INTEGER}, #{facecategoryy,jdbcType=INTEGER}, 
+      #{faceimageaddr,jdbcType=VARCHAR}, #{pitch,jdbcType=DOUBLE}, #{yaw,jdbcType=DOUBLE}, 
+      #{roll,jdbcType=DOUBLE}, #{isdel,jdbcType=INTEGER}, #{feature,jdbcType=LONGVARBINARY}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.FacefeatureTbl" >
+    insert into facefeature_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="courseid != null" >
+        courseId,
+      </if>
+      <if test="cameraip != null" >
+        cameraIp,
+      </if>
+      <if test="facecategory != null" >
+        faceCategory,
+      </if>
+      <if test="originfacecategory != null" >
+        originFaceCategory,
+      </if>
+      <if test="frameid != null" >
+        frameId,
+      </if>
+      <if test="faceid != null" >
+        faceId,
+      </if>
+      <if test="facecategoryx != null" >
+        faceCategoryX,
+      </if>
+      <if test="facecategoryy != null" >
+        faceCategoryY,
+      </if>
+      <if test="faceimageaddr != null" >
+        faceImageAddr,
+      </if>
+      <if test="pitch != null" >
+        pitch,
+      </if>
+      <if test="yaw != null" >
+        yaw,
+      </if>
+      <if test="roll != null" >
+        roll,
+      </if>
+      <if test="isdel != null" >
+        isDel,
+      </if>
+      <if test="feature != null" >
+        feature,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="courseid != null" >
+        #{courseid,jdbcType=INTEGER},
+      </if>
+      <if test="cameraip != null" >
+        #{cameraip,jdbcType=VARCHAR},
+      </if>
+      <if test="facecategory != null" >
+        #{facecategory,jdbcType=INTEGER},
+      </if>
+      <if test="originfacecategory != null" >
+        #{originfacecategory,jdbcType=INTEGER},
+      </if>
+      <if test="frameid != null" >
+        #{frameid,jdbcType=DECIMAL},
+      </if>
+      <if test="faceid != null" >
+        #{faceid,jdbcType=INTEGER},
+      </if>
+      <if test="facecategoryx != null" >
+        #{facecategoryx,jdbcType=INTEGER},
+      </if>
+      <if test="facecategoryy != null" >
+        #{facecategoryy,jdbcType=INTEGER},
+      </if>
+      <if test="faceimageaddr != null" >
+        #{faceimageaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="pitch != null" >
+        #{pitch,jdbcType=DOUBLE},
+      </if>
+      <if test="yaw != null" >
+        #{yaw,jdbcType=DOUBLE},
+      </if>
+      <if test="roll != null" >
+        #{roll,jdbcType=DOUBLE},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=INTEGER},
+      </if>
+      <if test="feature != null" >
+        #{feature,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.FacefeatureTbl" >
+    update facefeature_tbl
+    <set >
+      <if test="courseid != null" >
+        courseId = #{courseid,jdbcType=INTEGER},
+      </if>
+      <if test="cameraip != null" >
+        cameraIp = #{cameraip,jdbcType=VARCHAR},
+      </if>
+      <if test="facecategory != null" >
+        faceCategory = #{facecategory,jdbcType=INTEGER},
+      </if>
+      <if test="originfacecategory != null" >
+        originFaceCategory = #{originfacecategory,jdbcType=INTEGER},
+      </if>
+      <if test="frameid != null" >
+        frameId = #{frameid,jdbcType=DECIMAL},
+      </if>
+      <if test="faceid != null" >
+        faceId = #{faceid,jdbcType=INTEGER},
+      </if>
+      <if test="facecategoryx != null" >
+        faceCategoryX = #{facecategoryx,jdbcType=INTEGER},
+      </if>
+      <if test="facecategoryy != null" >
+        faceCategoryY = #{facecategoryy,jdbcType=INTEGER},
+      </if>
+      <if test="faceimageaddr != null" >
+        faceImageAddr = #{faceimageaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="pitch != null" >
+        pitch = #{pitch,jdbcType=DOUBLE},
+      </if>
+      <if test="yaw != null" >
+        yaw = #{yaw,jdbcType=DOUBLE},
+      </if>
+      <if test="roll != null" >
+        roll = #{roll,jdbcType=DOUBLE},
+      </if>
+      <if test="isdel != null" >
+        isDel = #{isdel,jdbcType=INTEGER},
+      </if>
+      <if test="feature != null" >
+        feature = #{feature,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="initUpdate" >
+  	   update facefeature_tbl
+  	   <set>
+  	   		originFaceCategory = faceCategoryCombine		
+  	   </set>
+  	   where courseId = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.cac.CamEmotion.model.FacefeatureTbl" >
+    update facefeature_tbl
+    set courseId = #{courseid,jdbcType=INTEGER},
+      cameraIp = #{cameraip,jdbcType=VARCHAR},
+      faceCategory = #{facecategory,jdbcType=INTEGER},
+      originFaceCategory = #{originfacecategory,jdbcType=INTEGER},
+      frameId = #{frameid,jdbcType=DECIMAL},
+      faceId = #{faceid,jdbcType=INTEGER},
+      faceCategoryX = #{facecategoryx,jdbcType=INTEGER},
+      faceCategoryY = #{facecategoryy,jdbcType=INTEGER},
+      faceImageAddr = #{faceimageaddr,jdbcType=VARCHAR},
+      pitch = #{pitch,jdbcType=DOUBLE},
+      yaw = #{yaw,jdbcType=DOUBLE},
+      roll = #{roll,jdbcType=DOUBLE},
+      isDel = #{isdel,jdbcType=INTEGER},
+      feature = #{feature,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.FacefeatureTbl" >
+    update facefeature_tbl
+    set courseId = #{courseid,jdbcType=INTEGER},
+      cameraIp = #{cameraip,jdbcType=VARCHAR},
+      faceCategory = #{facecategory,jdbcType=INTEGER},
+      originFaceCategory = #{originfacecategory,jdbcType=INTEGER},
+      frameId = #{frameid,jdbcType=DECIMAL},
+      faceId = #{faceid,jdbcType=INTEGER},
+      faceCategoryX = #{facecategoryx,jdbcType=INTEGER},
+      faceCategoryY = #{facecategoryy,jdbcType=INTEGER},
+      faceImageAddr = #{faceimageaddr,jdbcType=VARCHAR},
+      pitch = #{pitch,jdbcType=DOUBLE},
+      yaw = #{yaw,jdbcType=DOUBLE},
+      roll = #{roll,jdbcType=DOUBLE},
+      isDel = #{isdel,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 删除关系 -->
+  <update id="deleteFacefeature" parameterType="com.cac.CamEmotion.model.FacefeatureTbl" >
+	  update facefeature_tbl 
+	  <if test="isdel > 0">
+	  	set isDel = #{isdel,jdbcType=INTEGER}
+	  </if>
+	  <where>
+	  	originFaceCategory = #{originfacecategory,jdbcType=INTEGER} 
+	  	AND courseId = #{courseid,jdbcType=INTEGER}
+	  </where>
+  
+  </update>
+  <!-- 修改关系 -->
+  <update id="updateFacefeature" parameterType="com.cac.CamEmotion.model.FacefeatureTbl" >
+	  update facefeature_tbl set 
+	  <if test="originfacecategory != null and originfacecategory != ''">
+	  	originFaceCategory = #{originfacecategory}
+	  </if>
+	  <where>
+	  	originFaceCategory in ( ${facecategorys} )
+	  	AND courseId = #{courseid,jdbcType=INTEGER}
+	  </where>
+  
+  </update>
+  <!-- 根据课程id删除表数据 -->
+  <delete id="deleteByPrimaryCourseId" parameterType="java.lang.Integer" >
+    delete from facefeature_tbl
+    where courseid = #{courseId,jdbcType=INTEGER}
+  </delete>
+  
+</mapper>

@@ -1,0 +1,267 @@
+<Style>
+    .bodong-box {
+        flex: auto;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+
+
+    #myTabChart>li>a {
+        color: #9c9b9b;
+    }
+
+    #myTabChart>.active>a {
+        color: #337ab7;
+    }
+
+    .list-group-item-sm {
+        color: #555;
+        padding: 3px 15px;
+        position: relative;
+        display: block;
+        margin-bottom: -1px;
+        background-color: #fff;
+    }
+    .number-br{
+        word-break:break-all;
+        word-wrap:break-word;
+    }
+    .title-video0{
+        background: #F5F5F5; padding: 6px 5px;
+    }
+    .title-video1{
+        background: #F5F5F5; padding: 10px 5px;
+    }
+    .w-h-center{
+        display: flex;
+        /*  	align-items: center;  */
+        justify-content: space-around;
+        flex-direction: column;
+        text-align: right;
+    }
+    .box-shadow{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-direction: column;
+        text-align: center;
+        box-shadow: darkgrey 0px 0px 2px 1px;
+        border-radius: 0.25rem;
+        padding: 10px 0px;
+        margin: 12px 6px;
+
+    }
+
+    .pjjg{
+        border-bottom: 1px solid #eff2f7;width: 100%;padding: 5px;
+    }
+
+    .pjjg_size{
+        font-size: 42px;
+    }
+    .xing{
+        /* 	padding: 0 3px; */
+    }
+    .moodScale{
+        display: flex;
+        flex-direction: column;
+        padding:0 20px;
+        list-style: none;
+    }
+    .moodScale li{
+        flex: 1;
+        position: relative;
+        margin-top: 10px;
+        /*display: table-cell;*/
+    }
+    .moodScale li div{
+        position: absolute;
+    }
+    .moodScale li .moodTitle{
+        width: 120px;
+        display: flex
+    }
+
+    .moodScale li .moodContent{
+        padding-left: 70px;
+        width: 100%
+    }
+    .moodScale li .moodTitle span{
+        flex: 1;
+    }
+    .moodScale li span{
+        vertical-align: top;
+        display: inline-block;
+        line-height: 15px;
+    }
+    .moodScale li span:first-child{
+        width: 50px;
+        height: 15px;
+    }
+    .moodScale li span:last-child{
+        height: 20px;
+    }
+    .studentListBox{
+        width: 100%;
+        background-color: #fff;
+        overflow-x: auto;
+    }
+    .studentList{
+        width: 3000px;
+        /*display: table-cell;*/
+        list-style: none;
+    }
+    .studentList li{
+        vertical-align: bottom;
+        width:50px;
+        float: left;
+        margin-right: 12px;
+        border: 2px solid #60edef;
+        overflow: hidden;
+    }
+    .studentList li:hover{
+        transition: all 1s;
+        border: 2px solid #ff87b9;
+    }
+    .studentList li img{
+       width:100%
+    }
+    .studentList .active{
+
+        /*transition: all 1s;*/
+        border: 4px solid #ff87b9;
+    }
+    .moodBox{
+        height: 300px;
+        display: flex;
+        background-color: #e7e7e7
+    }
+    .dataAnalyse{
+        position: relative;
+        overflow: auto;
+        margin-top: 10px
+    }
+    .checkImg{
+        position: absolute;
+        /*width: 50px;*/
+        /*height: 50px;*/
+        /*border-radius: 50%;*/
+        top: 45%;
+        right: 1%;
+        z-index: 999;
+    }
+    .integralAnalysis{
+        background-color: #e5e6e6;
+        display: flex;
+        position: absolute;
+        top: 0 ;
+        left: 0;
+        z-index: 10
+    }
+    .ontoanalysisBox{
+        background-color: #e5e6e6;
+        position: absolute;
+        top: 0 ;
+        left: 0;
+        z-index: 5;
+    }
+    .checkImg img{
+        width: 50px;
+         height:  50px;
+    }
+    .checkImg span{
+        background-color: #0af;
+        border-radius: 50%;
+        text-align: center;
+        width: 50px;
+        height: 50px;
+        color: #fff;
+        display: inline-block;
+        line-height: 50px;
+
+    }
+    /*.ontoanalysisBox{*/
+        /*padding-top: 60px;*/
+    /*}*/
+
+
+</Style>
+<div id="classvideoApp">
+    <div class="page-content">
+
+        <transition enter-active-class="animated slideInLeft">
+            <div  v-show="chart">
+                <div class="contentBox">
+                    <div class="cac-chart" >
+                        <!--视频-->
+                        <div class="model-box  videoBigBox">
+                            <div class="video-box " style="padding:0; height: 100%">
+                                <div  style="display: flex; height: 100%">
+                                    <video v-for="video in videoTblList" :id="video.id" class="video-js vjs-default-skin vjs-big-play-centered"
+                                           controls preload="auto" style="flex: 1;height: 100%">
+                                        <source :src="video.videoimgurl" type="video/mp4">
+                                        您的浏览器不支持 video 标签。
+                                    </video>
+                                </div>
+                            </div>
+                        </div>
+                        <!--数据分析-->
+                        <div class="dataAnalyse " style="overflow: hidden;margin-top: 10px">
+                            <!--整节课数据分析-->
+                            <div class="integralAnalysis" >
+                                <!-- 活跃度饼图 -->
+                                <div style="flex: 2;">
+                                    <div class="model-box">
+                                        <div class="model-box-title">
+                                            <div class="modular-title">会场气氛</div>
+                                        </div>
+                                        <div id="valence_Pie_Echarts" ></div>
+                                    </div>
+                                </div>
+
+                                <div style="flex: 3;margin-left:10px;">
+                                    <div class="model-box ">
+                                        <div id="valence_Bubble_ECharts" style="height: 245px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                          
+ 
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </transition>
+        <div style="position: fixed; left: 75px; top: 49%; z-index: 9"
+             v-show="!chart">
+            <img @click="start" alt="" src="../images/Slide.png"
+                 style="width: 50px; opacity: 0.5; height: 50px; transform: rotate(180deg); -ms-transform: rotate(180deg); /* IE 9 */ -moz-transform: rotate(180deg); /* Firefox */ -webkit-transform: rotate(180deg); /* Safari 和 Chrome */ -o-transform: rotate(180deg);">
+        </div>
+        <!-- bounceInDown -->
+        <transition enter-active-class="animated slideInRight">
+            <div class="row" v-show="!chart"
+                 style="margin: 0; background: #fff; padding: 0 10px 10px 10px; border-radius: 4px; border-top: 2px solid #2A8BA7;">
+                <div class="model-box-title">
+                    <div class="modular-title">课堂视频</div>
+                </div>
+                <div class="col-lg-6 maxvideobox" style="padding: 5px 5px 0 5px;"
+                     v-for="video in videoTblList2">
+                    <video :id="video.id"
+                           class="video-js vjs-default-skin vjs-big-play-centered maxvideo"
+                           controls preload="auto" style="width: 100%; height: 100%;">
+                        <source :src="video.videoimgurl" type="video/mp4">
+                        您的浏览器不支持 video 标签。
+                    </video>
+                </div>
+            </div>
+        </transition>
+
+      
+    </div>
+
+  
+
+</div>

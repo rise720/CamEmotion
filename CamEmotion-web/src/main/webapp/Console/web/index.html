@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>建设银行报告厅氛围评测系统</title>
+    <link rel="icon" type="image/x-icon" href="../images/bitbug_favicon.ico"media="screen" />
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/bootstrap-social/bootstrap-social.css" rel="stylesheet">
+    <link href="../vendor/quill/quill.css" rel="stylesheet">
+    
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../dist/css/iconfont.css" rel="stylesheet">
+    <link href="../dist/css/animate.css" rel="stylesheet" type="text/css">
+    <link href="../dist/css/loading.css" rel="stylesheet" type="text/css">
+    
+    <!-- Custom checkBox&Radio -->
+        <link href="../vendor/bootstrap-CheckboxesRadios/css/build.css" rel="stylesheet" >
+
+    
+    <link rel="stylesheet" href="../vendor/jedate/skin/jedate.css" />
+    <!-- video.js -->
+    <link rel="stylesheet" type="text/css" href="../vendor/videoJs/video-js.css">
+    <style type="text/css">
+    	* {
+        margin: 0;
+        padding: 0;
+    }
+
+    html,
+    body {
+        position: relative;
+        height: 100%;
+        /*overflow-x: hidden;*/
+    }
+    [v-cloak] {
+        display: none !important;
+    }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/vue/vue.min.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../vendor/bootstrap/js/distpicker.data.js"></script>
+	<script src="../vendor/bootstrap/js/distpicker.js"></script>
+	<script src="../vendor/quill/quill.js"></script>
+	<script src="../vendor/vipspa/vipspa.js"></script>
+	
+	<script src="../vendor/vue/axios.min.js"></script>
+	
+</head>
+<body>
+<div id="wrapper">
+    <!-- 母 -->
+    <nav class="navbar cac-navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">建设银行报告厅氛围评测系统</a>
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <div class="user-head" style="color: #000;">
+                    	<i style="color: #000;" class="glyphicon glyphicon-user"></i>
+                    </div>
+                    <div class="user-text" v-text="userInfo.nickname"></div>
+                    <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="login/login.html" @click="clearUserLoginInfo"><i class="fa fa-sign-out fa-fw"></i> 退出</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="cac-navbar-black sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse" style="height: 100%;">
+                <ul class="nav" id="side-menu">
+                    <div style="color: #fff;padding: 20px;">CCB</div>
+                    <li v-for="item in line" :id = "`active${item.active}`"  @mouseenter="mouseenter = item.active" @mouseleave="mouseenter=0"
+                        style="position: relative">
+                         <a  :href="item.url == '#/LiveVideo' ? 'realTimeVideo/grid.html' : (item.url == '#/rankings'? 'rankings/rankings.html': item.url)" :class="{navactive:activeline==item.active}" v-html="item.icon"
+                           style="text-align: center"
+                           @click="activeline=item.active">
+                           {{item.url}}
+                          
+                        </a>
+                       
+                        <div v-cloak v-show="mouseenter==item.active" class="mouseenter">{{item.name}}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="page-wrapper">
+    	<!-- 提示信息 -->
+        <div class="alert alert-success" style="margin: 0;display: none;">
+            <a  class="close" @click='closeAlert'>&times;</a>
+            <strong>成功！</strong>
+            <span class="success-text"></span>
+        </div>
+        <div class="alert alert-info" style="margin: 0;display: none;">
+            <a  class="close" @click='closeAlert'>&times;</a>
+            <strong>信息！</strong>
+            <span class="info-text"></span>
+        </div>
+        <div class="alert alert-warning" style="margin: 0;display: none;">
+            <a  class="close" @click='closeAlert'>&times;</a>
+            <strong>警告！</strong>
+            <span class="warning-text"></span>
+        </div>
+        <div class="alert alert-danger" style="margin: 0;display: none;">
+            <a  class="close" @click='closeAlert'>&times;</a>
+            <strong>错误！</strong>
+            <span class="danger-text"></span>
+        </div>
+        <!-- 提示信息 -->
+
+        <!-- 页面 -->
+        <div id="ui-views"></div>
+    </div>
+
+    <div class="page-bottom">Copyright  ©  2018  CAC ShangHai Corporation</div>
+    
+<!-- system modal start -->
+	<div id="ycf-alert" class="modal">
+	    <div class="modal-dialog modal-sm">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+	                <h5 class="modal-title"><i class="fa fa-exclamation-circle"></i> [Title]</h5>
+	            </div>
+	            <div class="modal-body small">
+	                <p>[Message]</p >
+	            </div>
+	            <div class="modal-footer" >
+	                <button type="button" class="btn btn-primary ok" data-dismiss="modal">[BtnOk]</button>
+	                <button type="button" class="btn btn-default cancel" data-dismiss="modal">[BtnCancel]</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<!-- system modal end -->
+	
+	<!-- loading -->
+    <div id="com-loading" class="modal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-sm" style="margin: 20% auto;">
+           <div class="modal-content" style="background: rgba(51,51,51,0.3)">  
+                <div class="loading">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <!-- End loading -->
+</div>
+
+
+<script src="service/requestSer.js"></script>
+<!-- 配置 -->
+<script src="config/config.js"></script>
+<!-- 共通方法 -->
+<script src="common/common.js"></script>
+<script src="common/dialog.js"></script>
+<!-- 时间工具 -->
+<script src="../web/common/DateUtil.js"></script>
+ <!--日期控件-->
+<script type="text/javascript" src="../vendor/jedate/jquery.jedate.js"></script>
+<!-- 图形报表控件 -->
+<script src="../vendor/echarts/echarts.min.js"></script>
+<!-- 视频控件 -->
+<script src="../vendor/videoJs/video.js"></script>
+
+<script src="util/filter.js"></script>
+<script src="router.js"></script>
+<script src="index.js"></script>
+
+<script>
+    $(function () {
+        $('#page-wrapper').css('min-height', $(window).height() - 80 + 'px');
+    });
+    
+    window.onresize = function(){
+    	$('#page-wrapper').css('min-height', $(window).height() - 80 + 'px');
+    }
+</script>
+</body>
+</html>

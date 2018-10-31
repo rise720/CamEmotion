@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.FaceContrastConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.FaceContrastConfig" >
+    <id column="hostNo" property="hostno" jdbcType="INTEGER" />
+    <result column="hostIp" property="hostip" jdbcType="VARCHAR" />
+    <result column="hostName" property="hostname" jdbcType="VARCHAR" />
+    <result column="faceSimitarityThresh" property="facesimitaritythresh" jdbcType="DOUBLE" />
+  </resultMap>
+  <resultMap id="BaseResultMapExtend" type="com.cac.CamEmotion.model.FaceContrastConfigExtend">
+	<id column="hostNo" jdbcType="INTEGER" property="hostno" />
+	<result column="hostIp" jdbcType="VARCHAR" property="hostip" />
+	<result column="hostName" jdbcType="VARCHAR" property="hostname" />
+	<result column="faceSimitarityThresh" jdbcType="DOUBLE" property="facesimitaritythresh" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    hostNo, hostIp, hostName, faceSimitarityThresh
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from face_contrast_config_tbl
+    where hostNo = #{hostno,jdbcType=INTEGER}
+  </select>
+  <select id="findList" resultMap="BaseResultMapExtend" parameterType="java.lang.Integer">
+	select
+	<include refid="Base_Column_List" />
+	from face_contrast_config_tbl
+	<if test="hostno != null">
+		where hostNo = #{hostno,jdbcType=INTEGER}
+	</if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from face_contrast_config_tbl
+    where hostNo = #{hostno,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.FaceContrastConfig" >
+    insert into face_contrast_config_tbl (hostNo, hostIp, hostName, 
+      faceSimitarityThresh)
+    values (#{hostno,jdbcType=INTEGER}, #{hostip,jdbcType=VARCHAR}, #{hostname,jdbcType=VARCHAR}, 
+      #{facesimitaritythresh,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.FaceContrastConfig" >
+    insert into face_contrast_config_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hostno != null" >
+        hostNo,
+      </if>
+      <if test="hostip != null" >
+        hostIp,
+      </if>
+      <if test="hostname != null" >
+        hostName,
+      </if>
+      <if test="facesimitaritythresh != null" >
+        faceSimitarityThresh,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hostno != null" >
+        #{hostno,jdbcType=INTEGER},
+      </if>
+      <if test="hostip != null" >
+        #{hostip,jdbcType=VARCHAR},
+      </if>
+      <if test="hostname != null" >
+        #{hostname,jdbcType=VARCHAR},
+      </if>
+      <if test="facesimitaritythresh != null" >
+        #{facesimitaritythresh,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.FaceContrastConfig" >
+    update face_contrast_config_tbl
+    <set >
+      <if test="hostip != null" >
+        hostIp = #{hostip,jdbcType=VARCHAR},
+      </if>
+      <if test="hostname != null" >
+        hostName = #{hostname,jdbcType=VARCHAR},
+      </if>
+      <if test="facesimitaritythresh != null" >
+        faceSimitarityThresh = #{facesimitaritythresh,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where hostNo = #{hostno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.FaceContrastConfig" >
+    update face_contrast_config_tbl
+    set hostIp = #{hostip,jdbcType=VARCHAR},
+      hostName = #{hostname,jdbcType=VARCHAR},
+      faceSimitarityThresh = #{facesimitaritythresh,jdbcType=DOUBLE}
+    where hostNo = #{hostno,jdbcType=INTEGER}
+  </update>
+</mapper>

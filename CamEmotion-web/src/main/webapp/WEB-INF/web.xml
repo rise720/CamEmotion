@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>cathaylife wechat mall</display-name>
+	
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>CamEmotion.web</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath*:spring-mybatis.xml</param-value>
+	</context-param>
+	
+	<!-- 数据库连接池 -->
+	<resource-ref>
+		<!-- 描述信息 -->
+		<description>Connection Pool</description>
+		<!-- 数据源名字 和was容器中数据源的名字一致 -->
+		<res-ref-name>jdbc/jndiDB1</res-ref-name>
+		<!-- 数据源类型 -->
+		<res-type>javax.sql.PooledConnection</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+	
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<async-supported>true</async-supported>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+	<listener>
+		<listener-class>com.cac.CamEmotion.http.SessionListener</listener-class>
+	</listener>
+	
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.html</url-pattern>
+		<url-pattern>/app/*</url-pattern>
+		<url-pattern>/css/*</url-pattern>
+		<url-pattern>/fonts/*</url-pattern>
+		<url-pattern>/images/*</url-pattern>
+		<url-pattern>/img/*</url-pattern>
+		<url-pattern>/js/*</url-pattern>
+		<url-pattern>/json/*</url-pattern>
+		<url-pattern>/pages/*</url-pattern>
+		<url-pattern>/plugins/*</url-pattern>
+		<url-pattern>/Console/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SpringMVC</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>SpringMVC</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>Console/index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

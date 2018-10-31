@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.TeacherInfoTblMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.TeacherInfoTbl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="teacherName" property="teachername" jdbcType="VARCHAR" />
+    <result column="teacherSex" property="teachersex" jdbcType="INTEGER" />
+    <result column="Education" property="education" jdbcType="INTEGER" />
+    <result column="birthDate" property="birthdate" jdbcType="VARCHAR" />
+    <result column="startWorkDate" property="startworkdate" jdbcType="VARCHAR" />
+    <result column="headImgUrl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="staffSources" property="staffsources" jdbcType="INTEGER" />
+    <result column="seriesStatus" property="seriesstatus" jdbcType="INTEGER" />
+    <result column="fullTimeNormalSchoolStatus" property="fulltimenormalschoolstatus" jdbcType="INTEGER" />
+    <result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="createuser" property="createuser" jdbcType="VARCHAR" />
+    <result column="updatedate" property="updatedate" jdbcType="TIMESTAMP" />
+    <result column="updateuser" property="updateuser" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, teacherName, teacherSex, Education, birthDate, startWorkDate, headImgUrl, staffSources, 
+    seriesStatus, fullTimeNormalSchoolStatus, createdate, createuser, updatedate, updateuser
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from teacher_info_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from teacher_info_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.TeacherInfoTbl" >
+    insert into teacher_info_tbl (id, teacherName, teacherSex, 
+      Education, birthDate, startWorkDate, 
+      headImgUrl, staffSources, seriesStatus, 
+      fullTimeNormalSchoolStatus, createdate, 
+      createuser, updatedate, updateuser
+      )
+    values (#{id,jdbcType=INTEGER}, #{teachername,jdbcType=VARCHAR}, #{teachersex,jdbcType=INTEGER}, 
+      #{education,jdbcType=INTEGER}, #{birthdate,jdbcType=VARCHAR}, #{startworkdate,jdbcType=VARCHAR}, 
+      #{headimgurl,jdbcType=VARCHAR}, #{staffsources,jdbcType=INTEGER}, #{seriesstatus,jdbcType=INTEGER}, 
+      #{fulltimenormalschoolstatus,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{createuser,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.TeacherInfoTbl" >
+    insert into teacher_info_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="teachername != null" >
+        teacherName,
+      </if>
+      <if test="teachersex != null" >
+        teacherSex,
+      </if>
+      <if test="education != null" >
+        Education,
+      </if>
+      <if test="birthdate != null" >
+        birthDate,
+      </if>
+      <if test="startworkdate != null" >
+        startWorkDate,
+      </if>
+      <if test="headimgurl != null" >
+        headImgUrl,
+      </if>
+      <if test="staffsources != null" >
+        staffSources,
+      </if>
+      <if test="seriesstatus != null" >
+        seriesStatus,
+      </if>
+      <if test="fulltimenormalschoolstatus != null" >
+        fullTimeNormalSchoolStatus,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+      <if test="createuser != null" >
+        createuser,
+      </if>
+      <if test="updatedate != null" >
+        updatedate,
+      </if>
+      <if test="updateuser != null" >
+        updateuser,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="teachername != null" >
+        #{teachername,jdbcType=VARCHAR},
+      </if>
+      <if test="teachersex != null" >
+        #{teachersex,jdbcType=INTEGER},
+      </if>
+      <if test="education != null" >
+        #{education,jdbcType=INTEGER},
+      </if>
+      <if test="birthdate != null" >
+        #{birthdate,jdbcType=DATE},
+      </if>
+      <if test="startworkdate != null" >
+        #{startworkdate,jdbcType=DATE},
+      </if>
+      <if test="headimgurl != null" >
+        #{headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="staffsources != null" >
+        #{staffsources,jdbcType=INTEGER},
+      </if>
+      <if test="seriesstatus != null" >
+        #{seriesstatus,jdbcType=INTEGER},
+      </if>
+      <if test="fulltimenormalschoolstatus != null" >
+        #{fulltimenormalschoolstatus,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.TeacherInfoTbl" >
+    update teacher_info_tbl
+    <set >
+      <if test="teachername != null" >
+        teacherName = #{teachername,jdbcType=VARCHAR},
+      </if>
+      <if test="teachersex != null" >
+        teacherSex = #{teachersex,jdbcType=INTEGER},
+      </if>
+      <if test="education != null" >
+        Education = #{education,jdbcType=INTEGER},
+      </if>
+      <if test="birthdate != null" >
+        birthDate = #{birthdate,jdbcType=DATE},
+      </if>
+      <if test="startworkdate != null" >
+        startWorkDate = #{startworkdate,jdbcType=DATE},
+      </if>
+      <if test="headimgurl != null" >
+        headImgUrl = #{headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="staffsources != null" >
+        staffSources = #{staffsources,jdbcType=INTEGER},
+      </if>
+      <if test="seriesstatus != null" >
+        seriesStatus = #{seriesstatus,jdbcType=INTEGER},
+      </if>
+      <if test="fulltimenormalschoolstatus != null" >
+        fullTimeNormalSchoolStatus = #{fulltimenormalschoolstatus,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        createuser = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null" >
+        updatedate = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null" >
+        updateuser = #{updateuser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.TeacherInfoTbl" >
+    update teacher_info_tbl
+    set teacherName = #{teachername,jdbcType=VARCHAR},
+      teacherSex = #{teachersex,jdbcType=INTEGER},
+      Education = #{education,jdbcType=INTEGER},
+      birthDate = #{birthdate,jdbcType=DATE},
+      startWorkDate = #{startworkdate,jdbcType=DATE},
+      headImgUrl = #{headimgurl,jdbcType=VARCHAR},
+      staffSources = #{staffsources,jdbcType=INTEGER},
+      seriesStatus = #{seriesstatus,jdbcType=INTEGER},
+      fullTimeNormalSchoolStatus = #{fulltimenormalschoolstatus,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=TIMESTAMP},
+      createuser = #{createuser,jdbcType=VARCHAR},
+      updatedate = #{updatedate,jdbcType=TIMESTAMP},
+      updateuser = #{updateuser,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 老师列表的分页 -->
+	<select id="findBypagination" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from teacher_info_tbl
+		<where>
+			1=1
+			<if test="teacherInfo.teachername != null" >
+        		AND teacherName like CONCAT('%',#{teacherInfo.teachername},'%')
+      		</if>
+			<!-- 排序条件 -->
+			<if test="orderBy_expression != null or orderBy_expression != ''">
+				<trim prefix="ORDER BY">
+					${orderBy_expression}
+					<if test="orderBy_rule != null">
+						${orderBy_rule}
+					</if>
+				</trim>
+			</if>
+			
+			<!-- 查询记录数为空,不带分页条件 -->
+			<if test="limit_rows != null">
+				<trim prefix="LIMIT">
+					<choose>
+						<when test="limit_offset != null">
+							#{limit_offset},
+						</when>
+						<otherwise>0,</otherwise>
+					</choose>
+					<if test="limit_rows != null">
+						#{limit_rows}
+					</if>
+				</trim>
+			</if>
+		</where>
+	</select>
+	<!-- 合计 -->
+	<select id="findCount" resultType="java.lang.Integer" parameterType="com.cac.CamEmotion.model.TeacherInfoTbl">
+		select count(*) from teacher_info_tbl
+		<where>
+			1=1
+			<if test="teachername != null" >
+        		AND teacherName like CONCAT('%',#{teachername},'%')
+      		</if>
+		</where>
+	</select>
+	<!-- 查询所有老师信息列表 -->
+	<select id="findAll" resultMap="BaseResultMap" parameterType="com.cac.CamEmotion.model.TeacherInfoTbl">
+    select 
+    <include refid="Base_Column_List" />
+    from teacher_info_tbl
+    <where>
+    	1=1
+    	<if test="teachername != null" >
+        	AND teacherName like CONCAT('%',#{teachername},'%')
+      	</if>
+    </where>
+  </select>
+</mapper>

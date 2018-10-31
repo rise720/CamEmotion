@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.CurriculumConfigTblMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.CurriculumConfigTbl" >
+    <id column="curriculumId" property="curriculumid" jdbcType="INTEGER" />
+    <result column="analysisHostNo" property="analysishostno" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    curriculumId, analysisHostNo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from curriculum_config_tbl
+    where curriculumId = #{curriculumid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from curriculum_config_tbl
+    where curriculumId = #{curriculumid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.CurriculumConfigTbl" >
+    insert into curriculum_config_tbl (curriculumId, analysisHostNo)
+    values (#{curriculumid,jdbcType=INTEGER}, #{analysishostno,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.CurriculumConfigTbl" >
+    insert into curriculum_config_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="curriculumid != null" >
+        curriculumId,
+      </if>
+      <if test="analysishostno != null" >
+        analysisHostNo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="curriculumid != null" >
+        #{curriculumid,jdbcType=INTEGER},
+      </if>
+      <if test="analysishostno != null" >
+        #{analysishostno,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.CurriculumConfigTbl" >
+    update curriculum_config_tbl
+    <set >
+      <if test="analysishostno != null" >
+        analysisHostNo = #{analysishostno,jdbcType=INTEGER},
+      </if>
+    </set>
+    where curriculumId = #{curriculumid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.CurriculumConfigTbl" >
+    update curriculum_config_tbl
+    set analysisHostNo = #{analysishostno,jdbcType=INTEGER}
+    where curriculumId = #{curriculumid,jdbcType=INTEGER}
+  </update>
+</mapper>

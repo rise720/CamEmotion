@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.SystemConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.SystemConfig" >
+ 	<id column="id" property="id" jdbcType="INTEGER" />
+    <result column="webIp" property="webip" jdbcType="VARCHAR" />
+    <result column="memcachedPort" property="memcachedport" jdbcType="INTEGER" />
+    <result column="shareName" property="sharename" jdbcType="VARCHAR" />
+    <result column="faceContrastKey" property="facecontrastkey" jdbcType="VARCHAR" />
+    <result column="faceIdentificationKey" property="faceidentificationkey" jdbcType="VARCHAR" />
+    <result column="analysisMainKey" property="analysismainkey" jdbcType="VARCHAR" />
+    <result column="affdexKey" property="affdexkey" jdbcType="VARCHAR" />
+    <result column="recordVideoKey" property="recordvideokey" jdbcType="VARCHAR" />
+    <result column="frameDataKey" property="framedatakey" jdbcType="VARCHAR" />
+    <result column="cameraReadyKey" property="camerareadykey" jdbcType="VARCHAR" />
+    <result column="cameraPixelKey" property="camerapixelkey" jdbcType="VARCHAR" />
+    <result column="sharePathConnKey" property="sharepathconnkey" jdbcType="VARCHAR" />
+    <result column="startOffKey" property="startoffkey" jdbcType="VARCHAR" />
+    <result column="hostTimeKey" property="hosttimekey" jdbcType="VARCHAR" />
+    <result column="compareTimeKey" property="comparetimekey" jdbcType="VARCHAR" />
+    <result column="algorithmTimeKey" property="algorithmtimekey" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, webIp, memcachedPort, shareName, faceContrastKey, faceIdentificationKey, analysisMainKey, 
+    affdexKey, recordVideoKey, frameDataKey, cameraReadyKey, cameraPixelKey, sharePathConnKey, 
+    startOffKey, hostTimeKey, compareTimeKey, algorithmTimeKey
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_config_tbl
+    where webIp = #{webip,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectSystemConfig" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from system_config_tbl
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from system_config_tbl
+    where webIp = #{webip,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.SystemConfig" >
+    insert into system_config_tbl (id, webIp, memcachedPort, 
+      shareName, faceContrastKey, faceIdentificationKey, 
+      analysisMainKey, affdexKey, recordVideoKey, 
+      frameDataKey, cameraReadyKey, cameraPixelKey, 
+      sharePathConnKey, startOffKey, hostTimeKey, 
+      compareTimeKey, algorithmTimeKey)
+    values (#{id,jdbcType=INTEGER}, #{webip,jdbcType=VARCHAR}, #{memcachedport,jdbcType=INTEGER}, 
+      #{sharename,jdbcType=VARCHAR}, #{facecontrastkey,jdbcType=VARCHAR}, #{faceidentificationkey,jdbcType=VARCHAR}, 
+      #{analysismainkey,jdbcType=VARCHAR}, #{affdexkey,jdbcType=VARCHAR}, #{recordvideokey,jdbcType=VARCHAR}, 
+      #{framedatakey,jdbcType=VARCHAR}, #{camerareadykey,jdbcType=VARCHAR}, #{camerapixelkey,jdbcType=VARCHAR}, 
+      #{sharepathconnkey,jdbcType=VARCHAR}, #{startoffkey,jdbcType=VARCHAR}, #{hosttimekey,jdbcType=VARCHAR}, 
+      #{comparetimekey,jdbcType=VARCHAR}, #{algorithmtimekey,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.SystemConfig" >
+    insert into system_config_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="webip != null" >
+        webIp,
+      </if>
+      <if test="memcachedport != null" >
+        memcachedPort,
+      </if>
+      <if test="sharename != null" >
+        shareName,
+      </if>
+      <if test="facecontrastkey != null" >
+        faceContrastKey,
+      </if>
+      <if test="faceidentificationkey != null" >
+        faceIdentificationKey,
+      </if>
+      <if test="analysismainkey != null" >
+        analysisMainKey,
+      </if>
+      <if test="affdexkey != null" >
+        affdexKey,
+      </if>
+      <if test="recordvideokey != null" >
+        recordVideoKey,
+      </if>
+      <if test="framedatakey != null" >
+        frameDataKey,
+      </if>
+      <if test="camerareadykey != null" >
+        cameraReadyKey,
+      </if>
+      <if test="camerapixelkey != null" >
+        cameraPixelKey,
+      </if>
+      <if test="sharepathconnkey != null" >
+        sharePathConnKey,
+      </if>
+      <if test="startoffkey != null" >
+        startOffKey,
+      </if>
+      <if test="hosttimekey != null" >
+        hostTimeKey,
+      </if>
+      <if test="comparetimekey != null" >
+        compareTimeKey,
+      </if>
+      <if test="algorithmtimekey != null" >
+        algorithmTimeKey,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="webip != null" >
+        #{webip,jdbcType=VARCHAR},
+      </if>
+      <if test="memcachedport != null" >
+        #{memcachedport,jdbcType=INTEGER},
+      </if>
+      <if test="sharename != null" >
+        #{sharename,jdbcType=VARCHAR},
+      </if>
+      <if test="facecontrastkey != null" >
+        #{facecontrastkey,jdbcType=VARCHAR},
+      </if>
+      <if test="faceidentificationkey != null" >
+        #{faceidentificationkey,jdbcType=VARCHAR},
+      </if>
+      <if test="analysismainkey != null" >
+        #{analysismainkey,jdbcType=VARCHAR},
+      </if>
+      <if test="affdexkey != null" >
+        #{affdexkey,jdbcType=VARCHAR},
+      </if>
+      <if test="recordvideokey != null" >
+        #{recordvideokey,jdbcType=VARCHAR},
+      </if>
+      <if test="framedatakey != null" >
+        #{framedatakey,jdbcType=VARCHAR},
+      </if>
+      <if test="camerareadykey != null" >
+        #{camerareadykey,jdbcType=VARCHAR},
+      </if>
+      <if test="camerapixelkey != null" >
+        #{camerapixelkey,jdbcType=VARCHAR},
+      </if>
+      <if test="sharepathconnkey != null" >
+        #{sharepathconnkey,jdbcType=VARCHAR},
+      </if>
+      <if test="startoffkey != null" >
+        #{startoffkey,jdbcType=VARCHAR},
+      </if>
+      <if test="hosttimekey != null" >
+        #{hosttimekey,jdbcType=VARCHAR},
+      </if>
+      <if test="comparetimekey != null" >
+        #{comparetimekey,jdbcType=VARCHAR},
+      </if>
+      <if test="algorithmtimekey != null" >
+        #{algorithmtimekey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.SystemConfig" >
+    update system_config_tbl
+    <set >
+      <if test="memcachedport != null" >
+        memcachedPort = #{memcachedport,jdbcType=INTEGER},
+      </if>
+      <if test="sharename != null" >
+        shareName = #{sharename,jdbcType=VARCHAR},
+      </if>
+      <if test="facecontrastkey != null" >
+        faceContrastKey = #{facecontrastkey,jdbcType=VARCHAR},
+      </if>
+      <if test="faceidentificationkey != null" >
+        faceIdentificationKey = #{faceidentificationkey,jdbcType=VARCHAR},
+      </if>
+      <if test="analysismainkey != null" >
+        analysisMainKey = #{analysismainkey,jdbcType=VARCHAR},
+      </if>
+      <if test="affdexkey != null" >
+        affdexKey = #{affdexkey,jdbcType=VARCHAR},
+      </if>
+      <if test="recordvideokey != null" >
+        recordVideoKey = #{recordvideokey,jdbcType=VARCHAR},
+      </if>
+      <if test="framedatakey != null" >
+        frameDataKey = #{framedatakey,jdbcType=VARCHAR},
+      </if>
+      <if test="camerareadykey != null" >
+        cameraReadyKey = #{camerareadykey,jdbcType=VARCHAR},
+      </if>
+      <if test="camerapixelkey != null" >
+        cameraPixelKey = #{camerapixelkey,jdbcType=VARCHAR},
+      </if>
+      <if test="sharepathconnkey != null" >
+        sharePathConnKey = #{sharepathconnkey,jdbcType=VARCHAR},
+      </if>
+      <if test="startoffkey != null" >
+        startOffKey = #{startoffkey,jdbcType=VARCHAR},
+      </if>
+      <if test="hosttimekey != null" >
+        hostTimeKey = #{hosttimekey,jdbcType=VARCHAR},
+      </if>
+      <if test="comparetimekey != null" >
+        compareTimeKey = #{comparetimekey,jdbcType=VARCHAR},
+      </if>
+      <if test="algorithmtimekey != null" >
+        algorithmTimeKey = #{algorithmtimekey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where webIp = #{webip,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.SystemConfig" >
+    update system_config_tbl
+    set webIp = #{webip,jdbcType=VARCHAR},
+      memcachedPort = #{memcachedport,jdbcType=INTEGER},
+      shareName = #{sharename,jdbcType=VARCHAR},
+      faceContrastKey = #{facecontrastkey,jdbcType=VARCHAR},
+      faceIdentificationKey = #{faceidentificationkey,jdbcType=VARCHAR},
+      analysisMainKey = #{analysismainkey,jdbcType=VARCHAR},
+      affdexKey = #{affdexkey,jdbcType=VARCHAR},
+      recordVideoKey = #{recordvideokey,jdbcType=VARCHAR},
+      frameDataKey = #{framedatakey,jdbcType=VARCHAR},
+      cameraReadyKey = #{camerareadykey,jdbcType=VARCHAR},
+      cameraPixelKey = #{camerapixelkey,jdbcType=VARCHAR},
+      sharePathConnKey = #{sharepathconnkey,jdbcType=VARCHAR},
+      startOffKey = #{startoffkey,jdbcType=VARCHAR},
+      hostTimeKey = #{hosttimekey,jdbcType=VARCHAR},
+      compareTimeKey = #{comparetimekey,jdbcType=VARCHAR},
+      algorithmTimeKey = #{algorithmtimekey,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

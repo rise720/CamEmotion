@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.StatisticalStandardTblMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.StatisticalStandardTbl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="coursename" property="coursename" jdbcType="VARCHAR" />
+    <result column="classNature" property="classnature" jdbcType="VARCHAR" />
+    <result column="itemType" property="itemtype" jdbcType="VARCHAR" />
+    <result column="levelOne" property="levelone" jdbcType="DOUBLE" />
+    <result column="levelTwo" property="leveltwo" jdbcType="DOUBLE" />
+    <result column="levelThree" property="levelthree" jdbcType="DOUBLE" />
+    <result column="levelFour" property="levelfour" jdbcType="DOUBLE" />
+    <result column="projects" property="projects" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, coursename, classNature, itemType, levelOne, levelTwo, levelThree, levelFour, 
+    projects
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from statistical_standard_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- 根据学科和类型查询评价指标 -->
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.cac.CamEmotion.model.StatisticalStandardTbl">
+  	 select 
+    <include refid="Base_Column_List" />
+    from statistical_standard_tbl
+    <where>
+    	1=1
+    	<if test="coursename != null and coursename != ''">
+    		and coursename = #{coursename,jdbcType=VARCHAR}
+    	</if>
+    	<if test="classnature != null and classnature != ''">
+    		and classnature = #{classnature,jdbcType=VARCHAR}
+    	</if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from statistical_standard_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.StatisticalStandardTbl" >
+    insert into statistical_standard_tbl (id, coursename, classNature, 
+      itemType, levelOne, levelTwo, 
+      levelThree, levelFour, projects
+      )
+    values (#{id,jdbcType=INTEGER}, #{coursename,jdbcType=VARCHAR}, #{classnature,jdbcType=VARCHAR}, 
+      #{itemtype,jdbcType=VARCHAR}, #{levelone,jdbcType=DOUBLE}, #{leveltwo,jdbcType=DOUBLE}, 
+      #{levelthree,jdbcType=DOUBLE}, #{levelfour,jdbcType=DOUBLE}, #{projects,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.StatisticalStandardTbl" >
+    insert into statistical_standard_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="coursename != null" >
+        coursename,
+      </if>
+      <if test="classnature != null" >
+        classNature,
+      </if>
+      <if test="itemtype != null" >
+        itemType,
+      </if>
+      <if test="levelone != null" >
+        levelOne,
+      </if>
+      <if test="leveltwo != null" >
+        levelTwo,
+      </if>
+      <if test="levelthree != null" >
+        levelThree,
+      </if>
+      <if test="levelfour != null" >
+        levelFour,
+      </if>
+      <if test="projects != null" >
+        projects,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="coursename != null" >
+        #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="classnature != null" >
+        #{classnature,jdbcType=VARCHAR},
+      </if>
+      <if test="itemtype != null" >
+        #{itemtype,jdbcType=VARCHAR},
+      </if>
+      <if test="levelone != null" >
+        #{levelone,jdbcType=DOUBLE},
+      </if>
+      <if test="leveltwo != null" >
+        #{leveltwo,jdbcType=DOUBLE},
+      </if>
+      <if test="levelthree != null" >
+        #{levelthree,jdbcType=DOUBLE},
+      </if>
+      <if test="levelfour != null" >
+        #{levelfour,jdbcType=DOUBLE},
+      </if>
+      <if test="projects != null" >
+        #{projects,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.StatisticalStandardTbl" >
+    update statistical_standard_tbl
+    <set >
+      <if test="coursename != null" >
+        coursename = #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="classnature != null" >
+        classNature = #{classnature,jdbcType=VARCHAR},
+      </if>
+      <if test="itemtype != null" >
+        itemType = #{itemtype,jdbcType=VARCHAR},
+      </if>
+      <if test="levelone != null" >
+        levelOne = #{levelone,jdbcType=DOUBLE},
+      </if>
+      <if test="leveltwo != null" >
+        levelTwo = #{leveltwo,jdbcType=DOUBLE},
+      </if>
+      <if test="levelthree != null" >
+        levelThree = #{levelthree,jdbcType=DOUBLE},
+      </if>
+      <if test="levelfour != null" >
+        levelFour = #{levelfour,jdbcType=DOUBLE},
+      </if>
+      <if test="projects != null" >
+        projects = #{projects,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.StatisticalStandardTbl" >
+    update statistical_standard_tbl
+    set coursename = #{coursename,jdbcType=VARCHAR},
+      classNature = #{classnature,jdbcType=VARCHAR},
+      itemType = #{itemtype,jdbcType=VARCHAR},
+      levelOne = #{levelone,jdbcType=DOUBLE},
+      levelTwo = #{leveltwo,jdbcType=DOUBLE},
+      levelThree = #{levelthree,jdbcType=DOUBLE},
+      levelFour = #{levelfour,jdbcType=DOUBLE},
+      projects = #{projects,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

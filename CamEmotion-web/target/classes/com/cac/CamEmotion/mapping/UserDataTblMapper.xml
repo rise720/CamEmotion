@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.UserDataTblMapper">
+	<resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.UserDataTbl">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="updatedate" property="updatedate" jdbcType="TIMESTAMP" />
+		<result column="createuser" property="createuser" jdbcType="VARCHAR" />
+		<result column="updateuser" property="updateuser" jdbcType="VARCHAR" />
+		<result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		<result column="cright" property="cright" jdbcType="VARCHAR" />
+		<result column="cpassword" property="cpassword" jdbcType="VARCHAR" />
+		<result column="useraccount" property="useraccount" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, updatedate, createuser, updateuser, createdate, nickname, cright,
+		cpassword, useraccount
+	</sql>
+
+	<!-- 通过ID 查找 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from userdata_tbl
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<!-- 通过 用户账号 查找 -->
+	<select id="selectByUseraccountKey" resultMap="BaseResultMap"
+		parameterType="com.cac.CamEmotion.model.UserDataTbl">
+		select
+		<include refid="Base_Column_List" />
+		from userdata_tbl
+		<where>
+			1=1  
+		<if test="useraccount != null and useraccount != ''">
+			and useraccount = #{useraccount,jdbcType=VARCHAR}
+		</if>
+		<if test="id != null and id != ''">
+			and id = #{id,jdbcType=INTEGER}
+		</if>
+		</where>		
+	</select>
+
+	<!-- 通过ID 删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from userdata_tbl
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="com.cac.CamEmotion.model.UserDataTbl">
+		insert into userdata_tbl (id, updatedate, createuser,
+		updateuser, createdate, nickname,
+		cright, cpassword, useraccount
+		)
+		values (
+		#{id,jdbcType=INTEGER}, 
+		#{updatedate,jdbcType=TIMESTAMP},
+		#{createuser,jdbcType=VARCHAR},
+		#{updateuser,jdbcType=VARCHAR}, 
+		now(),
+		#{nickname,jdbcType=VARCHAR},
+		#{cright,jdbcType=VARCHAR}, 
+		#{cpassword,jdbcType=VARCHAR},
+		#{useraccount,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 添加 -->
+	<insert id="insertSelective" parameterType="com.cac.CamEmotion.model.UserDataTbl">
+		insert into userdata_tbl
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="updatedate != null">
+				updatedate,
+			</if>
+			<if test="createuser != null">
+				createuser,
+			</if>
+			<if test="updateuser != null">
+				updateuser,
+			</if>
+				createdate,
+			<if test="nickname != null">
+				nickname,
+			</if>
+			<if test="right != null">
+				cright,
+			</if>
+			<if test="password != null">
+				cpassword,
+			</if>
+			<if test="useraccount != null">
+				useraccount,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="updatedate != null">
+				#{updatedate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createuser != null">
+				#{createuser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateuser != null">
+				#{updateuser,jdbcType=VARCHAR},
+			</if>
+				now(),
+			<if test="nickname != null">
+				#{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="right != null">
+				#{cright,jdbcType=VARCHAR},
+			</if>
+			<if test="cpassword != null">
+				#{cpassword,jdbcType=VARCHAR},
+			</if>
+			<if test="useraccount != null">
+				#{useraccount,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 通过 id 修改 -->
+	<update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.UserDataTbl">
+		update userdata_tbl
+		<set>
+			
+				updatedate = now(),
+			<if test="createuser != null and createuser != ''">
+				createuser = #{createuser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateuser != null and updateuser != ''">
+				updateuser = #{updateuser,jdbcType=VARCHAR},
+			</if>
+			<if test="createdate != null and cright != ''">
+				createdate = #{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="nickname != null and cright != ''">
+				nickname = #{nickname,jdbcType=VARCHAR},
+			</if>
+			<if test="cright != null and cright != ''">
+				cright = #{cright,jdbcType=VARCHAR},
+			</if>
+			<if test="cpassword != null and cpassword != ''">
+				cpassword = #{cpassword,jdbcType=VARCHAR},
+			</if>
+			<if test="useraccount != null and useraccount != ''">
+				useraccount = #{useraccount,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.UserDataTbl">
+		update userdata_tbl
+		set updatedate = now(),
+		createuser = #{createuser,jdbcType=VARCHAR},
+		updateuser = #{updateuser,jdbcType=VARCHAR},
+		createdate = #{createdate,jdbcType=TIMESTAMP},
+		nickname = #{nickname,jdbcType=VARCHAR},
+		cright = #{cright,jdbcType=VARCHAR},
+		cpassword = #{cpassword,jdbcType=VARCHAR},
+		useraccount = #{useraccount,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>	
+	
+	<!-- 用户的分页 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from userdata_tbl
+		<where>
+			1=1
+			<!-- 根据  账号模糊  查找 -->
+			<if test="UserData.useraccount != null and UserData.useraccount != ''">
+				and useraccount like '%${UserData.useraccount}%'
+			</if>			
+			
+			<!-- 排序条件 -->
+			<if test="orderBy_expression != null or orderBy_expression != ''">
+				<trim prefix="ORDER BY">
+					${orderBy_expression}
+					<if test="orderBy_rule != null">
+						${orderBy_rule}
+					</if>
+				</trim>
+			</if>
+			
+			<!-- 查询记录数为空,不带分页条件 -->
+			<if test="limit_rows != null">
+				<trim prefix="LIMIT">
+					<choose>
+						<when test="limit_offset != null">
+							#{limit_offset},
+						</when>
+						<otherwise>0,</otherwise>
+					</choose>
+					<if test="limit_rows != null">
+						#{limit_rows}
+					</if>
+				</trim>
+			</if>
+		</where>
+	</select>
+
+	<!-- 合计 -->
+	<select id="selectCurriculumCount" resultType="java.lang.Integer" parameterType="com.cac.CamEmotion.model.UserDataTbl">
+		select count(*) from userdata_tbl
+		<where>
+			1=1  <!-- CONCAT('%',#{useraccount},'%') -->
+			<if test="useraccount != null and useraccount != ''">
+				and useraccount like '%${useraccount}%'
+			</if>
+		</where>
+	</select>
+</mapper>

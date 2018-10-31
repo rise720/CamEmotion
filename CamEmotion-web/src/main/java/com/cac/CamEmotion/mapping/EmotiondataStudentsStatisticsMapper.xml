@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cac.CamEmotion.dao.EmotiondataStudentsStatisticsMapper">
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.EmotiondataStudentsStatistics">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="curriculumid" jdbcType="INTEGER" property="curriculumid" />
+    <result column="studentid" jdbcType="INTEGER" property="studentid" />
+    <result column="charttype" jdbcType="VARCHAR" property="charttype" />
+    <result column="lastTime" jdbcType="INTEGER" property="lasttime" />
+    <result column="currentTime" jdbcType="VARCHAR" property="currenttime" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="joy" jdbcType="VARCHAR" property="joy" />
+    <result column="sadness" jdbcType="VARCHAR" property="sadness" />
+    <result column="disgust" jdbcType="VARCHAR" property="disgust" />
+    <result column="contempt" jdbcType="VARCHAR" property="contempt" />
+    <result column="anger" jdbcType="VARCHAR" property="anger" />
+    <result column="surprise" jdbcType="VARCHAR" property="surprise" />
+    <result column="fear" jdbcType="VARCHAR" property="fear" />
+    <result column="averageValue" jdbcType="VARCHAR" property="averageValue" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="percent" jdbcType="VARCHAR" property="percent" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="actionLevel" jdbcType="INTEGER" property="actionLevel" />
+    <result column="attentionLevel" jdbcType="INTEGER" property="attentionLevel" />
+    <result column="playDuration" jdbcType="INTEGER" property="playduration" />
+    <result column="timestamp" jdbcType="TIMESTAMP" property="timestamp" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, curriculumid, studentid, charttype, lastTime, currentTime, value,  joy, sadness, disgust, contempt, anger, surprise, fear, averageValue, number, percent, 
+    level, actionLevel, attentionLevel, playDuration, timestamp
+  </sql>
+  <select id="getStudentsList"  resultType="java.lang.Integer">
+    select distinct studentid
+    from ${personTable}
+    where curriculumid = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selective" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ${curriculumTbl.personTable}
+    where 1 = 1
+	    <if test="emotiondataStudentsStatistics.id != null">
+	      and id = #{emotiondataStudentsStatistics.id,jdbcType=INTEGER} 
+	    </if>
+	    <if test="emotiondataStudentsStatistics.curriculumid != null">
+	      and curriculumid = #{emotiondataStudentsStatistics.curriculumid,jdbcType=INTEGER} 
+	    </if>
+	    <if test="emotiondataStudentsStatistics.studentid != null">
+	      and studentid = #{emotiondataStudentsStatistics.studentid,jdbcType=INTEGER} 
+	    </if>
+	    <if test="emotiondataStudentsStatistics.charttype != null">
+	      and charttype = #{emotiondataStudentsStatistics.charttype,jdbcType=VARCHAR} 
+	    </if>
+	    <if test="emotiondataStudentsStatistics.level != null">
+	      and level = #{emotiondataStudentsStatistics.level,jdbcType=INTEGER} 
+	    </if>
+	    <if test="emotiondataStudentsStatistics.actionLevel != null">
+	      and actionLevel = #{emotiondataStudentsStatistics.actionLevel,jdbcType=INTEGER} 
+	    </if>
+	    <if test="emotiondataStudentsStatistics.attentionLevel != null">
+	      and attentionLevel = #{emotiondataStudentsStatistics.attentionLevel,jdbcType=INTEGER} 
+	    </if>
+  </select>  
+  
+  <!-- 删除学生统计 -->
+  <delete id="deleteByModel">
+    delete from ${curriculumTbl.personTable}
+    where 1 = 1
+		 <if test="emotiondataStudentsStatistics.id != null">
+		   and id = #{emotiondataStudentsStatistics.id,jdbcType=INTEGER} 
+		 </if>
+		   and curriculumid = #{emotiondataStudentsStatistics.curriculumid,jdbcType=INTEGER} 
+		 <if test="emotiondataStudentsStatistics.studentids != null">
+		   and studentid in ( ${emotiondataStudentsStatistics.studentids} )
+		 </if>
+		 <if test="emotiondataStudentsStatistics.studentid != null">
+		   and studentid = #{emotiondataStudentsStatistics.studentid,jdbcType=INTEGER} 
+		 </if>
+		 <if test="emotiondataStudentsStatistics.charttype != null">
+		   and charttype = #{emotiondataStudentsStatistics.charttype,jdbcType=VARCHAR} 
+		 </if>
+		 <if test="emotiondataStudentsStatistics.level != null">
+		   and level = #{emotiondataStudentsStatistics.level,jdbcType=INTEGER} 
+		 </if>
+		 <if test="emotiondataStudentsStatistics.actionLevel != null">
+		   and actionLevel = #{emotiondataStudentsStatistics.actionLevel,jdbcType=INTEGER} 
+		 </if>
+		 <if test="emotiondataStudentsStatistics.attentionLevel != null">
+		   and attentionLevel = #{emotiondataStudentsStatistics.attentionLevel,jdbcType=INTEGER} 
+		 </if>
+  </delete>
+  
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.EmotiondataStudentsStatistics">
+    insert into emotiondata_students_statistics0_tbl (id, curriculumid, studentid, 
+      statisticType, charttype, lastTime, 
+      currentTime, value, joy, 
+      sadness, disgust, contempt, 
+      anger, surprise, fear, 
+      averageValue, number, percent, 
+      level, actionLevel, attentionLevel, 
+      playDuration, timestamp)
+    values (#{id,jdbcType=INTEGER}, #{curriculumid,jdbcType=INTEGER}, #{studentid,jdbcType=INTEGER}, 
+      #{statistictype,jdbcType=VARCHAR}, #{charttype,jdbcType=VARCHAR}, #{lasttime,jdbcType=INTEGER}, 
+      #{currenttime,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, #{joy,jdbcType=VARCHAR}, 
+      #{sadness,jdbcType=VARCHAR}, #{disgust,jdbcType=VARCHAR}, #{contempt,jdbcType=VARCHAR}, 
+      #{anger,jdbcType=VARCHAR}, #{surprise,jdbcType=VARCHAR}, #{fear,jdbcType=VARCHAR}, 
+      #{averagevalue,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, #{percent,jdbcType=VARCHAR}, 
+      #{level,jdbcType=INTEGER}, #{actionlevel,jdbcType=INTEGER}, #{attentionlevel,jdbcType=INTEGER}, 
+      #{playduration,jdbcType=INTEGER}, #{timestamp,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="batchInsert" parameterType="list">
+  insert into ${curriculumTbl.personTable}
+  (curriculumid, 
+  	  studentid, 
+      charttype, 
+      lastTime, 
+      currentTime, 
+      value,joy, sadness, disgust, contempt, anger, surprise, fear, 
+      averageValue, 
+      number, 
+      percent, 
+      level, 
+      actionLevel, 
+      attentionLevel, 
+      playDuration, 
+      timestamp
+      ) values 
+  <foreach collection="emotionStudents" separator="," item="emotiondataStudentsStatistics">
+    (#{emotiondataStudentsStatistics.curriculumid,jdbcType=INTEGER}, 
+    #{emotiondataStudentsStatistics.studentid,jdbcType=INTEGER}, 
+      #{emotiondataStudentsStatistics.charttype,jdbcType=VARCHAR}, 
+      #{emotiondataStudentsStatistics.lasttime,jdbcType=INTEGER}, 
+      #{emotiondataStudentsStatistics.currenttime,jdbcType=VARCHAR}, 
+      #{emotiondataStudentsStatistics.value,jdbcType=VARCHAR}, 
+      #{emotiondataStudentsStatistics.joy,jdbcType=VARCHAR},
+      #{emotiondataStudentsStatistics.sadness,jdbcType=VARCHAR},
+      #{emotiondataStudentsStatistics.disgust,jdbcType=VARCHAR},
+      #{emotiondataStudentsStatistics.contempt,jdbcType=VARCHAR},
+      #{emotiondataStudentsStatistics.anger,jdbcType=VARCHAR},
+      #{emotiondataStudentsStatistics.surprise,jdbcType=VARCHAR},
+      #{emotiondataStudentsStatistics.fear,jdbcType=VARCHAR}, 
+      #{emotiondataStudentsStatistics.averageValue,jdbcType=VARCHAR}, 
+      #{emotiondataStudentsStatistics.number,jdbcType=INTEGER}, 
+      #{emotiondataStudentsStatistics.percent,jdbcType=VARCHAR}, 
+      #{emotiondataStudentsStatistics.level,jdbcType=INTEGER},
+      #{emotiondataStudentsStatistics.actionLevel,jdbcType=INTEGER}, 
+      #{emotiondataStudentsStatistics.attentionLevel,jdbcType=INTEGER}, 
+      #{emotiondataStudentsStatistics.playduration,jdbcType=INTEGER}, 
+      #{emotiondataStudentsStatistics.timestamp,jdbcType=TIMESTAMP}
+      )
+  </foreach>
+</insert>
+  
+<insert id="insertSelective" parameterType="com.cac.CamEmotion.model.EmotiondataStudentsStatistics">
+    insert into emotiondata_students_statistics0_tbl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="curriculumid != null">
+        curriculumid,
+      </if>
+      <if test="studentid != null">
+        studentid,
+      </if>
+      <if test="statistictype != null">
+        statisticType,
+      </if>
+      <if test="charttype != null">
+        charttype,
+      </if>
+      <if test="lasttime != null">
+        lastTime,
+      </if>
+      <if test="currenttime != null">
+        currentTime,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      <if test="joy != null">
+        joy,
+      </if>
+      <if test="sadness != null">
+        sadness,
+      </if>
+      <if test="disgust != null">
+        disgust,
+      </if>
+      <if test="contempt != null">
+        contempt,
+      </if>
+      <if test="anger != null">
+        anger,
+      </if>
+      <if test="surprise != null">
+        surprise,
+      </if>
+      <if test="fear != null">
+        fear,
+      </if>
+      <if test="averagevalue != null">
+        averageValue,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="percent != null">
+        percent,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="actionlevel != null">
+        actionLevel,
+      </if>
+      <if test="attentionlevel != null">
+        attentionLevel,
+      </if>
+      <if test="playduration != null">
+        playDuration,
+      </if>
+      <if test="timestamp != null">
+        timestamp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="curriculumid != null">
+        #{curriculumid,jdbcType=INTEGER},
+      </if>
+      <if test="studentid != null">
+        #{studentid,jdbcType=INTEGER},
+      </if>
+      <if test="statistictype != null">
+        #{statistictype,jdbcType=VARCHAR},
+      </if>
+      <if test="charttype != null">
+        #{charttype,jdbcType=VARCHAR},
+      </if>
+      <if test="lasttime != null">
+        #{lasttime,jdbcType=INTEGER},
+      </if>
+      <if test="currenttime != null">
+        #{currenttime,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="joy != null">
+        #{joy,jdbcType=VARCHAR},
+      </if>
+      <if test="sadness != null">
+        #{sadness,jdbcType=VARCHAR},
+      </if>
+      <if test="disgust != null">
+        #{disgust,jdbcType=VARCHAR},
+      </if>
+      <if test="contempt != null">
+        #{contempt,jdbcType=VARCHAR},
+      </if>
+      <if test="anger != null">
+        #{anger,jdbcType=VARCHAR},
+      </if>
+      <if test="surprise != null">
+        #{surprise,jdbcType=VARCHAR},
+      </if>
+      <if test="fear != null">
+        #{fear,jdbcType=VARCHAR},
+      </if>
+      <if test="averagevalue != null">
+        #{averagevalue,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="percent != null">
+        #{percent,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="actionlevel != null">
+        #{actionlevel,jdbcType=INTEGER},
+      </if>
+      <if test="attentionlevel != null">
+        #{attentionlevel,jdbcType=INTEGER},
+      </if>
+      <if test="playduration != null">
+        #{playduration,jdbcType=INTEGER},
+      </if>
+      <if test="timestamp != null">
+        #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!-- 
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.EmotiondataStudentsStatistics">
+    update ${curriculumTbl.personTable}
+    <set>
+      <if test="curriculumid != null">
+        curriculumid = #{curriculumid,jdbcType=INTEGER},
+      </if>
+      <if test="studentid != null">
+        studentid = #{studentid,jdbcType=INTEGER},
+      </if>
+      <if test="charttype != null">
+        charttype = #{charttype,jdbcType=VARCHAR},
+      </if>
+      <if test="lasttime != null">
+        lastTime = #{lasttime,jdbcType=INTEGER},
+      </if>
+      <if test="currenttime != null">
+        currentTime = #{currenttime,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null">
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="percent != null">
+        percent = #{percent,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="playduration != null">
+        playDuration = #{playduration,jdbcType=INTEGER},
+      </if>
+      <if test="timestamp != null">
+        timestamp = #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.EmotiondataStudentsStatistics">
+    update ${curriculumTbl.personTable}
+    set curriculumid = #{curriculumid,jdbcType=INTEGER},
+      studentid = #{studentid,jdbcType=INTEGER},
+      charttype = #{charttype,jdbcType=VARCHAR},
+      lastTime = #{lasttime,jdbcType=INTEGER},
+      currentTime = #{currenttime,jdbcType=VARCHAR},
+      value = #{value,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      percent = #{percent,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      playDuration = #{playduration,jdbcType=INTEGER},
+      timestamp = #{timestamp,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+   -->
+</mapper>

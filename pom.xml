@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.cac.CCBCamEmotion</groupId>
+  <artifactId>CCBCamEmotion</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <!-- 全局属性定义 -->
+  <properties>
+  	<!-- 源代码编码 -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- log4j2 版本号(2.3支持jdk1.6) -->
+    <!-- log4j2 版本号(2.4以上支持jdk1.7) -->
+	<log4j2.version>2.8.2</log4j2.version>
+	<!-- spring版本号 -->
+	<spring.version>4.2.6.RELEASE</spring.version>
+	<!-- hibernate-validator版本号 -->
+	<hibernate.version>4.3.1.Final</hibernate.version>
+	<!-- apache-common版本号 -->
+	<apache-common.version>1.3.2</apache-common.version>
+	<!-- google的json解析包版本号 -->
+	<gson.version>2.3.1</gson.version>
+	<!-- mybatis版本号 -->
+	<mybatis.version>3.2.7</mybatis.version>
+	<!-- mybatis-generator-core版本号（反向生成代码） -->
+	<mybatis-generator-core.version>1.3.5</mybatis-generator-core.version>
+	<!-- mybatis-spring版本号 -->
+	<mybatis-spring.version>1.2.2</mybatis-spring.version>
+	
+	<!-- jackson-mapper-asl版本号 -->
+<!-- 	<jackson-mapper-asl.version>1.9.13</jackson-mapper-asl.version> -->
+	<!-- jackson-jaxrs-xml-provider.version版本号 -->
+<!-- 	<jackson-jaxrs-xml-provider.version>2.4.1</jackson-jaxrs-xml-provider.version> -->
+	<!-- jackson-core包为2.*版本，jackson-mapper为1.*版本  -->
+	<jackson-core.version>2.4.1</jackson-core.version>
+	
+	<!-- commons-lang.version版本号 -->
+	<commons-lang.version>2.5</commons-lang.version>
+	<!-- commons-collections.version版本号 -->
+	<commons-collections.version>3.2.1</commons-collections.version>
+	<!-- javaee-api.version版本号 -->
+	<!-- <javaee-api.version>7.0</javaee-api.version> -->
+	<javaee-api.version>6.0-RC2</javaee-api.version>
+	<!-- javax.servlet-api.version版本号(支持jdk1.6) -->
+	<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
+	<!-- spring aop 依赖包 Start -->
+	<aopalliance.version>1.0</aopalliance.version>
+	<jamon.version>2.81</jamon.version>
+	<aspectjweaver.version>1.8.9</aspectjweaver.version>
+	<!-- spring aop 依赖包 End-->
+	<!-- poi Start -->
+	<poi.version>3.14</poi.version>
+	<commons-codec.version>1.10</commons-codec.version>
+	<!-- poi End -->
+	<!-- pdf文件操作相关jar -->
+	<itextpdf.version>5.5.10</itextpdf.version>
+	<itext-asian.version>5.2.0</itext-asian.version>
+	<bcprov-jdk15on.version>1.54</bcprov-jdk15on.version>
+	<!-- pdf文件操作相关jar End-->
+	
+	<!-- google二维码生成 -->
+	<zxing-core.Version>3.3.0</zxing-core.Version>
+	<!-- google二维码生成 End-->
+	
+	<!-- mysql jdbc驱动包 -->
+	<mysql.version>5.1.31</mysql.version>
+	
+	<!-- junit版本号 -->
+	<junit.version>4.11</junit.version>
+  </properties>
+
+  <!-- 依赖包定义，在父级工程定义引用包，避免子程重复定义，方便查询 -->
+  <dependencies>
+		<!-- mysql jdbc驱动包 -->
+		<dependency>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>${mysql.version}</version>
+		</dependency>
+		
+		<!-- mybatis核心包 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
+		
+		<!-- mybatis/spring包 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>${mybatis-spring.version}</version>
+		</dependency>
+		
+		<!-- spring核心包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- spring组件包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- spring组件包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- spring组件包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- spring组件包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- spring组件包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- spring组件包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- spring aop依赖包 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aspects</artifactId>
+		    <version>${spring.version}</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.java-websocket</groupId>
+            <artifactId>Java-WebSocket</artifactId>
+            <version>1.3.7</version>
+        </dependency>
+        
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-websocket</artifactId>
+            <version>4.0.2.RELEASE</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>4.0.2.RELEASE</version>
+        </dependency>
+		
+		<dependency>
+		    <groupId>aopalliance</groupId>
+		    <artifactId>aopalliance</artifactId>
+		    <version>${aopalliance.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.jamonapi</groupId>
+		    <artifactId>jamon</artifactId>
+		    <version>${jamon.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjweaver</artifactId>
+		    <version>${aspectjweaver.version}</version>
+		</dependency>
+		
+		<!-- spring组件包 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<!-- 表示开发的时候引入，发布的时候不会加载此包 -->
+			<scope>test</scope>
+		</dependency>
+		
+    	<!-- Hibernate Validator框架,用于表单校验 -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>${hibernate.version}</version>
+		</dependency>
+		
+		<!-- Spring context,用于表单校验中的国际化绑定资源文件 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		
+		<!-- 映入JSON,SpringMVC将对象转json格式 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.codehaus.jackson</groupId> -->
+<!-- 			<artifactId>jackson-mapper-asl</artifactId> -->
+<!-- 			<version>${jackson-mapper-asl.version}</version> -->
+<!-- 		</dependency> -->
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-core.version}</version>
+		</dependency>
+		<!-- 映入JSON,SpringMVC将对象转json格式 End -->
+		
+  		<!-- apache常用工具 -->
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>${apache-common.version}</version>
+		</dependency>
+		
+		<!-- apache文件上传工具包 -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>${apache-common.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>${commons-lang.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>${commons-collections.version}</version>
+		</dependency>
+		
+		<!-- 导入java ee jar 包 -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>${javaee-api.version}</version>
+			<!-- 编译时使用，发布的时候不会加载此包 -->
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- 导入servlet-api -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>javax.servlet</groupId> -->
+<!-- 			<artifactId>javax.servlet-api</artifactId> -->
+<!-- 			<version>${javax.servlet-api.version}</version> -->
+			<!-- 表示开发的时候引入，发布的时候不会加载此包 -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
+		
+		<!-- google的json解析包 -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+		
+		<!-- log4j2 日志文件管理包 start -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>${log4j2.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>${log4j2.version}</version>
+		</dependency>
+		<!-- log4j2 日志文件管理包 End -->
+		
+		<!-- excel相关 -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.apache.poi</groupId> -->
+<!-- 		    <artifactId>poi</artifactId> -->
+<!-- 		    <version>${poi.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.apache.poi</groupId> -->
+<!-- 		    <artifactId>poi-ooxml</artifactId> -->
+<!-- 		    <version>${poi.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 		    <groupId>commons-codec</groupId> -->
+<!-- 		    <artifactId>commons-codec</artifactId> -->
+<!-- 		    <version>${commons-codec.version}</version> -->
+<!-- 		</dependency> -->
+		<!-- excel相关 End -->
+		
+		<!-- pdf相关 -->
+		<!-- iText -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.itextpdf</groupId> -->
+<!-- 			<artifactId>itextpdf</artifactId> -->
+<!-- 			<version>${itextpdf.version}</version> -->
+<!-- 		</dependency> -->
+		<!-- 输出中文 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.itextpdf</groupId> -->
+<!-- 			<artifactId>itext-asian</artifactId> -->
+<!-- 			<version>${itext-asian.version}</version> -->
+<!-- 		</dependency> -->
+		
+		<!-- pdf文件加密 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.bouncycastle</groupId> -->
+<!-- 			<artifactId>bcprov-jdk15on</artifactId> -->
+<!-- 			<version>${bcprov-jdk15on.version}</version> -->
+<!-- 		</dependency> -->
+		<!-- pdf相关 End-->
+		
+		
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>${zxing-core.Version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>javase</artifactId>
+		    <version>${zxing-core.Version}</version>
+		</dependency>
+
+		
+		<!-- junit测试 -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<!-- 表示开发的时候引入，发布的时候不会加载此包 -->
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- mybatis反向生成java -->
+		<dependency>
+		    <groupId>org.mybatis.generator</groupId>
+		    <artifactId>mybatis-generator-core</artifactId>
+		    <version>${mybatis-generator-core.version}</version>
+		    <!-- 编译时使用，发布的时候不会加载此包 -->
+		    <scope>provided</scope>
+		</dependency>
+		
+		<!-- 添加本地jar包 -->
+		<!-- sso加密专用 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>mizuho</groupId> -->
+<!-- 			<artifactId>CryptShaExt</artifactId> -->
+<!-- 			<version>1.0</version> -->
+<!-- 		</dependency> -->
+		
+		<!-- csv解析包 -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.commons</groupId> -->
+<!-- 			<artifactId>commons-csv</artifactId> -->
+<!-- 			<version>1.4</version> -->
+<!-- 		</dependency> -->
+  </dependencies>
+  
+  <!-- 编译参数 -->
+  <build>
+    <plugins>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>2.18.1</version>
+			<configuration>
+				<skipTests>true</skipTests>
+			</configuration>
+		</plugin>
+	</plugins>
+  </build>
+  
+  <modules>
+  	<module>CamEmotion-common</module>
+  	<module>CamEmotion-service</module>
+  	<module>CamEmotion-web</module>
+  </modules>
+</project>

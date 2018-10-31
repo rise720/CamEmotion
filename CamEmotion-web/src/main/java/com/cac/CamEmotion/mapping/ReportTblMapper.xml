@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.ReportTblMapper" >
+   <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.ComprehensiveReportTbl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+    <result column="createuesr" property="createuesr" jdbcType="VARCHAR" />
+    <result column="teacherid" property="teacherid" jdbcType="INTEGER" />
+    <result column="teachername" property="teachername" jdbcType="VARCHAR" />
+    <result column="classno" property="classno" jdbcType="VARCHAR" />
+    <result column="notemsg" property="notemsg" jdbcType="VARCHAR" />
+    
+    <!-- 增加 -->
+    <result column="starttime" property="starttime" jdbcType="VARCHAR" />
+    <result column="endtime" property="endtime" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="classstatus" property="classstatus" jdbcType="INTEGER" />
+    
+    <result column="coursename" property="coursename" jdbcType="VARCHAR" />
+    <result column="coursecontents" property="coursecontents" jdbcType="VARCHAR" />
+    <result column="searchcontent" property="searchcontent" jdbcType="VARCHAR" />
+    
+    <result column="framefacecount" property="framefacecount" jdbcType="INTEGER" />
+    
+    <result column="seniority" property="seniority" jdbcType="VARCHAR" />
+    <result column="education" property="education" jdbcType="VARCHAR" />
+    
+    <!-- 20171213 -->
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="fulladdress" property="fulladdress" jdbcType="VARCHAR" />
+    <result column="emotionTable" property="emotionTable" jdbcType="VARCHAR" />
+    <!-- 20180119 -->
+    <result column="gradeno" property="gradeno" jdbcType="VARCHAR" />
+    <result column="curriculumType" property="curriculumType" jdbcType="VARCHAR" />
+    
+    <result column="discussionRate" property="discussionRate" jdbcType="INTEGER" />
+    <result column="attendanceRate" property="attendanceRate" jdbcType="INTEGER" />
+    <result column="practiceRate" property="practiceRate" jdbcType="INTEGER" />
+    <result column="puzzledRate" property="puzzledRate" jdbcType="DOUBLE" />
+    <result column="calmRate" property="calmRate" jdbcType="DOUBLE" />
+    <result column="excitementRate" property="excitementRate" jdbcType="DOUBLE" />
+    <result column="waveRate" property="waveRate" jdbcType="DOUBLE" />
+    <result column="emotionCH" property="emotionCH" jdbcType="DOUBLE" />
+  </resultMap>
+  
+   <!-- 课程视频的分页 -->
+	<select id="find" resultMap="BaseResultMap">
+		SELECT CT.*, 
+		IFNULL(KHKHL.puzzledRate, '0%') AS puzzledRate, 
+		IFNULL(PJKHL.calmRate, '0%') AS calmRate, 
+		IFNULL(XFKHL.excitementRate, '0%') AS excitementRate,
+		IFNULL(TLKHL.discussionRate, '0%') AS discussionRate, 
+		IFNULL(LXKHL.practiceRate, '0%') AS practiceRate,
+		IFNULL(TKKHL.attendanceRate, '0%') AS attendanceRate, 
+		IFNULL(HDBDL.waveRate, '0%') AS waveRate,
+		IFNULL(PLZ.valenceAverage, '0%') AS valenceAverage,
+		IFNULL(BDPC.valenceFluctuationDeviation, '0%') AS valenceFluctuationDeviation,
+<!-- 		IFNULL(PJZF.valenceMeanAmplitude, '0%') AS valenceMeanAmplitude, -->
+		IFNULL(BDJH.uniformFluctuation, '0%') AS uniformFluctuation,
+		IFNULL(KTCYD.emotionCH, '0%') AS emotionCH,
+		ST.educationLevel AS educationLevel
+		FROM curriculum_tbl CT
+		
+		LEFT JOIN ( SELECT percent AS puzzledRate , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'valencePie' AND LEVEL = 0 ) AS KHKHL ON CT.id = KHKHL.curriculumid
+		
+		LEFT JOIN ( SELECT percent AS calmRate , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'valencePie' AND LEVEL = 1 ) AS PJKHL ON CT.id = PJKHL.curriculumid
+		
+		LEFT JOIN ( SELECT percent AS excitementRate , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'valencePie' AND LEVEL = 2 ) AS XFKHL ON CT.id = XFKHL.curriculumid
+		
+		LEFT JOIN ( SELECT percent AS discussionRate , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'faceCountPie' AND LEVEL = 0 ) AS TLKHL ON CT.id = TLKHL.curriculumid
+		
+		LEFT JOIN ( SELECT percent AS practiceRate , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'faceCountPie' AND LEVEL = 1 ) AS LXKHL ON CT.id = LXKHL.curriculumid
+		
+		LEFT JOIN ( SELECT percent AS attendanceRate , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'faceCountPie' AND LEVEL = 2 ) AS TKKHL ON CT.id = TKKHL.curriculumid
+		
+		LEFT JOIN ( SELECT percent AS waveRate , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'waveRate' AND LEVEL = 0 ) AS HDBDL ON CT.id = HDBDL.curriculumid
+		
+		LEFT JOIN ( SELECT percent AS valenceAverage , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'valenceAverage' AND LEVEL = 0 ) AS PLZ ON CT.id = PLZ.curriculumid
+		
+		LEFT JOIN ( SELECT percent AS valenceFluctuationDeviation , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'valenceFluctuationDeviation' AND LEVEL = 0 ) AS BDPC ON CT.id = BDPC.curriculumid
+		
+<!-- 		LEFT JOIN ( SELECT percent AS valenceMeanAmplitude , curriculumid AS curriculumid FROM emotiondata_statistics_tbl -->
+<!-- 		WHERE charttype = 'valenceMeanAmplitude' AND LEVEL = 0 ) AS PJZF ON CT.id = PJZF.curriculumid -->
+		
+		LEFT JOIN ( SELECT percent AS uniformFluctuation , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'uniformFluctuation' AND LEVEL = 0 ) AS BDJH ON CT.id = BDJH.curriculumid
+		
+		LEFT JOIN ( SELECT percent AS emotionCH , curriculumid AS curriculumid FROM emotiondata_statistics_tbl
+		WHERE charttype = 'emotionCH' AND LEVEL = 0 ) AS KTCYD ON CT.id = KTCYD.curriculumid		
+		
+		LEFT JOIN school_info_tbl ST ON CT.schoolid = ST.id
+		<where>
+			1=1
+			<if test="ComprehensiveReport.id != null and ComprehensiveReport.id != ''">
+				and CT.id = #{ComprehensiveReport.id,jdbcType=INTEGER} 
+			</if>
+			<if test="ComprehensiveReport.curriculumLevel != null and ComprehensiveReport.curriculumLevel != ''">
+				and CT.curriculumLevel = #{ComprehensiveReport.curriculumLevel,jdbcType=INTEGER}
+			</if>
+			<if test="ComprehensiveReport.classNature != null and ComprehensiveReport.classNature != ''">
+				and CT.classNature = #{ComprehensiveReport.classNature,jdbcType=VARCHAR}
+			</if>
+			<if test="ComprehensiveReport.coursename != null and ComprehensiveReport.coursename != ''">
+				and CT.coursename = #{ComprehensiveReport.coursename,jdbcType=VARCHAR}
+			</if>
+			<if test="ComprehensiveReport.searchcontent != null and ComprehensiveReport.searchcontent != ''">
+				${ComprehensiveReport.searchcontent}
+			</if>
+			
+			 
+			<!-- 排序条件 -->
+			<if test="orderBy_expression != null or orderBy_expression != ''">
+				<trim prefix="ORDER BY">
+					${orderBy_expression}
+					<if test="orderBy_expression == 'puzzledRate' or orderBy_expression == 'calmRate' or orderBy_expression == 'excitementRate' or orderBy_expression == 'attendanceRate' or orderBy_expression == 'practiceRate' or orderBy_expression == 'discussionRate' or orderBy_expression == 'waveRate' or orderBy_expression == 'emotionCH'">
+						+0 
+					</if>
+					<if test="orderBy_rule != null">
+						${orderBy_rule}
+					</if>
+				</trim>
+			</if>
+			
+			<!-- 查询记录数为空,不带分页条件 -->
+			<if test="limit_rows != null">
+				<trim prefix="LIMIT">
+					<choose>
+						<when test="limit_offset != null">
+							#{limit_offset},
+						</when>
+						<otherwise>0,</otherwise>
+					</choose>
+					<if test="limit_rows != null">
+						#{limit_rows}
+					</if>
+				</trim>
+			</if>
+		</where>
+	</select>
+
+	<!-- 合计 -->
+	<select id="selectCount" resultType="java.lang.Integer" parameterType="com.cac.CamEmotion.model.ComprehensiveReportTbl">
+		  SELECT COUNT(CT.id) FROM curriculum_tbl CT
+		<where>
+			1=1
+			<if test="id != null and id != ''">
+				and CT.id = #{id,jdbcType=INTEGER} 
+			</if>
+			<if test="curriculumLevel != null and curriculumLevel != ''">
+				and CT.curriculumLevel = #{curriculumLevel,jdbcType=INTEGER}
+			</if>
+			<if test="classNature != null and classNature != ''">
+				and CT.classNature = #{classNature,jdbcType=VARCHAR}
+			</if>
+			<if test="coursename != null and coursename != ''">
+				and CT.coursename = #{coursename,jdbcType=VARCHAR}
+			</if>
+			<if test="searchcontent != null and searchcontent != ''">
+				${searchcontent}
+			</if>
+		</where>
+	</select>
+  
+  <!-- 根据课程id查询每分钟的平均率 -->
+  <select id="selectMinutesWaveAverageRate" resultType="java.lang.Double" parameterType="java.lang.Integer">
+ 		 SELECT SUM(VALUE) FROM emotiondata_statistics_tbl
+		 WHERE curriculumId = #{curriculumid,jdbcType=INTEGER} AND charttype = 'valenceBubble' GROUP BY minutes ORDER BY minutes ASC
+  </select>
+  
+</mapper>

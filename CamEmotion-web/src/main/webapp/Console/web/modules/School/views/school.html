@@ -1,0 +1,98 @@
+<div id="schoolApp">
+	<div class="page-content">
+		<div class="row" style="padding-left: 10px; padding-right: 10px;">
+			<div class="col-lg-3" v-for="school in schoolList"
+				style="margin-bottom: 10px; padding-left: 5px; padding-right: 5px;">
+				<div class="setup-box">
+					<i class="glyphicon glyphicon-remove-sign setup-box-off"
+						data-toggle="modal" @click="delectSchoolInfo(school)"></i>
+					<div data-toggle="modal" @click="openUpdateSchoolInfo(school)"
+						data-target="#setupModal" class="row cursor-my"
+						style="padding: 0 20px;">
+						<div style="margin-bottom: 5px;">
+							<span v-cloak style="color: #1296db; font-weight: bold; font-size: 15px;"
+								:title="school.schoolname"> {{school.schoolname |
+								schoolname}}</span>
+						</div>
+						<div class="col-lg-6" style="text-align: center">
+							<img src="../images/meeting-room.png" alt="" style="width: 80px;">
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-3" style="padding-left: 5px; padding-right: 5px;">
+				<div class="setup-box" data-toggle="modal"
+					@click="openInsertSchoolInfo" data-target="#setupModal">
+					<div class="row" style="padding: 0 20px;">
+						<div style="margin-bottom: 5px; text-align: center;">
+							<span style="color: #1296db; font-weight: bold; font-size: 15px;">
+								&nbsp;</span>
+						</div>
+						<div class="col-lg-6" style="text-align: center">
+							<img src="../images/add-school.png" alt="" style="width: 80px;">
+						</div>
+						<div class="col-lg-6 setup-box-title" style="line-height: 60px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">创建报告厅</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 添加设备的模板信息 -->
+	<div class="modal fade bs-example-modal-lg" id="setupModal"
+		tabindex="-1" role="dialog" >
+		<div class="modal-dialog modal-lg" role="document" style="max-width: 700px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">报告厅设置</h4>
+				</div>
+
+				<!-- error -->
+				<div class="setup-box-model-error" v-show="error.errorStatus">
+					<div v-cloak style="flex: 8" class="error-msg-content-teacher">{{error.errorMsg}}</div>
+					<div style="flex: 1; text-align: right"
+						@click="error.errorStatus=!error.errorStatus">
+						<i class="glyphicon glyphicon-remove-sign"></i>
+					</div>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-horizontal" style="padding-bottom: 15px;">
+						<div>
+							<div class="form-item">
+								<div class="form-group">
+									<label for="inputEmail3"
+										class="col-sm-3 control-label form-label-title"> <span
+										style="color: red">*</span>名称
+									</label>
+									<div class="col-sm-9">
+										<input type="text" v-model="schoolInfo.schoolname"
+											class="form-control" id="inputEmail3" placeholder="名称">
+									</div>
+								</div>
+
+
+								<div class="form-group">
+
+									<div class="col-sm-12 text-center">
+										<button type="submit" class="btn btn-success"
+											v-show="btnflag=='insert'" @click='InsertSchoolInfo'>保存</button>
+
+										<button type="submit" class="btn btn-success"
+											v-show="btnflag=='update'" @click='updateSchoolInfo'>修改</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,144 @@
+<div id="classcommentApp">
+	<div class="page-content">
+		<div
+			style="background: #fff; border-radius: 4px; border-top: 2px solid #2A8BA7;">
+			<div class="row" style="padding: 0px 15px;">
+				<div style="width: 100%;">
+					<div style="border-bottom: 1px solid #eff2f7; padding: 4px 10px;">
+						<div class="modular-title">课堂评价</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-7">
+					<div class="row" style="padding: 10px 20px 0 20px;"
+						v-for="infos in list">
+						<div class="col-lg-1" style="text-align: right">
+							<div
+								style="background: #72D0EB; display: inline-block; padding: 7px 9px; border-radius: 4px;">
+								<i class="glyphicon glyphicon-user"
+									style="color: #fff; font-size: 15px;"></i>
+							</div>
+						</div>
+						<div class="col-lg-11" style="padding-bottom: 10px">
+							<div
+								style="padding: 6px 0px; background: #72D0EB; border-top-left-radius: 4px; border-top-right-radius: 4px; color: #fff;"
+								class="row">
+								<div v-cloak class="col-lg-6">{{infos.evaluatorinfo}} 评论
+									{{infos.timestamp}}</div>
+								<div class="col-lg-6" style="text-align: right">
+									<i class="glyphicon glyphicon-remove-sign"
+										@click="DeleteId(infos)"></i>
+								</div>
+							</div>
+							<div v-cloak
+								style="padding: 12px; border: 1px #72D0EB solid; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; word-wrap: break-word;"
+								class="row">
+								{{infos.evaluatecontent}} <a v-cloak :href="infos.fileaddr"
+									:download="info.fileaddr | filterAddr"
+									v-if="infos.fileaddr != null && infos.fileaddr.length > 0"
+									class="btn-info"> </br>{{infos.filetype | fileType}}文件，请点击下载...
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<div class="row" style="padding: 10px 20px 10px 40px;">
+						<div class="row" style="padding: 10px 20px;">
+							<div class="col-lg-6">
+								<div v-cloak class="dataTables_info" id="dataTables-example_info"
+									role="status" aria-live="polite">显示第 {{cur}} 页 每页
+									{{pageModel.pageRecorders}} 条 共 {{all}} 页</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="dataTables_paginate paging_simple_numbers"
+									id="dataTables-example_paginate" style="text-align: right">
+									<ul class="pagination" style="margin: 0px 0;">
+										<li class="paginate_button next"
+											aria-controls="dataTables-example" tabindex="0"
+											id="dataTables-example_previous" style="width: 11%"
+											v-if="showFirst" @click="preClick"><a><<</a></li>
+										<li class="paginate_button "
+											aria-controls="dataTables-example" tabindex="0"
+											v-for="index in indexs" :class="{ 'active': cur == index}"
+											@click="btnClick(index)"><a v-cloak>{{index}}</a></li>
+										<li class="paginate_button next"
+											aria-controls="dataTables-example" tabindex="0"
+											id="dataTables-example_next" style="width: 11%"
+											v-if="showLast" @click='nexClick'><a> >></a></li>
+										</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-5">
+					<div class="form-horizontal" style="padding: 10px 20px 0 20px;">
+						<div style="padding: 0 0 10px 0; font-weight: bold;">评价人信息</div>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-4 control-label">姓名</label>
+									<div class="col-sm-8">
+										<input type="email" v-model="info.name" class="form-control"
+											id="inputEmail3" placeholder="姓名">
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-4 control-label">职务</label>
+									<div class="col-sm-8">
+										<input type="email" v-model="info.work" class="form-control"
+											id="inputEmail3" placeholder="职务">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div style="padding: 5px 0 10px 0; font-weight: bold">评价信息</div>
+
+						<div>
+							<textarea class="form-control" rows="5"
+								v-model="info.evaluatecontent" placeholder="发表评论"></textarea>
+						</div>
+
+						<!-- 上传 -->
+						<div class="coment-input-box" v-show="PublishFlag">
+							点击上传文件 <input type="file" id="file" class="coment-input"
+								@change="upload($event,'0')">
+						</div>
+
+						<!-- 上传过程 -->
+						<div class="coment-content" v-show="!PublishFlag">
+							<div style="flex: 2">
+								<img src="../images/upload-file.png" alt=""
+									style="height: 70px;">
+							</div>
+							<div style="flex: 4">
+								<div v-cloak class="coment-file-name">名称:{{fileName}}</div>
+								<div style="text-align: left">
+									<div class="progress">
+										<div v-cloak
+											class="progress-bar progress-bar-info progress-bar-striped active"
+											role="progressbar" :aria-valuenow="progress"
+											aria-valuemin="0" aria-valuemax="100" :style="progressStyle">{{progress}}%</div>
+									</div>
+								</div>
+							</div>
+							<i class="glyphicon glyphicon-remove-sign"
+								style="position: absolute; right: 10px; top: 10px; color: #c9302c"
+								@click="uploadCancel"></i>
+						</div>
+
+						<div style="padding: 5px 0">
+							<button type="button" class="btn btn-info"
+								@click="InsertEvaluate">发表评论</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

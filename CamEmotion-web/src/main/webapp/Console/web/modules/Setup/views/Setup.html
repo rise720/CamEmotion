@@ -1,0 +1,302 @@
+
+<div id="setupApp">
+    <div class="page-content">
+        <div class="row" style="padding-left: 10px;padding-right: 10px;">
+            <div class="col-lg-3" style="padding-left: 5px;padding-right: 5px;margin-bottom: 10px;" v-for="infos in list">
+                <div class="setup-box">
+                    <i class="glyphicon glyphicon-remove-sign setup-box-off" @click="DeleteSetting(infos)"></i>
+                    <div data-toggle="modal" @click="ShowInfo(infos)">
+                        <div style="text-align: center">
+                            <img src="../images/Camera.png" alt="" style="width: 80px;">
+                        </div>
+                        <div class="setup-box-title">主机名称:
+                            <span v-cloak style="color: #1296db"> {{infos.hostname}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3" style="padding-left: 5px;padding-right: 5px;margin-bottom: 10px;">
+                <div class="setup-box" data-toggle="modal" @click="ShowInfo">
+                    <div style="text-align: center">
+                        <img src="../images/set-add.png" alt="" style="width: 80px;">
+                    </div>
+                    <div class="setup-box-title">添加设备</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加设备的模板信息 -->
+    <div class="modal fade bs-example-modal-lg" id="setupModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">设备配置</h4>
+                </div>
+
+                <!-- error -->
+                <div :class="{'setup-box-model-error':error.setupalert==-1,
+                			  'setup-box-model-Success':error.setupalert==0,
+                			  'setup-box-model-Warning':error.setupalert==1}" v-show="error.errorStatus">
+                    <div style="flex: 8" class="error-msg-content-teacher">{{error.errorMsg}}</div>
+                    <div style="flex: 1;text-align: right" @click="error.errorStatus=!error.errorStatus">
+                    	<i class="glyphicon glyphicon-remove-sign" ></i>
+                    </div>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="form-horizontal" style="padding-bottom: 15px;">
+                        <div>
+                            <div class="form-title">主机参数设定</div>
+                            <div class="form-item">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-2 control-label form-label-title">
+                                        <span style="color: red">*</span>主机名称
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="inputEmail3" v-model= "info.hostname" placeholder="主机名称">
+                                    </div>
+                                    <label for="inputEmail3" class="col-sm-2 control-label form-label-title">
+                                        <span style="color: red">*</span>主机IP
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="inputPassword3" v-model= "info.hostip" placeholder="IP">
+                                    </div>
+                                </div>
+                                
+								<div class="form-group">
+									<label for="inputEmail3" class="col-sm-2 control-label form-label-title">
+                                        <span style="color: red">*</span>独立识别服务
+                                    </label>
+									
+									<div class="col-sm-8">
+										<div class="col-sm-2" style="padding: 0">
+											<div
+												:class="{'radio-box-action':info.identificationFlag==1,'radio-box':true}">
+												是<input type="radio" v-model="info.identificationFlag"
+													value="1"
+													style="position: absolute; top: 0px; left: 0; width: 100%; height: 100%; opacity: 0">
+											</div>
+										</div>
+										<div class="col-sm-2" style="padding: 0">
+											<div
+												:class="{'radio-box-action':info.identificationFlag==0,'radio-box':true}">
+												 否<input type="radio" v-model="info.identificationFlag"
+													value="0"
+													style="position: absolute; top: 0px; left: 0; width: 100%; height: 100%; opacity: 0">
+											</div>
+										</div>
+									</div>
+								</div>
+                                
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="form-title">摄像机参数设定</div>
+                            <div class="form-item">
+                                <div class="form-group">
+                                    <label for="inputEmail3"
+                                           class="col-sm-2 control-label form-label-title">
+                                        <span style="color: red">*</span>摄像机IP
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputEmail3" v-model= "info.cameraip" placeholder="127.0.0.1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label form-label-title">
+                                        <span style="color: red">*</span>主码流地址</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputPassword3" v-model= "info.camaddrm" placeholder="rtsp://">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-2 control-label form-label-title">
+                                        <span style="color: red">*</span>辅码流地址</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="inputPassword3" v-model= "info.camaddra" placeholder="rtsp://">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="form-title">视频参数设定</div>
+                            <div class="form-item">
+                                <div class="form-group">
+                                    <label for="inputEmail3"
+                                           class="col-sm-2 control-label form-label-title">
+                                        <span style="color: red">*</span>实时视频播放
+                                    </label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" v-model="info.drawdisplay">
+											<option class="my-option" v-for="option in drawdisplayList" v-bind:value="option.value">{{ option.text }}</option>
+										</select>
+                                    </div>
+                                </div> 
+<!--                                 <div class="form-group"> -->
+<!--                                     <label for="inputPassword3" class="col-sm-2 control-label form-label-title"> -->
+<!--                                         <span style="color: red">*</span>图片存放目录</label> -->
+<!--                                     <div class="col-sm-8"> -->
+<!--                                         <input type="text" class="form-control" id="inputPassword3" v-model= "info.shareaddr" placeholder="X:\"> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="form-title">分析参数设定</div>
+                            <div class="form-item">
+                                <div class="form-group">
+                                    <!-- <label for="inputEmail3"
+                                           class="col-sm-2 control-label form-label-title">
+                                        <span style="color: red">*</span>遮罩层个数
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="inputEmail3" v-model= "info.fillpolysize" placeholder="遮罩层个数">
+                                    </div>-->
+                                    <label for="inputEmail3"
+                                           class="col-sm-2 control-label form-label-title">
+                                        <span style="color: red">*</span>面部识别个数
+                                    </label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="inputPassword3" v-model= "info.maxnumfaces" placeholder="最大面部识别数">
+                                    </div>
+                                    
+                                    <label for="inputEmail3"
+										class="col-sm-4 control-label form-label-title"> <span
+										style="color: red"></span>遮罩层规则 <span data-toggle="tooltip"
+										data-placement="top"
+										title="该规则主要适用于遮挡摄像头不需要分析部分,
+点击下方绿色+号按钮添加一个不规则的四边形，并填写四个点坐标轴,
+分别为左上角xy坐标点，右上角xy坐标点，右下角xy坐标点，左下角xy坐标点,
+坐标点起始位置是左上角,
+如无需，可不添加遮罩。
+点击下方红色-号按钮则删除一个遮罩"
+										class="glyphicon glyphicon-question-sign"
+										style="padding-left: 5px; color: #5B6E84"></span>
+									</label>
+                                </div>
+
+                                <div class="form-group" style="margin-bottom: 2px;">
+	                                <div class="col-sm-9" style="margin-bottom: 2px;">
+	                                <table class="table table-bordered" style="margin-bottom: 2px;">
+	                                	<thead>
+										<tr>
+			                                <th style="border-bottom: 1px;text-align: center;padding: 2px;border: solid 1px #fff" colspan="2">左上坐标（x，y）</th>
+			                                <th style="border-bottom: 1px;text-align: center;padding: 2px;border: solid 1px #fff" colspan="2">右上坐标（x，y）</th>
+			                                <th style="border-bottom: 1px;text-align: center;padding: 2px;border: solid 1px #fff" colspan="2">右下坐标（x，y）</th>
+			                                <th style="border-bottom: 1px;text-align: center;padding: 2px;border: solid 1px #fff" colspan="2">左下坐标（x，y）</th>
+			                            </tr>
+			                            </thead>
+									</table>
+	                                </div>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 2px;">	  
+                                    <div class="col-sm-9" style="margin-bottom: 2px;">
+                                    	<div class="col-sm-3" style="padding-left: 0;padding-right: 3px">
+	                                    	<div class="col-sm-6" style="padding-left: 0;padding-right: 0">
+	                                    		<input type="text" class="form-control"  v-model= "fillpolyForm.x1" placeholder="X坐标" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')">
+	                                    	</div>
+	                                    	<div class="col-sm-6" style="padding-left: 0;padding-right: 0">
+	                                    		<input type="text" class="form-control" v-model= "fillpolyForm.y1" placeholder="y坐标" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')">
+	                                    	</div>
+                                    	</div>
+                                    	<div class="col-sm-3" style="padding-left: 3px;padding-right: 3px">
+                                    		<div class="col-sm-6" style="padding-left: 0;padding-right: 0">
+	                                    		<input type="text" class="form-control"  v-model= "fillpolyForm.x2" placeholder="X坐标" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')">
+	                                    	</div>
+	                                    	<div class="col-sm-6" style="padding-left: 0;padding-right: 0">
+	                                    		<input type="text" class="form-control"  v-model= "fillpolyForm.y2" placeholder="y坐标" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')">
+	                                    	</div>
+                                    	</div>
+                                    	<div class="col-sm-3" style="padding-left: 3px;padding-right: 3px">
+                                    		<div class="col-sm-6" style="padding-left: 0;padding-right: 0">
+	                                    		<input type="text" class="form-control"  v-model= "fillpolyForm.x3" placeholder="X坐标" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')">
+	                                    	</div>
+	                                    	<div class="col-sm-6" style="padding-left: 0;padding-right: 0">
+	                                    		<input type="text" class="form-control"  v-model= "fillpolyForm.y3" placeholder="y坐标" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')">
+	                                    	</div>
+                                    	</div>
+                                    	<div class="col-sm-3" style="padding-left: 3px;padding-right: 0">
+                                    		<div class="col-sm-6" style="padding-left: 0;padding-right: 0">
+	                                    		<input type="text" class="form-control"  v-model= "fillpolyForm.x4" placeholder="X坐标" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')">
+	                                    	</div>
+	                                    	<div class="col-sm-6" style="padding-left: 0;padding-right: 0">
+	                                    		<input type="text" class="form-control"  v-model= "fillpolyForm.y4" placeholder="y坐标" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')">
+	                                    	</div>
+                                    	</div>
+                                    </div> 
+                                    <div class="col-sm-1" style="padding: 0">
+										<div @click="insertFillpoly"
+											style="border: 1px solid #dedede; padding: 6px 11px; margin: 0 2px; border-radius: 4px; text-align: center;">
+											<i class="glyphicon glyphicon-plus-sign"
+												style="color: #5cb85c"></i>
+										</div>
+									</div>
+                                </div>     
+                                
+                                <div class="form-group" style="margin-bottom: 2px;" v-show="fillpolyList.length>0">	 
+	                                <template v-for="(item,index) in fillpolyList"> 
+	                                    <div class="col-sm-9" style="margin-bottom: 2px;">
+	                                    	<div class="col-sm-3" style="padding-left: 0;padding-right: 3px">
+		                                    	<div class="col-sm-6" style="padding:6px 12px;">
+		                                    		{{item[0]}}
+		                                    	</div>
+		                                    	<div class="col-sm-6" style="padding:6px 12px;">
+		                                    		{{item[1]}}
+		                                    	</div>
+	                                    	</div>
+	                                    	<div class="col-sm-3" style="padding-left: 3px;padding-right: 3px">
+	                                    		<div class="col-sm-6" style="padding:6px 12px;">
+		                                    		{{item[2]}}
+		                                    	</div>
+		                                    	<div class="col-sm-6" style="padding:6px 12px;">
+		                                    		{{item[3]}}
+		                                    	</div>
+	                                    	</div>
+	                                    	<div class="col-sm-3" style="padding-left: 3px;padding-right: 3px">
+	                                    		<div class="col-sm-6" style="padding:6px 12px;">
+		                                    		{{item[4]}}
+		                                    	</div>
+		                                    	<div class="col-sm-6" style="padding:6px 12px;">
+		                                    		{{item[5]}}
+		                                    	</div>
+	                                    	</div>
+	                                    	<div class="col-sm-3" style="padding-left: 3px;padding-right: 0">
+	                                    		<div class="col-sm-6" style="padding:6px 12px;">
+		                                    		{{item[6]}}
+		                                    	</div>
+		                                    	<div class="col-sm-6" style="padding:6px 12px;">
+		                                    		{{item[7]}}
+		                                    	</div>
+	                                    	</div>
+	                                    </div> 
+	                                    <div class="col-sm-1" style="padding: 0">
+											<div @click="deleteFillpoly(index)"
+												style="border: 1px solid #dedede; padding: 6px 11px; margin: 0 2px; border-radius: 4px; text-align: center;">
+												<i class="glyphicon glyphicon-minus-sign"
+													style="color: #D9534F"></i>
+											</div>
+										</div>
+									</template>
+                                </div>                  
+                                
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-6">
+                                        <button type="submit" class="btn btn-success" @click="SaveInfo">保存</button>
+                                        <button type="text" :class="{'btn':true,'btn-success':fromflag,'btn-default':!fromflag}" @click="TestConnect">测试连接</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

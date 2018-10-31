@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>建行报告厅</title>
+    <link rel="icon" type="image/x-icon" href="../../images/bitbug_favicon.ico"media="screen" />
+    <!-- Bootstrap Core CSS -->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../dist/css/iconfont.css">
+    <link rel="stylesheet" href="../../dist/css/animate.css">
+
+
+    <!-- Custom CSS -->
+    <link href="../../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="../../dist/css/loading.css" rel="stylesheet" type="text/css">
+    
+    <!-- video.js -->
+    <link rel="stylesheet" type="text/css" href="../../vendor/videoJs/video-js.css">
+</head>
+<style>
+    html,body{
+        color: #fff;
+        width: 100%;
+        height: 100%;
+        
+        background: url("../../images/bgPhb.png") no-repeat ;
+        background-size: 100% 100%;
+       /* background-color: #07121c; */
+
+    }
+    [v-cloak]{
+        display: none
+    }
+    #moodRankingsApp{
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    .pageHead{
+        display: flex;
+    
+    }
+    .pageCenter{
+        flex: 4;
+        display: flex;
+        align-items: center
+    }
+    .pageBottom{
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+        animation: opacity 4s infinite linear
+       
+    }
+
+  
+    .pageHead .titleLeft span, .pageHead .titleRight span{
+        color: #4bd8ed;
+        width:100%;
+        text-align: center;
+        position: absolute;
+        bottom: 40%;
+        left: 0;
+        /* right: 40%; */
+        font-size: 0.3rem;
+        /* transform: translateX(-50%); */
+    }
+    .pageHead .titleLeft{
+       flex: 2;
+       position: relative;
+       padding: 0 10px;
+       align-self:center
+      
+    }
+    
+    .pageHead .titleCenter{
+        flex: 1;
+        color: #fdfdfd;
+        overflow:  hidden;
+        font-size: 1rem;
+        align-self:center;
+        /* animation: changeColor 6s infinite linear */
+    }
+    .pageHead .titleCenter span{
+        width:100%;
+        text-align: center;
+        display: inherit;
+    }
+
+    .pageHead .titleRight{
+      flex: 2;
+      position: relative;
+      align-self:center
+     
+    }
+    .pageHead div img{
+       width: 100%
+    }
+   
+    .pageCenter>div{
+        margin: 5%;
+        text-align: center;
+        border: 1px solid #4bd8ed;
+        height: 80%;
+    }
+    
+    .pageCenter>div{
+       
+        box-shadow: 0px 0px 20px #fff;
+        height: 85%;
+        width: 85%;
+        transition:  all .5s;
+       
+    }
+    
+    .thinkingBox{
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center
+      
+    }
+    .activeBox{
+      flex: 1;
+       display: flex;
+      flex-direction: column;
+      justify-content: center
+    }
+    .listenBox{
+       flex: 1;  
+        display: flex;
+      flex-direction: column;
+      justify-content: center     
+    }
+    .thinkingBox .moodTitle{
+        font-family:"黑体";
+        font-weight: 750;
+        padding-top:6%;
+        height: 100%;
+        font-size: 0.5rem;
+        display: inline-block;
+        border-bottom:  2px solid  #2e87f8;
+       
+    }
+    .activeBox .moodTitle{
+        font-family:"黑体";
+        font-weight: 750;
+        padding-top:6%;
+        height: 100%;
+        font-size: 0.5rem;
+        display: inline-block;
+        border-bottom:  2px solid  #ec3b6e;
+       
+    }
+    .listenBox .moodTitle{
+        font-family:"黑体";
+        font-weight: 750;
+        padding-top:6%;
+        height: 100%;
+        font-size: 0.5rem;
+        display: inline-block;
+        border-bottom:  2px solid  #44f98e;
+       
+    }
+
+   
+
+    
+    .VideoBottom .videoButton img{
+        animation: rotate 2s linear infinite
+    }
+    .flex{
+        display: flex;
+        flex-direction: column;
+        justify-content: center   
+        
+    }
+    .item{
+        flex: 1;
+        /* border-bottom: 1px solid #ccc */
+    }
+    .flex .item:last-of-type{
+        /* border-bottom: 0px solid red */
+    }
+    .li>div{
+        float: left;
+        overflow: hidden;
+    }
+    table tr{
+        border-bottom: 1px solid #666
+    }
+    table tr:last-of-type{
+        border-bottom: 0px solid #666
+    }
+    .InfoId{
+        font-size: 20px;
+        position: relative;
+        /* animation: rotate 1s infinite linear */
+    }
+    .InfoId i{
+        /* font-size: 16px; */
+        position: absolute;
+        top: -53%;
+        left: 8%;
+        transform: rotate(-34deg);
+        animation: rotate2 2s infinite 
+    }
+    /* table tr td:nth-child(3){
+        text-align: left
+    } */
+
+    .one{
+        color: #ffcc32;
+       
+    }
+    .two{
+        color: #ccdde6;
+    }
+    .three{
+        color: #eeaa5f;
+
+    }
+    .listBox>div{
+       height: 20%;
+       border-bottom: 1px solid #666;
+       display: flex;
+       justify-items: center;
+       align-items: center
+    }
+    .listBox>div:last-child{
+        border-bottom: 0px solid #666;
+    }
+
+    .listBox>div>div:nth-child(1){
+        flex: 1
+    }
+    .listBox>div>div:nth-child(2){
+        flex: 2;
+       
+    }
+    .listBox>div>div:nth-child(3){
+        flex: 5
+    }
+    .listBox>div>div:nth-child(4){
+        flex: 2
+    }
+    .textHidden{
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+    }
+    
+   
+
+     /* 旋转 */
+     @keyframes rotate2{
+      
+        0%{
+           transform: rotate(-15deg);
+        }
+        50%{
+           transform: rotate(-60deg);
+         }
+        100%{
+           transform: rotate(-15deg);
+        }
+    }
+   /* 旋转 */
+    @keyframes rotate{
+        from{
+            transform: rotate(0deg);
+        }
+        to{
+           transform: rotate(360deg);
+        }
+    }
+    /* 显示与隐藏 */
+    @keyframes opacity{
+        0%{
+            opacity:1
+        }
+        50%{
+            opacity:0
+        }
+        100%{
+            opacity:1
+        }
+    }
+
+    /* 显示与隐藏 */
+    @keyframes changeColor{
+        0%{
+            color: #0ff;
+          
+        }
+        33%{
+          
+            color: #2e87f8;
+           
+        }
+        66%{
+            color: #44f98e;
+          
+        }
+        100%{
+            color: #fff
+        }
+    }
+    
+</style>
+<body>
+    <div id="moodRankingsApp">
+         <div class="pageHead">
+                <div class="titleLeft">
+                    <img src="../../images/phbTopR.png" alt="">
+                </div>
+                <div class="titleCenter">
+                    <span >微表情排行榜</span>
+                </div>
+                <div class="titleRight">
+                    <img src="../../images/phbTop.png" alt="">
+                </div>
+         </div>
+         <div class="pageCenter">
+             <!-- 思考 -->
+            <div class="thinkingBox animated bounceInLeft">
+                <div style="flex:1">
+                    <span class="moodTitle animated bounce"><i class="iconfont  icon-huangguan4"></i> 思考比重排行榜</span>
+                </div>
+               
+                <div class="flex listBox"  style="flex: 6;padding:20px 10px 20px 10px"> 
+                    <div v-for="(item,index) in puzzledRate" :key= "index">
+                        <div :class="index ==0 ? 'InfoId  one': index ==1 ? 'InfoId  two': index ==2 ? 'InfoId three': 'InfoId'">
+                            <span class="">
+                                {{index+1}}
+                             </span>
+                             <i :class="index < 3 ?'iconfont icon-huangguan5':''"></i>
+                        </div>
+                        <div class="textHidden">{{item.teachername}}</div>
+                        <div class="textHidden">{{item.coursecontents}}</div>
+                        <div class="textHidden">{{item.puzzledRate+'%'}}</div>
+                       
+                    </div>
+    
+                </div>
+            </div>
+            <!-- 活跃 -->
+            <div class="activeBox animated bounceIn">
+            
+                <div style="flex:1">
+                    <span class="moodTitle  animated bounce"><i class="iconfont  icon-huangguan4"></i> 活跃比重排行榜</span>
+                </div>
+                
+                <div class="flex listBox"  style="flex: 6;padding:20px 10px 20px 10px"> 
+                    <div v-for="(item,index) in excitementRate" :key= "index">
+                        <div :class="index ==0 ? 'InfoId  one': index ==1 ? 'InfoId  two': index ==2 ? 'InfoId three': 'InfoId'">
+                            <span class="">
+                                {{index+1}}
+                             </span>
+                             <i :class="index < 3 ?'iconfont icon-huangguan5':''" ></i>
+                        </div>
+                        <div class="textHidden">{{item.teachername}}</div>
+                        <div class="textHidden">{{item.coursecontents}}</div>
+                        <div class="textHidden">{{item.excitementRate+'%'}}</div>
+                       
+                    </div>
+                </div>
+            </div>
+            <!-- 平静 -->
+            <div class="listenBox animated bounceInRight">
+            
+                 <div style="flex:1">
+                    <span class="moodTitle animated bounce"><i class="iconfont  icon-huangguan4"></i>倾听比重排行榜</span>
+                </div>
+                
+                <div class="flex listBox"  style="flex: 6;padding:20px 10px 20px 10px"> 
+                    <div v-for="(item,index) in calmRate" :key= "index">
+                        <div :class="index ==0 ? 'InfoId  one': index ==1 ? 'InfoId  two': index ==2 ? 'InfoId three': 'InfoId'">
+                            <span class="">
+                                {{index+1}}
+                             </span>
+                             <i :class="index < 3 ?'iconfont icon-huangguan5':''" ></i>
+                        </div>
+                        <div class="textHidden">{{item.teachername}}</div>
+                        <div class="textHidden">{{item.coursecontents}}</div>
+                        <div class="textHidden">{{item.calmRate+'%'}}</div>
+                       
+                    </div>
+                </div>
+            </div>
+
+         </div>
+         <div class="pageBottom"   >
+            <img src="../../images//phbBottom.png" alt="" style="width:60%">
+         </div>
+
+    </div>
+    
+</body>
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/echarts/echarts.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../vendor/vue/vue.js"></script>
+<script src="../../vendor/vue/axios.min.js"></script>
+<script src="../service/requestSer.js"></script>
+<!-- 配置 -->
+<script src="../config/config.js"></script>
+<!-- 共通方法 -->
+<script src="../common/common.js"></script>
+<script src="../common/dialog.js"></script>
+
+<script src="../util/filter.js"></script>
+
+<script src="../rankings/rankings.js"></script>
+</html>
+<script>
+
+
+</script>

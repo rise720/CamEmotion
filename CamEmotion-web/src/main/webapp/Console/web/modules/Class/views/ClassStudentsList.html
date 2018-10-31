@@ -1,0 +1,248 @@
+<style>
+.title-studentsList {
+	background: #F5F5F5;
+	padding: 10px 5px;
+}
+table tbody {
+	display: block;
+	height: 300px;
+	overflow-y: auto;
+}
+
+table thead, tbody tr {
+	display: table;
+	width: 100%;
+	table-layout: fixed;
+}
+
+table tbody tr td {
+	vertical-align: middle !important;
+    text-align: center;  
+}
+</style>
+<div id="classStudentsList">
+	<div class="page-content">
+		<div class="row maxbox" style="margin: 5px 0px; border-radius: 4px; border: 4px solid #fff;">
+			<div class="col-lg-1" style="background: #18A9D8; padding: 10px 5px; border-right: 4px solid #fff;">
+				<div style="text-align: center; color: #fff">课堂信息</div>
+			</div>
+			
+			<div class="col-lg-11 title-studentsList">
+				<div
+					style="padding-left: 15px; display: inline-block; font-weight: bold;">
+					<i class="iconfont iconfont-xs2 icon-huangguan5 nar-icon-yellow"
+						v-show="curriculumInfo.curriculumLevel==1"></i>
+				</div>
+				<div
+					style="padding-left: 15px; display: inline-block; font-weight: bold;"
+					v-cloak>{{curriculumInfo.gradeno}}{{curriculumInfo.classno}}</div>
+				<div
+					style="padding-left: 15px; display: inline-block; font-weight: bold;"
+					v-cloak>{{curriculumInfo.coursename}}</div>
+				<div
+					style="padding-left: 15px; display: inline-block; font-weight: bold;"
+					v-cloak>{{curriculumInfo.teachername}}</div>
+				<div
+					style="padding-left: 15px; display: inline-block; font-weight: bold;"
+					:title="curriculumInfo.coursecontents" v-cloak>{{curriculumInfo.coursecontents
+					| subStr}}</div>
+			</div>
+		</div>
+	
+		<div
+			style="background: #fff; border-radius: 4px; border-top: 2px solid #2A8BA7;">
+			<div class="row" style="padding: 0px 15px;">
+				<div style="width: 100%;">
+					<div style="border-bottom: 1px solid #eff2f7; padding: 4px 10px;">
+						<div class="modular-title">学生分析一览</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding: 10px 20px 0 20px;">
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div style="padding: 0 20px">
+						<table width="100%"
+							class="table table-striped table-bordered table-hover"
+							style="margin-bottom: 0">
+							<thead>
+								<tr>
+									<th style="border-bottom: 1px; text-align: center" colspan="2">学生信息</th>
+									<th style="border-bottom: 1px; text-align: center" colspan="3">活跃度</th>
+									<th style="border-bottom: 1px; text-align: center" colspan="2">注意力</th>
+									<th style="border-bottom: 1px; text-align: center" colspan="3">操作</th>
+									
+								</tr>
+								<tr>
+									<th class="cursor-my"
+										style="position: relative; text-align: center"
+										@click="clickTitle('studentInfo', 0)"
+										>ID</th>
+										
+									<th style="position: relative; text-align: center">头像</th>
+	
+									<th class="cursor-my"
+										style="position: relative; text-align: center"
+										@click="clickTitle('valencePieList', 2)">活跃</th>
+									<th class="cursor-my"
+										style="position: relative; text-align: center"
+										@click="clickTitle('valencePieList', 1)">倾听</th>
+									<th class="cursor-my"
+										style="position: relative; text-align: center"
+										@click="clickTitle('valencePieList', 0)">思考</th>
+									<th class="cursor-my"
+										style="position: relative; text-align: center"
+										@click="clickTitle('attentionPieList', 11)">集中</th>
+									<th class="cursor-my"
+										style="position: relative; text-align: center"
+										@click="clickTitle('attentionPieList', 10)">分散</th>
+
+									<th style="position: relative; text-align: center">查看</th>
+									<th style="position: relative; text-align: center">删除</th>
+									<th style="position: relative; text-align: center">合并</th>
+								</tr>
+							</thead>
+							<tbody style="height: 400px;">
+								<tr v-for="student in newStudentsSort"
+									:class="{success: student.merge}">
+									<!-- 学生信息 -->
+									<td v-cloak style="font-weight: bold">{{student.studentInfo.studentId}}</td>
+									<td v-cloak style="padding: 3px; text-align: center">
+										<img :src="imagePath + student.studentInfo.profileImage" height="50"
+										onerror="javascript:this.onerror=null;this.src='../images/headimg.png';"
+											width="50"/></td>
+											
+									<!-- 活跃度 -->
+									<td  v-cloak style="font-weight: bold">
+										<span v-if="!student.valencePieList || student.valencePieList.length == 0">-</span>
+										<span v-for='valence in student.valencePieList'
+										v-if="valence.level == 2">{{valence.percent}}</span>
+										</td>
+									<td v-cloak style="font-weight: bold">
+										<span v-if="!student.valencePieList || student.valencePieList.length == 0">-</span>
+										<span  v-for='valence in student.valencePieList'
+										v-if="valence.level == 1">{{valence.percent}}</span>
+										</td>
+									<td  v-cloak style="font-weight: bold">
+										<span v-if="!student.valencePieList || student.valencePieList.length == 0">-</span>
+										<span v-for='valence in student.valencePieList'
+										v-if="valence.level == 0">{{valence.percent}}</span>
+										</td>
+										
+									<!-- 注意力 -->
+									<td  v-cloak style="font-weight: bold">
+										<span v-if="!student.attentionPieList || student.attentionPieList.length == 0">-</span>
+										<span v-for='attention in student.attentionPieList'
+											v-if="attention.level == 11">{{attention.percent}}</span>
+										</td>
+									<td v-cloak style="font-weight: bold">
+										<span v-if="!student.attentionPieList || student.attentionPieList.length == 0">-</span>
+										<span v-for='attention in student.attentionPieList'
+											v-if="attention.level == 10">{{attention.percent}}</span>
+										</td>
+	
+									<!-- 操作 -->
+									<td style="text-align: center"><a
+										:href="'#/ClassStudentVideo?curriculumId='+ curriculumId + '&studentId=' + student.studentInfo.studentId "><div
+												class="table-operation">查看</div></a></td>
+									<td style="text-align: center"><div
+											class="table-operation cursor-my"
+											@click="deleteStudent(curriculumId, student.studentInfo.studentId)">删除</div></td>
+									<td style="text-align: center"><div
+											class="checkbox checkbox-primary" style="margin: 0">
+											<input type="checkbox" class="styled styled-primary"
+												v-model="student.merge"> <label></label>
+										</div></td>
+								</tr>
+							</tbody>
+						</table>
+						<div style="margin: 12px 0px;display: flex;">
+						<div style="flex:1">
+						识别人数：&nbsp;&nbsp;&nbsp;&nbsp;{{newStudentsSort.length}} 
+						</div>
+						<div style="text-align: right; flex:2;">
+							<button type="submit" class="btn btn-info"
+								@click="mergeStudent">开始合并</button>
+						</div>
+						</div>
+						
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- 合并学生的模板信息 -->
+	<div class="modal fade bs-example-modal-md" id="mergeModal"
+		tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-md" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">合并学生信息</h4>
+				</div>
+
+				<div class="modal-body">
+					<div style="margin: 40px 15px 15px 15px">
+						<table width="100%"
+							class="table table-striped table-bordered table-hover"
+							style="margin-bottom: 0" >
+							<thead>
+								<tr>
+									<th style="border-bottom: 1px; text-align: center" colspan="2">学生信息</th>
+									<th style="border-bottom: 1px; text-align: center" colspan="3">活跃度</th>
+									<th style="border-bottom: 1px; text-align: center" colspan="2">注意力</th>
+								</tr>
+								<tr>
+									<th style="position: relative; text-align: center">ID</th>
+									<th style="position: relative; text-align: center">头像</th>
+
+									<th style="position: relative; text-align: center">活跃</th>
+									<th style="position: relative; text-align: center">倾听</th>
+									<th style="position: relative; text-align: center">思考</th>
+
+									<th style="position: relative; text-align: center">集中</th>
+									<th style="position: relative; text-align: center">分散</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="student in newStudentsSort">
+									<template v-if="student.merge==true"> <!-- 学生信息 -->
+									<td v-cloak style="font-weight: bold">{{student.studentInfo.studentId}}</td>
+									<td v-cloak style="padding: 3px; text-align: center"><img
+											:src="imagePath + student.studentInfo.profileImage" height="50"
+											onerror="javascript:this.onerror=null;this.src='../images/headimg.png';"
+											width="50"/></td>
+									<!-- 活跃度 -->
+									<td v-for='valence in student.valencePieList'
+										v-if="valence.level == 2" v-cloak style="font-weight: bold">{{valence.percent}}</td>
+									<td v-for='valence in student.valencePieList'
+										v-if="valence.level == 1" v-cloak style="font-weight: bold">{{valence.percent}}</td>
+									<td v-for='valence in student.valencePieList'
+										v-if="valence.level == 0" v-cloak style="font-weight: bold">{{valence.percent}}</td>
+
+									<!-- 注意力 -->
+									<td v-for='attention in student.attentionPieList'
+										v-if="attention.level == 11" v-cloak style="font-weight: bold">{{attention.percent}}</td>
+									<td v-for='attention in student.attentionPieList'
+										v-if="attention.level == 10" v-cloak style="font-weight: bold">{{attention.percent}}</td>
+									</template>
+								</tr>
+							</tbody>
+						</table>
+						<div style="text-align: right; margin-top: 5px">
+							<button type="submit" class="btn btn-info"
+								@click="mergeStudentConfirm">确认合并</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>

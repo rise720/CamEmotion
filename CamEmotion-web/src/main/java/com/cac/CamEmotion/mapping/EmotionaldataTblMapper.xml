@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cac.CamEmotion.dao.EmotionaldataTblMapper">
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.EmotionaldataTbl">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="curriculumid" jdbcType="INTEGER" property="curriculumid" />
+    <result column="createdate" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="cameraip" jdbcType="VARCHAR" property="cameraip" />
+    <result column="frameId" jdbcType="DECIMAL" property="frameid" />
+    <result column="faceId" jdbcType="INTEGER" property="faceid" />
+    <result column="faceCategory" jdbcType="INTEGER" property="facecategory" />
+    <result column="faceImageAddr" jdbcType="VARCHAR" property="faceimageaddr" />
+    <result column="keyFace" jdbcType="INTEGER" property="keyface" />
+    <result column="pitch" jdbcType="DOUBLE" property="pitch" />
+    <result column="yaw" jdbcType="DOUBLE" property="yaw" />
+    <result column="roll" jdbcType="DOUBLE" property="roll" />
+    <result column="joy" jdbcType="DOUBLE" property="joy" />
+    <result column="sadness" jdbcType="DOUBLE" property="sadness" />
+    <result column="disgust" jdbcType="DOUBLE" property="disgust" />
+    <result column="contempt" jdbcType="DOUBLE" property="contempt" />
+    <result column="anger" jdbcType="DOUBLE" property="anger" />
+    <result column="surprise" jdbcType="DOUBLE" property="surprise" />
+    <result column="fear" jdbcType="DOUBLE" property="fear" />
+    <result column="valence" jdbcType="DOUBLE" property="valence" />
+    <result column="valenceView" jdbcType="DOUBLE" property="valenceview" />
+    <result column="engagement" jdbcType="DOUBLE" property="engagement" />
+    <result column="concentration" jdbcType="DOUBLE" property="concentration" />
+    <result column="confused" jdbcType="DOUBLE" property="confused" />
+    <result column="fatigueDegree" jdbcType="DOUBLE" property="fatiguedegree" />
+    <result column="lookAround" jdbcType="DOUBLE" property="lookaround" />
+    <result column="lookDown" jdbcType="DOUBLE" property="lookdown" />
+    <result column="sleepEducation" jdbcType="DOUBLE" property="sleepeducation" />
+    <result column="speak" jdbcType="DOUBLE" property="speak" />
+    <result column="strophocephaly" jdbcType="DOUBLE" property="strophocephaly" />
+    <result column="strophocephalySpeak" jdbcType="DOUBLE" property="strophocephalyspeak" />
+    <result column="yawn" jdbcType="DOUBLE" property="yawn" />
+    <result column="attention" jdbcType="DOUBLE" property="attention" />
+    <result column="browFurrow" jdbcType="DOUBLE" property="browfurrow" />
+    <result column="browRaise" jdbcType="DOUBLE" property="browraise" />
+    <result column="cheekRaise" jdbcType="DOUBLE" property="cheekraise" />
+    <result column="chinRaise" jdbcType="DOUBLE" property="chinraise" />
+    <result column="dimpler" jdbcType="DOUBLE" property="dimpler" />
+    <result column="eyeClosure" jdbcType="DOUBLE" property="eyeclosure" />
+    <result column="eyeWiden" jdbcType="DOUBLE" property="eyewiden" />
+    <result column="innerBrowRaise" jdbcType="DOUBLE" property="innerbrowraise" />
+    <result column="jawDrop" jdbcType="DOUBLE" property="jawdrop" />
+    <result column="lidTighten" jdbcType="DOUBLE" property="lidtighten" />
+    <result column="lipCornerDepressor" jdbcType="DOUBLE" property="lipcornerdepressor" />
+    <result column="LipPress" jdbcType="DOUBLE" property="lippress" />
+    <result column="lipPucker" jdbcType="DOUBLE" property="lippucker" />
+    <result column="lipStretch" jdbcType="DOUBLE" property="lipstretch" />
+    <result column="lipSuck" jdbcType="DOUBLE" property="lipsuck" />
+    <result column="mouthOpen" jdbcType="DOUBLE" property="mouthopen" />
+    <result column="noseWrinkle" jdbcType="DOUBLE" property="nosewrinkle" />
+    <result column="smile" jdbcType="DOUBLE" property="smile" />
+    <result column="smirk" jdbcType="DOUBLE" property="smirk" />
+    <result column="upperLipRaise" jdbcType="DOUBLE" property="upperlipraise" />
+    <result column="json" jdbcType="VARCHAR" property="json" />
+    <result column="faceCount" jdbcType="VARCHAR" property="faceCount" />
+  	<result column="incidenceKey" jdbcType="BIGINT" property="incidencekey" />
+  </resultMap>
+  <sql id="Base_Column_List">
+	id, curriculumid, createdate, cameraip, frameId, faceId, faceCategory, faceImageAddr, 
+    keyFace, pitch, yaw, roll, joy, sadness, disgust, contempt, anger, surprise, fear, 
+    valence, valenceView, engagement, concentration, confused, fatigueDegree, lookAround, 
+    lookDown, sleepEducation, speak, strophocephaly, strophocephalySpeak, yawn, attention, 
+    browFurrow, browRaise, cheekRaise, chinRaise, dimpler, eyeClosure, eyeWiden, innerBrowRaise, 
+    jawDrop, lidTighten, lipCornerDepressor, LipPress, lipPucker, lipStretch, lipSuck, 
+    mouthOpen, noseWrinkle, smile, smirk, upperLipRaise, json, incidenceKey
+  </sql>
+  <sql id="Column_List">
+    curriculumid, createdate, frameId, faceId,valenceView
+  </sql>
+  <sql id="Column_List2">
+    curriculumid, createdate, frameId, faceId,valenceView,joy,sadness,disgust,contempt, 
+    anger, surprise, fear,browFurrow
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from emotionaldata_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from emotionaldata_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <!-- 按课堂id删除对应采集的数据 -->
+	<delete id="deleteByCurriculumId" parameterType="com.cac.CamEmotion.model.EmotionaldataTbl">
+		delete from ${emotionTableName}
+		where curriculumid = #{curriculumid,jdbcType=INTEGER}
+	</delete>
+	
+	<select id="selectEmotionaldataListJson" resultMap="BaseResultMap" parameterType="com.cac.CamEmotion.model.CurriculumTbl">
+	SELECT b.curriculumid ,b.frameId,b.createdate, b.valenceView, sum(b.faceCounts) AS faceCount, sum(b.speak) AS speak FROM 
+		(
+			select a.curriculumid,a.frameId,a.cameraip,a.createdate,a.valenceView,max(if((a.pitchUp>0)and(a.pitchUp/a.countPerFrame > 0.65), a.pitchUp,0)) AS faceCounts, 
+			max(if((a.mouthOpen>0)and(a.mouthOpen/a.countPerFrame > 0.4), a.mouthOpen,0)) AS speak
+			FROM
+			(
+				SELECT curriculumid, frameId,cameraip,createdate,
+				 1 as valenceView,  
+				 sum(if(pitch > -15,1,0)) AS pitchUp, 
+				 sum(if(mouthOpen > 40,1,0)) AS mouthOpen,
+				 count(*) as countPerFrame
+				FROM ${emotionTable} 
+				WHERE curriculumid=#{id,jdbcType=INTEGER}
+				GROUP BY frameId,cameraip
+			) AS a group by a.createdate, a.cameraip
+		) AS b GROUP BY b.createdate
+	</select>
+
+	<select id="selectEmotionaldataList" resultMap="BaseResultMap">
+  		SELECT a.curriculumid, a.frameId,createdate, 
+  		b.originFaceCategory AS faceCategory,
+		valenceView, joy, sadness, disgust, contempt, anger, surprise, fear, browFurrow, b.faceImageAddr AS faceImageAddr
+ 		FROM ${curriculumTbl.emotionTable} as a 
+ 		LEFT JOIN facefeature_tbl as b
+ 		ON a.incidenceKey = b.incidenceKey
+ 		WHERE a.curriculumid=#{curriculumTbl.id,jdbcType=INTEGER}
+ 		AND (valence > 0 OR joy > 0 OR sadness > 0 OR disgust > 0
+  		OR contempt > 0 OR anger > 0 OR surprise > 0 OR fear > 0)
+  		AND b.isDel = 0
+  		<if test="studentId != null and studentId > 0">
+  			AND b.originFaceCategory = #{studentId,jdbcType=INTEGER}
+  		</if>
+  		ORDER by a.createdate asc
+	</select>
+	
+	<select id="selectStudentActionList" resultMap="BaseResultMap">		
+		SELECT c.curriculumid, c.createdate, c.faceCategory, c.valenceView, 
+		sum(if(c.pitch > -15,1,0)) AS pitch, sum(if(c.mouthOpen > 40,1,0)) AS mouthOpen 
+		FROM (
+		
+			SELECT a.curriculumid,createdate, 
+				b.originFaceCategory AS faceCategory,
+				1 AS valenceView, a.pitch, a.mouthOpen 
+			FROM ${curriculumTbl.emotionTable} as a
+			LEFT JOIN facefeature_tbl as b
+			ON a.incidenceKey = b.incidenceKey
+			WHERE a.curriculumid=#{curriculumTbl.id,jdbcType=INTEGER} 
+			AND b.isDel = 0 
+			<if test="studentId != null and studentId > 0">
+  			AND b.originFaceCategory = #{studentId,jdbcType=INTEGER}
+  		</if>
+		) AS c
+		GROUP BY c.createdate, c.faceCategory
+		
+	</select>
+</mapper>

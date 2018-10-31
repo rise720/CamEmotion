@@ -1,0 +1,244 @@
+
+<style>
+    th:hover{
+		cursor:pointer
+	}
+</style>
+<div id="AllSelectApp">
+	<div class="page-content">
+		<div
+			style="background: #fff; border-radius: 4px; border-top: 2px solid #2A8BA7;">
+			<div class="row" style="padding: 0px 15px;">
+				<div style="width: 100%;">
+					<div style="border-bottom: 1px solid #eff2f7; padding: 4px 10px;">
+						<div class="modular-title">综合查询</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding: 10px 20px 0 20px;">
+				<div class="col-lg-4">
+					<div class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">行数</label>
+							<div class="col-sm-3">
+								<input type="text" class="form-control"
+									v-model="pageModel.pageRecorders" placeholder="行数">
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" style="padding: 10px 20px 0 20px;">
+					<div class="col-lg-6">
+						<div class="form-horizontal">
+							<div class="form-group">
+								<label for="inputEmail3" class="col-sm-2 control-label">ALL</label>
+								<div class="col-sm-10">
+									<input type="email" class="form-control" id="inputEmail3"
+									    @keyup.enter = "QueryList"
+										v-model="pageModel.context"
+										placeholder="请输入一个或多个条件进行搜索，如：张三 10月">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="btn btn-info" @click="QueryList">
+							查询</button>
+						<!-- <button type="button" class="btn btn-success" @click="ExportCsv">导出</button> -->
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div style="padding: 0 20px">
+						<table width="100%"
+							class="table table-striped table-bordered table-hover text-center"
+							style="margin-bottom: 0" id="dataTables-example">
+							<thead>
+								<tr>
+									<th style="position: relative; text-align: center"
+										@click="clickTitle('id')">ID</th>
+									<th style="position: relative; text-align: center"
+										@click="clickTitle('starttime')">开始时间</th>
+									<th style="position: relative; text-align: center"
+										@click="clickTitle('teachername')">演讲人</th>
+							
+									<th style="position: relative; text-align: center"
+										@click="clickTitle('coursecontents')">报告主题</th>
+
+	
+									<th style="position: relative; text-align: center"
+										@click="clickTitle('classno')">报告厅</th>
+							
+
+									<th style="position: relative; text-align: center"
+										@click="clickTitle('puzzledRate')">思考</th>
+									<th style="position: relative; text-align: center"
+										@click="clickTitle('calmRate')">倾听</th>
+									<th style="position: relative; text-align: center"
+										@click="clickTitle('excitementRate')">活跃</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="gradeC" v-for="infos in comprehensiveReportList">
+									<td v-cloak>{{infos.id}}</td>
+									<td v-cloak>{{infos.starttime | formatTime}}</td>
+									<td v-cloak style="color: #72D0EB; cursor: pointer;"
+										@click="GetTeacherInfo(infos)">{{infos.teachername}}</td>
+									
+								
+									<td v-cloak :title="infos.coursecontents">{{infos.coursecontents |
+										subStr}}</td>
+									
+								
+									<td v-cloak>{{infos.school}}</td>
+									
+									
+
+									<td v-cloak>{{infos.puzzledRate}}</td>
+									<td v-cloak>{{infos.calmRate}}</td>
+									<td v-cloak>{{infos.excitementRate}}</td>
+									<!-- 
+									<td v-cloak>{{infos.waveRate}}</td>
+									
+									<td v-cloak>{{infos.valenceFluctuationDeviation}}</td>
+									<td v-cloak>{{infos.uniformFluctuation}}</td>
+									<td v-cloak>{{infos.valenceAverage}}</td>
+									 -->
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding: 10px 20px;">
+				<div class="row" style="padding: 10px 20px;">
+					<div class="col-lg-6">
+						<div v-cloak class="dataTables_info" id="dataTables-example_info"
+							role="status" aria-live="polite">显示第 {{cur}} 页 每页
+							{{pageModel.pageRecorders}} 条 共 {{all}} 页</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="dataTables_paginate paging_simple_numbers"
+							id="dataTables-example_paginate" style="text-align: right">
+							<ul class="pagination" style="margin: 0px 0;">
+								<li class="paginate_button next"
+									aria-controls="dataTables-example" tabindex="0"
+									id="dataTables-example_previous" style="width: 11%"
+									v-if="showFirst" @click="preClick"><a><<</a></li>
+								<li class="paginate_button " aria-controls="dataTables-example"
+									tabindex="0" v-for="index in indexs"
+									:class="{ 'active': cur == index}" @click="btnClick(index)"><a v-cloak>{{index}}</a></li>
+								<li class="paginate_button next"
+									aria-controls="dataTables-example" tabindex="0"
+									id="dataTables-example_next" style="width: 11%" v-if="showLast"
+									@click='nexClick'><a> >></a></li>
+								</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 添加教师的模板信息 -->
+	<div class="modal fade bs-example-modal-lg" id="tearModal"
+		tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">教师信息</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-horizontal" style="padding-bottom: 15px;">
+						<div>
+							<!--                             <div class="form-title">基本信息</div> -->
+							<div class="form-item">
+								<div class="form-group">
+									<div class="col-sm-3">
+										<img :src="teacherInfo.headimgurl | headimgurl" alt="教师头像"
+											class="img-thumbnail" style="width: 100%; height: 130px;">
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-3 control-label form-label-title"> <span
+												style="color: red">*</span>姓名
+											</label>
+											<div class="col-sm-9">
+												<!--                                                 <input v-model="teacherInfo.teachername" readonly="" type="text" class="form-control"> -->
+												<div class="form-control background-teacher-model">{{teacherInfo.teachername}}</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-3 control-label form-label-title"> <span
+												style="color: red">*</span>性别
+											</label>
+											<div class="col-sm-9">
+												<!--                                                 <input v-model="teacherInfo.teachersex | teacherSex" readonly="" type="text" class="form-control"> -->
+												<div class="form-control background-teacher-model">{{teacherInfo.teachersex
+													| teacherSex}}</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-3 control-label form-label-title"> <span
+												style="color: red">*</span>学历
+											</label>
+											<div class="col-sm-9">
+												<!--                                                 <input v-model="teacherInfo.education | education" readonly="" type="text" class="form-control"> -->
+												<div class="form-control background-teacher-model">{{teacherInfo.education
+													| education}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-6 control-label form-label-title"> <span
+												style="color: red">*</span>年龄
+											</label>
+											<div class="col-sm-6">
+												<!--                                         <input readonly="" type="text" v-model="teacherInfo.birthdate" class="form-control"> -->
+												<div class="form-control background-teacher-model">{{teacherInfo.birthdate
+													| getAges}}</div>
+												<div style="display: none;">{{teacherInfo.birthdate}}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-1"></div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-6 control-label form-label-title"> <span
+												style="color: red">*</span>教龄
+											</label>
+											<div class="col-sm-6">
+												<!--                                         <input readonly="" type="text" v-model="teacherInfo.startworkdate" class="form-control"> -->
+												<div class="form-control background-teacher-model">{{teacherInfo.startworkdate
+													| getAges}}</div>
+												<div style="display: none;">{{teacherInfo.startworkdate}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

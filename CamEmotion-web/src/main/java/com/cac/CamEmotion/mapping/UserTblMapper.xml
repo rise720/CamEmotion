@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cac.CamEmotion.dao.UserTblMapper">
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.UserTbl">
+    <id column="SYSID" jdbcType="VARCHAR" property="sysid" />
+    <id column="USERID" jdbcType="VARCHAR" property="userid" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="ROLE" jdbcType="INTEGER" property="role" />
+    <result column="STATUS" jdbcType="INTEGER" property="status" />
+    <result column="CREATEDATE" jdbcType="TIMESTAMP" property="createdate" />
+    <result column="CREATEUSER" jdbcType="VARCHAR" property="createuser" />
+    <result column="UPDATEDATE" jdbcType="TIMESTAMP" property="updatedate" />
+    <result column="UPDATEUSER" jdbcType="VARCHAR" property="updateuser" />
+    <result column="TIMESTAMP" jdbcType="TIMESTAMP" property="timestamp" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SYSID, USERID, NAME, ROLE, STATUS, CREATEDATE, CREATEUSER, UPDATEDATE, UPDATEUSER, 
+    TIMESTAMP
+  </sql>
+  <!-- 通过员工id和系统号查询该员工相关信息 -->
+  <select id="selectByPrimaryKey" parameterType="com.cac.CamEmotion.model.UserTblId" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user_tbl
+    where SYSID = #{sysid,jdbcType=VARCHAR}
+      and USERID = #{userid,jdbcType=VARCHAR}
+  </select>
+   <!-- 删除用户记录 -->
+  <delete id="deleteByPrimaryKey" parameterType="com.cac.CamEmotion.model.UserTblId">
+    delete from user_tbl
+    where SYSID = #{sysid,jdbcType=VARCHAR}
+      and USERID = #{userid,jdbcType=VARCHAR}
+  </delete>
+   <!-- 新增用户记录 -->
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.UserTbl">
+    insert into user_tbl (SYSID, USERID, NAME, 
+      ROLE, STATUS, CREATEDATE, 
+      CREATEUSER, UPDATEDATE, UPDATEUSER, 
+      TIMESTAMP)
+    values (#{sysid,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{role,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{createuser,jdbcType=VARCHAR}, #{updatedate,jdbcType=TIMESTAMP}, #{updateuser,jdbcType=VARCHAR}, 
+      #{timestamp,jdbcType=TIMESTAMP})
+  </insert>
+  <!-- 新增用户记录带判空条件 -->
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.UserTbl">
+    insert into user_tbl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sysid != null">
+        SYSID,
+      </if>
+      <if test="userid != null">
+        USERID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="role != null">
+        ROLE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createdate != null">
+        CREATEDATE,
+      </if>
+      <if test="createuser != null">
+        CREATEUSER,
+      </if>
+      <if test="updatedate != null">
+        UPDATEDATE,
+      </if>
+      <if test="updateuser != null">
+        UPDATEUSER,
+      </if>
+      <if test="timestamp != null">
+        TIMESTAMP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sysid != null">
+        #{sysid,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null">
+        #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <!-- 根据系统号和用户id更新用户信息带判空条件 -->
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.UserTbl">
+    update user_tbl
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        ROLE = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null">
+        CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null">
+        CREATEUSER = #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedate != null">
+        UPDATEDATE = #{updatedate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateuser != null">
+        UPDATEUSER = #{updateuser,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null">
+        TIMESTAMP = #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SYSID = #{sysid,jdbcType=VARCHAR}
+      and USERID = #{userid,jdbcType=VARCHAR}
+  </update>
+  <!-- 根据系统号和用户id更新用户信息 -->
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.UserTbl">
+    update user_tbl
+    set NAME = #{name,jdbcType=VARCHAR},
+      ROLE = #{role,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=INTEGER},
+      CREATEDATE = #{createdate,jdbcType=TIMESTAMP},
+      CREATEUSER = #{createuser,jdbcType=VARCHAR},
+      UPDATEDATE = #{updatedate,jdbcType=TIMESTAMP},
+      UPDATEUSER = #{updateuser,jdbcType=VARCHAR},
+      TIMESTAMP = #{timestamp,jdbcType=TIMESTAMP}
+    where SYSID = #{sysid,jdbcType=VARCHAR}
+      and USERID = #{userid,jdbcType=VARCHAR}
+  </update>
+
+  
+    <!-- 查询条件 查询用户列表-->
+  <select id="find" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from user_tbl
+    <where>
+      <if test="user.sysid != null" >
+        AND SYSID = #{user.sysid,jdbcType=VARCHAR} 
+      </if>        
+      <if test="user.userid != null" >
+        AND USERID = #{user.userid,jdbcType=VARCHAR} 
+      </if>
+      <if test="user.name != null" >
+        AND NAME = #{user.name,jdbcType=VARCHAR}
+      </if>
+      <if test="user.role != null" >
+        AND ROLE = #{user.role,jdbcType=INTEGER}
+      </if>
+      <if test="user.status != null" >
+        AND STATUS = #{user.status,jdbcType=INTEGER}
+      </if>
+      <if test="user.createdate != null" >
+        AND CREATEDATE = #{user.createdate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="user.createuser != null" >
+        AND CREATEUSER = #{user.createuser,jdbcType=VARCHAR}
+      </if>
+      <if test="user.updatedate != null" >
+        AND UPDATEDATE = #{user.updatedate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="user.updateuser != null" >
+        AND UPDATEUSER = #{user.updateuser,jdbcType=VARCHAR}
+      </if>
+    </where>
+    <!-- 排序条件 -->
+    <if test="orderBy_expression != null" >
+	    <trim prefix="ORDER BY">
+	        ${orderBy_expression}
+	      	<if test="orderBy_rule != null" >
+	        	${orderBy_rule}
+	      	</if>
+	    </trim>
+    </if>
+    <!-- 查询记录数为空,不带分页条件 -->
+    <if test="limit_rows != null" >
+	    <trim prefix="LIMIT">
+	      	<choose>
+	      		<when test="limit_offset != null">
+	      			#{limit_offset},
+	      		</when>
+	      		<otherwise>0,</otherwise>
+	      	</choose>
+	      	<if test="limit_rows != null" >
+	        	#{limit_rows}
+	      	</if>
+	    </trim>
+    </if>
+  </select>
+  <!-- 查询用户总条数 -->
+  <select id="findCount" resultType="java.lang.Integer" parameterType="com.cac.CamEmotion.model.UserTbl">
+  	select count(*) from user_tbl
+    <where>
+      <if test="sysid != null" >
+        AND SYSID = #{sysid,jdbcType=VARCHAR} 
+      </if>
+      <if test="userid != null" >
+        AND USERID = #{userid,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null" >
+        AND NAME = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="role != null" >
+        AND ROLE = #{role,jdbcType=INTEGER}
+      </if>
+      <if test="status != null" >
+        AND STATUS = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="createdate != null" >
+        AND CREATEDATE = #{createdate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createuser != null" >
+        AND CREATEUSER = #{createuser,jdbcType=VARCHAR}
+      </if>
+      <if test="updatedate != null" >
+        AND UPDATEDATE = #{updatedate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateuser != null" >
+        AND UPDATEUSER = #{updateuser,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+</mapper>

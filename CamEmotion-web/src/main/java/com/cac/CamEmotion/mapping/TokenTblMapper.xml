@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.TokenTblMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.TokenTbl" >
+    <id column="token" property="token" jdbcType="BIGINT" />
+    <result column="timestamp" property="timestamp" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    token, timestamp
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from token_tbl
+    where token = #{token,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 删除已使用的token -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from token_tbl
+    where token = #{token,jdbcType=BIGINT}
+  </delete>
+  
+  <!-- 删除超时token -->
+  <delete id="deleteByTimeOut" parameterType="java.util.Date" >
+    delete from token_tbl
+    where timestamp &lt;= #{timestamp,jdbcType=TIMESTAMP}
+  </delete>
+  
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.TokenTbl" >
+    insert into token_tbl (token, timestamp)
+    values (#{token,jdbcType=BIGINT}, #{timestamp,jdbcType=TIMESTAMP})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.TokenTbl" >
+    insert into token_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="token != null" >
+        token,
+      </if>
+      <if test="timestamp != null" >
+        timestamp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="token != null" >
+        #{token,jdbcType=BIGINT},
+      </if>
+      <if test="timestamp != null" >
+        #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.TokenTbl" >
+    update token_tbl
+    <set >
+      <if test="timestamp != null" >
+        timestamp = #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where token = #{token,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.TokenTbl" >
+    update token_tbl
+    set timestamp = #{timestamp,jdbcType=TIMESTAMP}
+    where token = #{token,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "success": true,
+    "retCode": "0",
+    "message": "ok"
+  },
+  "data": {
+    "currentPage": 1,
+    "totalRows": 1,
+    "pageRecorders": 6,
+    "objList": [
+      {
+        "id": 1,
+        "updatedate": 1512541822000,
+        "createuser": "admin",
+        "updateuser": "admin",
+        "createdate": 1513060268000,
+        "nickname": "管理员",
+        "cright": "1,2,3,4,5",
+        "cpassword": "21232f297a57a5a743894a0e4a801fc3",
+        "useraccount": "admin"
+      }
+    ],
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+    "lastPageIndex": 0,
+    "nextPageIndex": 2,
+    "nextStartRecorders": 0,
+    "retcode": 0,
+    "totalPages": 1
+  }
+}

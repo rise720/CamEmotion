@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.CurriculumVideoTblMapper">
+	<resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.CurriculumVideoTbl">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="curriculumid" property="curriculumid" jdbcType="INTEGER" />
+		<result column="videourl" property="videourl" jdbcType="VARCHAR" />
+		<result column="videoimgurl" property="videoimgurl" jdbcType="VARCHAR" />
+		<result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+		<result column="cameraip" property="cameraip" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, curriculumid, videourl, videoimgurl, createdate,
+		cameraip
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from curriculum_video_tbl
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		curriculum_video_tbl
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<!-- 按课堂id删除对应视频记录 -->
+	<delete id="deleteByCurriculumId" parameterType="java.lang.Integer">
+		delete from
+		curriculum_video_tbl
+		where curriculumid = #{curriculumid,jdbcType=INTEGER}
+	</delete>
+	
+	<insert id="insert" parameterType="com.cac.CamEmotion.model.CurriculumVideoTbl">
+		insert into
+		curriculum_video_tbl (id, curriculumid, videourl,
+		videoimgurl,
+		createdate, cameraip
+		)
+		values (#{id,jdbcType=INTEGER},
+		#{curriculumid,jdbcType=INTEGER},
+		#{videourl,jdbcType=VARCHAR},
+		#{videoimgurl,jdbcType=VARCHAR}, #{createdate,jdbcType=TIMESTAMP},
+		#{cameraip,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.cac.CamEmotion.model.CurriculumVideoTbl">
+		insert into curriculum_video_tbl
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="curriculumid != null">
+				curriculumid,
+			</if>
+			<if test="videourl != null">
+				videourl,
+			</if>
+			<if test="videoimgurl != null">
+				videoimgurl,
+			</if>
+			<if test="createdate != null">
+				createdate,
+			</if>
+			<if test="cameraip != null">
+				cameraip,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="curriculumid != null">
+				#{curriculumid,jdbcType=INTEGER},
+			</if>
+			<if test="videourl != null">
+				#{videourl,jdbcType=VARCHAR},
+			</if>
+			<if test="videoimgurl != null">
+				#{videoimgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="createdate != null">
+				#{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cameraip != null">
+				#{cameraip,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.CurriculumVideoTbl">
+		update curriculum_video_tbl
+		<set>
+			<if test="curriculumid != null">
+				curriculumid = #{curriculumid,jdbcType=INTEGER},
+			</if>
+			<if test="videourl != null">
+				videourl = #{videourl,jdbcType=VARCHAR},
+			</if>
+			<if test="videoimgurl != null">
+				videoimgurl = #{videoimgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="createdate != null">
+				createdate = #{createdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cameraip != null">
+				cameraip = #{cameraip,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.CurriculumVideoTbl">
+		update
+		curriculum_video_tbl
+		set curriculumid =
+		#{curriculumid,jdbcType=INTEGER},
+		videourl =
+		#{videourl,jdbcType=VARCHAR},
+		videoimgurl =
+		#{videoimgurl,jdbcType=VARCHAR},
+		createdate =
+		#{createdate,jdbcType=TIMESTAMP},
+		cameraip =
+		#{cameraip,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 获取单个课程的视频素材 -->
+	<select id="selectCurriculumVideoList" resultMap="BaseResultMap"
+		parameterType="com.cac.CamEmotion.model.CurriculumVideoTbl">
+		select
+		<include refid="Base_Column_List" />
+		from curriculum_video_tbl
+		where curriculumid =
+		#{curriculumid,jdbcType=INTEGER}
+	</select>
+
+	<!-- 课程视频的分页 -->
+	<select id="find" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from curriculum_video_tbl
+		<where>
+			1=1
+			<if test="Curriculum.curriculumid != null">
+				and curriculumid = #{Curriculum.curriculumid,jdbcType=INTEGER}
+			</if>
+			<if test="Curriculum.videourl != null">
+				and videourl = #{Curriculum.videourl,jdbcType=VARCHAR}
+			</if>
+			<if test="Curriculum.videoimgurl != null ">
+				and videoimgurl = #{Curriculum.videoimgurl,jdbcType=VARCHAR}
+			</if>
+			<if test="Curriculum.createdate != null">
+				and createdate = #{Curriculum.createdate,jdbcType=TIMESTAMP}
+			</if>
+			<if test="Curriculum.cameraip != null">
+				and cameraip = #{Curriculum.cameraip,jdbcType=VARCHAR}
+			</if>
+			
+			<!-- 排序条件 -->
+			<if test="orderBy_expression != null or orderBy_expression != ''">
+				<trim prefix="ORDER BY">
+					${orderBy_expression}
+					<if test="orderBy_rule != null">
+						${orderBy_rule}
+					</if>
+				</trim>
+			</if>
+			
+			<!-- 查询记录数为空,不带分页条件 -->
+			<if test="limit_rows != null">
+				<trim prefix="LIMIT">
+					<choose>
+						<when test="limit_offset != null">
+							#{limit_offset},
+						</when>
+						<otherwise>0,</otherwise>
+					</choose>
+					<if test="limit_rows != null">
+						#{limit_rows}
+					</if>
+				</trim>
+			</if>
+		</where>
+	</select>
+
+	<!-- 合计 -->
+	<select id="selectCurriculumVideoCount" resultType="java.lang.Integer" parameterType="com.cac.CamEmotion.model.CurriculumVideoTbl">
+		select count(*) from curriculum_video_tbl
+		<where>
+			1=1
+			<if test="curriculumid != null">
+				and curriculumid = #{curriculumid,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+</mapper>

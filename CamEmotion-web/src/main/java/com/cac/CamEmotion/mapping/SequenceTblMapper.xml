@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cac.CamEmotion.dao.SequenceTblMapper">
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.SequenceTbl">
+    <id column="SEQ_KEY" jdbcType="VARCHAR" property="seqKey" />
+    <result column="INIT_VALUE" jdbcType="DECIMAL" property="initValue" />
+    <result column="LENGTH" jdbcType="DECIMAL" property="length" />
+    <result column="STEP" jdbcType="INTEGER" property="step" />
+    <result column="CACHE_SIZE" jdbcType="INTEGER" property="cacheSize" />
+    <result column="PREFIX" jdbcType="VARCHAR" property="prefix" />
+    <result column="TIMESTAMP" jdbcType="TIMESTAMP" property="timestamp" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SEQ_KEY, INIT_VALUE, LENGTH, STEP, CACHE_SIZE, PREFIX, TIMESTAMP
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sequence_tbl
+    where SEQ_KEY = #{seqKey,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sequence_tbl
+    where SEQ_KEY = #{seqKey,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.SequenceTbl">
+    insert into sequence_tbl (SEQ_KEY, INIT_VALUE, LENGTH, 
+      STEP, CACHE_SIZE, PREFIX, 
+      TIMESTAMP)
+    values (#{seqKey,jdbcType=VARCHAR}, #{initValue,jdbcType=DECIMAL}, #{length,jdbcType=DECIMAL}, 
+      #{step,jdbcType=INTEGER}, #{cacheSize,jdbcType=INTEGER}, #{prefix,jdbcType=VARCHAR}, 
+      #{timestamp,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.SequenceTbl">
+    insert into sequence_tbl
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seqKey != null">
+        SEQ_KEY,
+      </if>
+      <if test="initValue != null">
+        INIT_VALUE,
+      </if>
+      <if test="length != null">
+        LENGTH,
+      </if>
+      <if test="step != null">
+        STEP,
+      </if>
+      <if test="cacheSize != null">
+        CACHE_SIZE,
+      </if>
+      <if test="prefix != null">
+        PREFIX,
+      </if>
+      <if test="timestamp != null">
+        TIMESTAMP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seqKey != null">
+        #{seqKey,jdbcType=VARCHAR},
+      </if>
+      <if test="initValue != null">
+        #{initValue,jdbcType=DECIMAL},
+      </if>
+      <if test="length != null">
+        #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="step != null">
+        #{step,jdbcType=INTEGER},
+      </if>
+      <if test="cacheSize != null">
+        #{cacheSize,jdbcType=INTEGER},
+      </if>
+      <if test="prefix != null">
+        #{prefix,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null">
+        #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.SequenceTbl">
+    update sequence_tbl
+    <set>
+      <if test="initValue != null">
+        INIT_VALUE = #{initValue,jdbcType=DECIMAL},
+      </if>
+      <if test="length != null">
+        LENGTH = #{length,jdbcType=DECIMAL},
+      </if>
+      <if test="step != null">
+        STEP = #{step,jdbcType=INTEGER},
+      </if>
+      <if test="cacheSize != null">
+        CACHE_SIZE = #{cacheSize,jdbcType=INTEGER},
+      </if>
+      <if test="prefix != null">
+        PREFIX = #{prefix,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null">
+        TIMESTAMP = #{timestamp,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SEQ_KEY = #{seqKey,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.SequenceTbl">
+    update sequence_tbl
+    set INIT_VALUE = #{initValue,jdbcType=DECIMAL},
+      LENGTH = #{length,jdbcType=DECIMAL},
+      STEP = #{step,jdbcType=INTEGER},
+      CACHE_SIZE = #{cacheSize,jdbcType=INTEGER},
+      PREFIX = #{prefix,jdbcType=VARCHAR},
+      TIMESTAMP = #{timestamp,jdbcType=TIMESTAMP}
+    where SEQ_KEY = #{seqKey,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,278 @@
+<style>
+.equipment-item {
+	/*height: 98%;*/
+	display: inline-block;
+	/*border: 1px solid #dcdcdc;*/
+	border-radius: 10px;
+	position: relative;
+	box-shadow: 0px 0px 1px #dcdcdc;
+	padding: 5px;
+	width: 100%;
+}
+
+.equipment-item:HOVER {
+	box-shadow: 0px 0px 5px #dcdcdc;
+}
+
+.equipment-type-running {
+	width: 20px;
+	height: 20px;
+	border-radius: 10px;
+	background: #00ff00;
+	position: absolute;
+	top: 10px;
+	right: 10px
+}
+
+.equipment-img {
+	background: #fff;
+	/*height: 120px;*/
+	border-radius: 20px 20px 0px 0px;
+	text-align: center;
+}
+
+.equipment-type-error {
+	width: 20px;
+	height: 20px;
+	border-radius: 10px;
+	background: red;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.equipment-type-wraning {
+	width: 20px;
+	height: 20px;
+	border-radius: 10px;
+	background: #f7931e;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.animation-class {
+	-webkit-animation-timing-function: ease-in-out;
+	-webkit-animation-name: breathe;
+	-webkit-animation-duration: 100ms;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+}
+</style>
+
+<div id="openclassApp">
+	<div class="page-content">
+		<div class="row">
+			<div class="col-lg-9">
+				<div class="model-box min-height">
+					<div class="model-box-title">
+						<div class="modular-title">报告采集</div>
+					</div>
+					<div class="form-horizontal" style="padding-bottom: 15px;">
+						<div>
+							<div class="form-title">场所信息</div>
+							<div class="form-item">
+								<!--<div class="form-group">-->
+									<!--<label for="school"-->
+										<!--class="col-sm-2 control-label form-label-title">地区</label>-->
+									<!--<div class="col-sm-6">-->
+										<!--<select v-model="curriculumTbl.schoolid" class="form-control"-->
+											<!--@change="getSchoolName" id="school" placeholder="学校"-->
+											<!--:disabled="curriculumTbl.classstatus == 0">-->
+											<!--<option v-cloak v-for="school in schoolList"-->
+												<!--:value="school.id" v-text="school.schoolname"></option>-->
+										<!--</select>-->
+									<!--</div>-->
+								<!--</div>-->
+
+								<div class="form-group">
+									<label for="classroom"
+										class="col-sm-2 control-label form-label-title">报告厅 </label>
+									<div class="col-sm-6">
+										<select v-model="curriculumTbl.schoolid" class="form-control"
+												@change="getSchoolName" id="school"
+												:disabled="curriculumTbl.classstatus == 0">
+											<option v-cloak v-for="school in schoolList"
+													:value="school.id" v-text="school.schoolname"></option>
+										</select>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div>
+							<div class="form-title">人员信息</div>
+							<div class="form-item">
+								<div class="form-group">
+									<label for="teacher"
+										class="col-sm-2 control-label form-label-title">演讲者</label>
+									<div class="col-sm-6">
+										<select v-model="curriculumTbl.teacherid" class="form-control"
+											@change="getTeacherName" id="teacher"
+											:disabled="curriculumTbl.classstatus == 0">
+											<option v-cloak v-for="teacher in teacherList"
+												:value="teacher.id" v-text="teacher.teachername"></option>
+										</select>
+									</div>
+									<label v-if="curriculumTbl.teacherid > 0" for="inputEmail3"
+										class="col-sm-1 control-label glyphicon glyphicon-user"
+										style="text-align: right; color: #5cb85c; font-size: 20px;"
+										@click="GetTeacherInfo()"></label>
+								</div>
+
+							</div>
+						</div>
+
+
+						<div>
+							<div class="form-title">报告信息</div>
+							<div class="form-item">
+								<div class="form-group">
+									<label for="coursecontents"
+										class="col-sm-2 control-label form-label-title"><span
+										style="color: red">*</span>报告主题</label>
+									<div class="col-sm-6">
+										<input type="text" v-model="curriculumTbl.coursecontents"
+											class="form-control" id="coursecontents" placeholder=""
+											:disabled="curriculumTbl.classstatus == 0">
+									</div>
+								</div>
+
+								<div class="form-group" style="margin-top: 45px">
+									<label class="col-sm-2 control-label form-label-title"> </label>
+									<div class=" col-sm-2" v-if="curriculumTbl.classstatus == 1">
+										<button type="submit" class="btn btn-success"
+											@click="clickLessonStart">开始录制</button>
+									</div>
+									<div class=" col-sm-2" v-if="curriculumTbl.classstatus == 0">
+										<button type="submit" class="btn btn-danger"
+											@click="clickLessonEnd">结束录制</button>
+									</div>
+								</div>
+							</div>
+
+							<div>
+								<input type="hidden" v-model="searchcontent">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="model-box cac-chart-bottom">
+					<div class="model-box-title">
+						<div class="modular-title">设备状态</div>
+					</div>
+					<div style="height: 355px; margin: 0" class="row">
+						<host_status v-for="hostStatus in hostStatusList" key='hostStatus' v-bind="hostStatus"></host_Status>
+					</div>
+				</div>
+				<div class="model-box cac-chart-bottom">
+					<div class="model-box-title">
+						<div class="modular-title">设备日志</div>
+					</div>
+					<div style="height: 355px; overflow-y: auto;">
+						<div v-for="hostStatus in hostStatusList" class="panel-body">
+							<host_log v-for="statusLog in hostStatus.logList" key='statusLog' v-bind:status="hostStatus.status" v-bind:status_log="statusLog"></host_log>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加教师的模板信息 -->
+	<div class="modal fade bs-example-modal-lg" id="teacherModal"
+		tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">报告人信息</h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="form-horizontal" style="padding-bottom: 15px;">
+						<div>
+							<!--                             <div class="form-title">基本信息</div> -->
+							<div class="form-item">
+								<div class="form-group">
+									<div class="col-sm-3">
+										<img :src="teacherInfo.headimgurl | headimgurl" alt="教师头像"
+											class="img-thumbnail" style="width: 100%; height: 130px;">
+									</div>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-3 control-label form-label-title"> <span
+												style="color: red">*</span>姓名
+											</label>
+											<div class="col-sm-9">
+												<!--                                                 <input v-model="teacherInfo.teachername" readonly="" type="text" class="form-control"> -->
+												<div v-cloak class="form-control background-teacher-model">{{teacherInfo.teachername}}</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-3 control-label form-label-title"> <span
+												style="color: red">*</span>性别
+											</label>
+											<div class="col-sm-9">
+												<!--                                                 <input v-model="teacherInfo.teachersex | teacherSex" readonly="" type="text" class="form-control"> -->
+												<div v-cloak class="form-control background-teacher-model">{{teacherInfo.teachersex
+													| teacherSex}}</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-3 control-label form-label-title"> <span
+												style="color: red">*</span>学历
+											</label>
+											<div class="col-sm-9">
+												<!--                                                 <input v-model="teacherInfo.education | education" readonly="" type="text" class="form-control"> -->
+												<div v-cloak class="form-control background-teacher-model">{{teacherInfo.education
+													| education}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-6 control-label form-label-title"> <span
+												style="color: red">*</span>年龄
+											</label>
+											<div class="col-sm-6">
+												<!--                                         <input readonly="" type="text" v-model="teacherInfo.birthdate" class="form-control"> -->
+												<div v-cloak class="form-control background-teacher-model">{{teacherInfo.birthdate
+													| getAges}}</div>
+												<div v-cloak style="display: none;">{{teacherInfo.birthdate}}</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-1"></div>
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="inputEmail3"
+												class="col-sm-6 control-label form-label-title"> <span
+												style="color: red">*</span>工龄
+											</label>
+											<div class="col-sm-6">
+												<!--                                         <input readonly="" type="text" v-model="teacherInfo.startworkdate" class="form-control"> -->
+												<div v-cloak class="form-control background-teacher-model">{{teacherInfo.startworkdate
+													| getAges}}</div>
+												<div v-cloak style="display: none;">{{teacherInfo.startworkdate}}</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.FaceIdentificationConfigMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.FaceIdentificationConfig" >
+    <id column="hostNo" property="hostno" jdbcType="INTEGER" />
+    <result column="hostIp" property="hostip" jdbcType="VARCHAR" />
+    <result column="hostName" property="hostname" jdbcType="VARCHAR" />
+    <result column="analysisNo" property="analysisNo" jdbcType="INTEGER" />
+    <result column="analysisIp" property="analysisIp" jdbcType="VARCHAR" />
+    <result column="faceIdentiTime" property="faceidentitime" jdbcType="INTEGER" />
+    <result column="maxClusters" property="maxclusters" jdbcType="INTEGER" />
+    <result column="kmeanOrFaceId" property="kmeanorfaceid" jdbcType="INTEGER" />
+    <result column="insertDbCount" property="insertdbcount" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="BaseResultMapExtend" type="com.cac.CamEmotion.model.FaceIdentificationConfigExtend" >
+    <id column="hostNo" property="hostno" jdbcType="INTEGER" />
+    <result column="hostIp" property="hostip" jdbcType="VARCHAR" />
+    <result column="hostName" property="hostname" jdbcType="VARCHAR" />
+    <result column="analysisNo" property="analysisNo" jdbcType="INTEGER" />
+    <result column="analysisIp" property="analysisIp" jdbcType="VARCHAR" />
+    <result column="faceIdentiTime" property="faceidentitime" jdbcType="INTEGER" />
+    <result column="maxClusters" property="maxclusters" jdbcType="INTEGER" />
+    <result column="kmeanOrFaceId" property="kmeanorfaceid" jdbcType="INTEGER" />
+    <result column="insertDbCount" property="insertdbcount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    hostNo, hostIp, hostName, analysisNo, analysisIp, faceIdentiTime, maxClusters, kmeanOrFaceId, 
+    insertDbCount
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from face_identification_config_tbl
+    where hostNo = #{hostno,jdbcType=INTEGER}
+  </select>
+  <select id="findList" resultMap="BaseResultMapExtend" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from face_identification_config_tbl
+    where analysisNo = #{analysisNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from face_identification_config_tbl
+    where hostNo = #{hostno,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByPrimaryAnalysisNo" parameterType="java.lang.Integer" >
+    delete from face_identification_config_tbl
+    where analysisNo = #{analysisNo,jdbcType=INTEGER}
+  </delete>  
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.FaceIdentificationConfig" >
+    insert into face_identification_config_tbl (hostNo, hostIp, hostName, 
+      analysisNo, analysisIp, faceIdentiTime, maxClusters, 
+      kmeanOrFaceId, insertDbCount)
+    values (#{hostno,jdbcType=INTEGER}, #{hostip,jdbcType=VARCHAR}, #{hostname,jdbcType=VARCHAR}, 
+      #{analysisNo,jdbcType=INTEGER}, #{analysisIp,jdbcType=VARCHAR}, #{faceidentitime,jdbcType=INTEGER}, #{maxclusters,jdbcType=INTEGER}, 
+      #{kmeanorfaceid,jdbcType=INTEGER}, #{insertdbcount,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.FaceIdentificationConfig" >
+    insert into face_identification_config_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hostno != null" >
+        hostNo,
+      </if>
+      <if test="hostip != null" >
+        hostIp,
+      </if>
+      <if test="hostname != null" >
+        hostName,
+      </if>
+      <if test="analysisNo != null" >
+        analysisNo,
+      </if>
+      <if test="analysisIp != null" >
+        analysisIp,
+      </if>
+      <if test="faceidentitime != null" >
+        faceIdentiTime,
+      </if>
+      <if test="maxclusters != null" >
+        maxClusters,
+      </if>
+      <if test="kmeanorfaceid != null" >
+        kmeanOrFaceId,
+      </if>
+      <if test="insertdbcount != null" >
+        insertDbCount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hostno != null" >
+        #{hostno,jdbcType=INTEGER},
+      </if>
+      <if test="hostip != null" >
+        #{hostip,jdbcType=VARCHAR},
+      </if>
+      <if test="hostname != null" >
+        #{hostname,jdbcType=VARCHAR},
+      </if>
+      <if test="analysisNo != null" >
+        #{analysisNo,jdbcType=INTEGER},
+      </if>
+      <if test="analysisIp != null" >
+        #{analysisIp,jdbcType=VARCHAR},
+      </if>
+      <if test="faceidentitime != null" >
+        #{faceidentitime,jdbcType=INTEGER},
+      </if>
+      <if test="maxclusters != null" >
+        #{maxclusters,jdbcType=INTEGER},
+      </if>
+      <if test="kmeanorfaceid != null" >
+        #{kmeanorfaceid,jdbcType=INTEGER},
+      </if>
+      <if test="insertdbcount != null" >
+        #{insertdbcount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.FaceIdentificationConfig" >
+    update face_identification_config_tbl
+    <set >
+      <if test="hostip != null" >
+        hostIp = #{hostip,jdbcType=VARCHAR},
+      </if>
+      <if test="hostname != null" >
+        hostName = #{hostname,jdbcType=VARCHAR},
+      </if>
+      <if test="analysisNo != null" >
+        analysisNo = #{analysisNo,jdbcType=INTEGER},
+      </if>
+      <if test="analysisIp != null" >
+        analysisIp = #{analysisIp,jdbcType=VARCHAR},
+      </if>
+      <if test="faceidentitime != null" >
+        faceIdentiTime = #{faceidentitime,jdbcType=INTEGER},
+      </if>
+      <if test="maxclusters != null" >
+        maxClusters = #{maxclusters,jdbcType=INTEGER},
+      </if>
+      <if test="kmeanorfaceid != null" >
+        kmeanOrFaceId = #{kmeanorfaceid,jdbcType=INTEGER},
+      </if>
+      <if test="insertdbcount != null" >
+        insertDbCount = #{insertdbcount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where hostNo = #{hostno,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryAnalysisNoSelective" parameterType="com.cac.CamEmotion.model.FaceIdentificationConfig" >
+    update face_identification_config_tbl
+    <set >
+      <if test="hostip != null" >
+        hostIp = #{hostip,jdbcType=VARCHAR},
+      </if>
+      <if test="hostname != null" >
+        hostName = #{hostname,jdbcType=VARCHAR},
+      </if>
+      <if test="analysisIp != null" >
+        analysisIp = #{analysisIp,jdbcType=VARCHAR},
+      </if>
+      <if test="faceidentitime != null" >
+        faceIdentiTime = #{faceidentitime,jdbcType=INTEGER},
+      </if>
+      <if test="maxclusters != null" >
+        maxClusters = #{maxclusters,jdbcType=INTEGER},
+      </if>
+      <if test="kmeanorfaceid != null" >
+        kmeanOrFaceId = #{kmeanorfaceid,jdbcType=INTEGER},
+      </if>
+      <if test="insertdbcount != null" >
+        insertDbCount = #{insertdbcount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where analysisNo = #{analysisNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.FaceIdentificationConfig" >
+    update face_identification_config_tbl
+    set hostIp = #{hostip,jdbcType=VARCHAR},
+      hostName = #{hostname,jdbcType=VARCHAR},
+      analysisNo = #{analysisNo,jdbcType=INTEGER},
+      analysisIp = #{analysisIp,jdbcType=VARCHAR},
+      faceIdentiTime = #{faceidentitime,jdbcType=INTEGER},
+      maxClusters = #{maxclusters,jdbcType=INTEGER},
+      kmeanOrFaceId = #{kmeanorfaceid,jdbcType=INTEGER},
+      insertDbCount = #{insertdbcount,jdbcType=INTEGER}
+    where hostNo = #{hostno,jdbcType=INTEGER}
+  </update>
+</mapper>

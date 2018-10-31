@@ -1,0 +1,830 @@
+<Style>
+.bodong-box {
+	flex: auto;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.bodong-subbox {
+	flex: auto;
+	margin: 5px;
+	border: 1px solid #dcdcdc;
+	border-radius: 0.25rem;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#myTabChart>li>a {
+	color: #9c9b9b;
+}
+
+#myTabChart>.active>a {
+	color: #337ab7;
+}
+
+.list-group-item-sm {
+	color: #555;
+	padding: 3px 15px;
+	position: relative;
+	display: block;
+	margin-bottom: -1px;
+	background-color: #fff;
+}
+.number-br{
+	word-break:break-all;
+	word-wrap:break-word;
+}
+.title-video0{
+	background: #F5F5F5; padding: 6px 5px;
+}
+.title-video1{
+	background: #F5F5F5; padding: 10px 5px;
+}
+.w-h-center{
+	display: flex;
+/*  	align-items: center;  */
+	justify-content: space-around;
+	flex-direction: column;
+	text-align: right;
+}
+.box-shadow{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	flex-direction: column;
+	text-align: center;
+	box-shadow: darkgrey 0px 0px 2px 1px;
+	border-radius: 0.25rem;
+    padding: 10px 0px;
+	margin: 12px 6px;
+	
+}
+
+.pjjg{
+	border-bottom: 1px solid #eff2f7;width: 100%;padding: 5px;
+}
+
+.pjjg_size{
+	font-size: 42px;
+}
+.xing{
+/* 	padding: 0 3px; */
+}
+</Style>
+<div id="classvideoApp">
+	<div class="page-content">
+		<div class="row maxbox"
+			style="margin: 5px 0px; border-radius: 4px; border: 4px solid #fff;">
+			<div class="col-lg-1"
+				style="background: #18A9D8; padding: 10px 5px; border-right: 4px solid #fff;">
+				<div style="text-align: center; color: #fff">课堂信息</div>
+			</div>
+			<div class="col-lg-8 title-video1">
+				<div style="padding-left: 15px; display: inline-block; font-weight: bold;">
+					<i class="iconfont iconfont-xs2 icon-huangguan5 nar-icon-yellow"
+					 v-show="curriculumInfo.curriculumLevel==1"></i>
+				</div>
+				<div
+					style="padding-left: 15px; display: inline-block; font-weight: bold;"
+					v-cloak>
+					{{curriculumInfo.gradeno}}{{curriculumInfo.classno}}</div>
+				<div
+					style="padding-left: 15px; display: inline-block; font-weight: bold;"
+					v-cloak>{{curriculumInfo.coursename}}</div>
+				<div
+					style="padding-left: 15px; display: inline-block; font-weight: bold;"
+					v-cloak>{{curriculumInfo.teachername}}</div>
+				<div
+					style="padding-left: 15px; display: inline-block; font-weight: bold;"
+					:title="curriculumInfo.coursecontents" v-cloak>{{curriculumInfo.coursecontents
+					| subStr}}</div>
+				
+					
+			</div>
+			<div class="col-lg-3"
+				style="background: #F5F5F5; padding: 3px 0px; text-align: right;">
+				<button type="button" data-toggle="modal" class="btn btn-success"
+					@click="contrastClass()">优质课对比</button>
+				<button type="button" class="btn btn-success" @click="exportFile()">打印</button>
+			</div>
+		</div>
+		<transition enter-active-class="animated slideInLeft">
+		<div class="row" v-show="chart">
+			<div class="col-lg-9" style="padding-right: 3px;">
+				<!--<div class="model-box">-->
+				<!--<div class="model-box-title cac-chart-bottom">
+                    <div class="modular-title">课堂图表</div>
+                </div>-->  
+				<div class="cac-chart" >
+					<!-- 整体点评 -->
+					<div class="model-box cac-chart-bottom" v-show="evaluationStatus">
+<!-- 						<div class="model-box-title"> -->
+<!-- 							<div class="modular-title">整体评价</div> -->
+<!-- 						</div> -->
+						<div style="display: flex;padding: 0 5px;">
+							<div style="flex : 1;" class="box-shadow">
+								<div class="pjjg" v-html="getPJJG(evaluationData.activityLevel,whole_evaluate_view.activityRate,5)">
+								</div>
+								<div style="display:flex;width: 100%">
+									<div style="flex : 1;text-align: right;padding: 5px;margin-left: 26px;">课堂气氛活跃程度</div>
+									
+									<div style="color: #ddd;flex:1;text-align: left;padding: 5px 5px;">
+										<div
+											:class="{'fa fa-star':true, 'color-yellow':evaluationData.activityLevel >= 1}"></div>
+										<div
+											:class="{'fa fa-star':true, 'color-yellow':evaluationData.activityLevel >= 2}"></div>
+										<div
+											:class="{'fa fa-star':true, 'color-yellow':evaluationData.activityLevel >= 3}"></div>
+										<div
+											:class="{'fa fa-star':true, 'color-yellow':evaluationData.activityLevel >= 4}"></div>
+										<div
+											:class="{'fa fa-star':true, 'color-yellow':evaluationData.activityLevel >= 5}"></div>
+									</div>
+								</div>
+							</div>
+							
+							<!--
+							<div style="flex : 1;" class="box-shadow">
+								<div class="pjjg" style="display:flex;">
+									<div style="flex:1;padding: 0 14px;" class="w-h-center" 
+									v-html="getPJJG(evaluationData.interactionFrequencyLevel,whole_evaluate_view.interactionFrequency)">
+								
+									</div>
+									<div style="flex:1;text-align: left;padding: 0 10px;">
+												<div v-cloak>{{whole_evaluate_view.waveRate}}</div>
+												<div v-cloak>{{whole_evaluate_view.fluctuationDeviation}}</div>
+												<div v-cloak>{{whole_evaluate_view.uniformFluctuation}}</div>
+											</div>
+									
+								</div>
+								<div style="display:flex;width: 100%">
+									<div style="flex : 1;text-align: right;padding: 5px;margin-left: 26px;">师生课堂互动状况</div>
+										<div style="color: #ddd;flex:1;text-align: left;padding: 5px 5px;">
+													<div
+														:class="{'fa fa-star xing':true, 'color-yellow':evaluationData.interactionFrequencyLevel >= 1}"></div>
+													<div
+														:class="{'fa fa-star xing':true, 'color-yellow':evaluationData.interactionFrequencyLevel >= 2}"></div>
+													<div
+														:class="{'fa fa-star xing':true, 'color-yellow':evaluationData.interactionFrequencyLevel >= 3}"></div>
+													<div
+														:class="{'fa fa-star xing':true, 'color-yellow':evaluationData.interactionFrequencyLevel >= 4}"></div>
+													<div
+														:class="{'fa fa-star xing':true, 'color-yellow':evaluationData.interactionFrequencyLevel >= 5}"></div>
+												</div>
+								</div>
+							</div>
+							 -->
+							<div style="flex : 1;" class="box-shadow">
+								<div class="pjjg" v-html="getPJJG(evaluationData.emotionCHLevel,whole_evaluate_view.emotionCH,5)">
+								</div>
+								<div style="display:flex;width: 100%">
+									<div style="flex : 1;text-align: right;padding: 5px;margin-left: 26px;">课堂参与度</div>
+										<div style="flex:1;text-align: left;padding: 5px 5px;">
+													<div v-cloak>{{valence_vals.emotionCH + "%"}}</div>
+										</div>
+								</div>
+							</div>
+							
+							<div style="flex : 1;" class="box-shadow">
+								<div class="pjjg" v-html="getPJJG(evaluationData.teachTypeLevel,whole_evaluate_view.teachType,4)">
+
+								</div>
+								<div style="display:flex;width: 100%">
+									<div style="flex : 1;text-align: center;padding: 5px;margin-left: 26px;">授课类型</div>
+								</div>
+							</div>
+							
+						</div>
+
+
+					</div>
+					
+					<div style="display: flex">
+						<!-- 活跃度饼图 -->
+						<div style="flex: 1;">
+							<div class="model-box cac-chart-bottom">
+								<div class="model-box-title">
+									<div class="modular-title">活跃度比率</div>
+								</div>
+								<div id="valence_Pie_Echarts" style="height: 250px;"></div>
+							</div>
+						</div>
+
+						<!-- 互动频率 -->
+						<!--
+						<div style="flex: 1; margin-left: 10px; margin-right: 10px;">
+							<div class="model-box cac-chart-bottom">
+								<div class="model-box-title">
+									<div class="modular-title">互动频率总计</div>
+								</div>
+								<div
+									style="height: 250px; display: flex; flex-direction: column;">
+									<div class="bodong-box">
+										<div class="bodong-subbox">
+											<div style="flex: 1">
+												<img src="../images/VideoList/bo-1.png"
+													style="vertical-align: middle; width: 1rem;" alt="">
+											</div>
+											<div style="flex: 2">
+												<div style="font-size: 0.3rem">波动率</div>
+												<div style="font-size: 0.6rem" v-cloak>{{valence_vals.waveRate}}%</div>
+												<div v-show="valence_vals.waveRateAv != '' && evaluationStatus" style="color: #696868;margin-top: 6px;">
+													<div style="font-size: 0.3rem">参考值</div>
+													<div style="font-size: 0.45rem" v-cloak>{{valence_vals.waveRateAv}}%</div>
+												</div>
+												
+											</div>
+										</div>
+										
+										<div class="bodong-subbox">
+											<div style="flex: 1">
+												<img src="../images/VideoList/bo-3.png"
+													style="vertical-align: middle; width: 1rem;" alt="">
+											</div>
+											<div style="flex: 2">
+												<div style="font-size: 0.3rem">波动偏差</div>
+												<div style="font-size: 0.6rem" class="valence_bdCount"
+													v-cloak>{{valence_vals.fluctuationDeviation}}</div>
+												
+												<div v-show="valence_vals.fluctuationDeviationAv != '' && evaluationStatus" style="color: #696868;margin-top: 6px;">
+													<div style="font-size: 0.3rem">参考值</div>
+													<div style="font-size: 0.45rem" v-cloak>{{valence_vals.fluctuationDeviationAv}}</div>
+												</div>	
+													
+											</div>
+										</div>
+										
+									</div>
+									<div class="bodong-box">
+										<div class="bodong-subbox">
+											<div style="flex: 1">
+												<img src="../images/VideoList/bo-4.png"
+													style="vertical-align: middle; width: 1rem;" alt="">
+											</div>
+											<div style="flex: 2">
+												<div style="font-size: 0.3rem">波动均衡</div>
+												<div style="font-size: 0.6rem" class="valence_bdCount"
+													v-cloak>{{valence_vals.uniformFluctuation}}%</div>
+													
+												<div v-show="valence_vals.uniformFluctuationAv != '' && evaluationStatus" style="color: #696868;margin-top: 6px;">
+													<div style="font-size: 0.3rem">参考值</div>
+													<div style="font-size: 0.45rem" v-cloak>{{valence_vals.uniformFluctuationAv}}%</div>
+												</div>	
+											</div>
+										</div>
+										
+										<div class="bodong-subbox">
+											<div style="flex: 1">
+												<img src="../images/VideoList/bo-2.png"
+													style="vertical-align: middle; width: 1rem;" alt="">
+											</div>
+											<div style="flex: 2">
+												<div style="font-size: 0.3rem">平均值</div>
+												<div style="font-size: 0.6rem" v-cloak>{{valence_vals.averageVal}}</div>
+												
+												<div v-show="valence_vals.averageValAv != '' && evaluationStatus" style="color: #696868;margin-top: 6px;">
+													<div style="font-size: 0.3rem">参考值</div>
+													<div style="font-size: 0.45rem" v-cloak>{{valence_vals.averageValAv}}</div>
+												</div>	
+												
+											</div>
+										</div>
+										
+										
+									</div>
+								</div>
+							</div>
+						</div>
+						 -->
+
+						<div style="flex: 1;margin-left:10px;">
+							<div class="model-box cac-chart-bottom">
+								<div class="model-box-title">
+									<div class="modular-title">教学行为比率</div>
+								</div>
+								<div id="scene_Pie_Echarts" style="height: 250px;"></div>
+							</div>
+						</div>
+					</div>
+
+					
+					<!-- 活跃度气泡图  -->
+					<div class="model-box cac-chart-bottom">
+						<div class="model-box-title">
+							<div class="modular-title">活跃度分析</div>
+						</div>
+						<div id="valence_Bubble_ECharts" style="height: 250px;"></div>
+					</div>
+
+					<div class="model-box cac-chart-bottom">
+						<div class="model-box-title">
+							<div class="modular-title">学生情绪分析</div>
+						</div>
+						<div id="interaction_Bubble_ECharts" style="height: 250px;"></div>
+					</div>
+
+					<div class="model-box cac-chart-bottom">
+						<div class="model-box-title">
+							<div class="modular-title">教学行为分析</div>
+						</div>
+						<div id="scene_Bubble_ECharts" style="height: 250px;"></div>
+					</div>
+
+				</div>
+				<!--</div>-->
+			</div>
+			<div class="col-lg-3" style="position: relative;">
+				<div style="position: absolute; left: -18px; top: 40%; z-index: 9"
+					v-show="chart">
+					<img @click="start" alt="" src="../images/Slide.png"
+						style="width: 50px; height: 50px; opacity: 0.5;">
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="model-box">
+							<ul class="video-box">
+								<li v-for="video in videoTblList"><video :id="video.id"
+										class="video-js vjs-default-skin vjs-big-play-centered"
+										controls preload="auto" style="width: 100%; height: 100%;">
+										<source :src="video.videoimgurl" type="video/mp4">
+										您的浏览器不支持 video 标签。
+									</video></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</transition>
+		<div style="position: fixed; left: 75px; top: 49%; z-index: 9"
+			v-show="!chart">
+			<img @click="start" alt="" src="../images/Slide.png"
+				style="width: 50px; opacity: 0.5; height: 50px; transform: rotate(180deg); -ms-transform: rotate(180deg); /* IE 9 */ -moz-transform: rotate(180deg); /* Firefox */ -webkit-transform: rotate(180deg); /* Safari 和 Chrome */ -o-transform: rotate(180deg);">
+		</div>
+		<!-- bounceInDown -->
+		<transition enter-active-class="animated slideInRight">
+		<div class="row" v-show="!chart"
+			style="margin: 0; background: #fff; padding: 0 10px 10px 10px; border-radius: 4px; border-top: 2px solid #2A8BA7;">
+			<div class="model-box-title">
+				<div class="modular-title">课堂视频</div>
+			</div>
+			<div class="col-lg-6 maxvideobox" style="padding: 5px 5px 0 5px;"
+				v-for="video in videoTblList2">
+				<video :id="video.id"
+					class="video-js vjs-default-skin vjs-big-play-centered maxvideo"
+					controls preload="auto" style="width: 100%; height: 100%;">
+					<source :src="video.videoimgurl" type="video/mp4">
+					您的浏览器不支持 video 标签。
+				</video>
+			</div>
+		</div>
+		</transition>
+
+		<div class="video-chart-switch" @click="start">
+			<div>
+				<transition enter-active-class="animated flip">
+				<div v-show="chart"
+					style="padding: 15px; background: #72D0EB; color: #fff; border-radius: 4px; opacity: 0.5;">视频</div>
+				</transition>
+				<transition enter-active-class="animated flip">
+				<div v-show="!chart"
+					style="padding: 15px; background: #fff; border: 1px solid #72D0EB; border-radius: 4px; opacity: 0.5;">分析</div>
+				</transition>
+			</div>
+		</div>
+	</div>
+	<!-- 优质课列表 -->
+	<div class="modal fade bs-example-modal-lg" id="classList"
+		tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">优质课列表</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<div>
+								<table width="100%"
+									class="table table-striped table-bordered table-hover"
+									style="margin-bottom: 0" id="dataTables-example">
+									<thead>
+										<tr>
+											<th style="border-bottom: 1px; text-align: center"
+												colspan="2">课堂信息</th>
+											<th style="border-bottom: 1px; text-align: center"
+												colspan="3">教学行为比率</th>
+											<th style="border-bottom: 1px; text-align: center"
+												colspan="3">活跃度比率</th>
+											<!-- 
+											<th style="border-bottom: 1px; text-align: center"
+												colspan="4">互动频率</th>
+											 -->
+											 <th
+												style="border-bottom: 1px; text-align: center; vertical-align: middle"
+												rowspan="2" @click="clickTitle('emotionCH')">课堂参与度</th>
+											<th
+												style="border-bottom: 1px; text-align: center; vertical-align: middle"
+												rowspan="2">操作</th>
+										</tr>
+										<tr>
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('teachername')">教师姓名</th>
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('coursecontents')">课堂内容</th>
+
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('discussionRate')">讨论</th>
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('attendanceRate')">练习</th>
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('practiceRate')">听课</th>
+
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('puzzledRate')">思考</th>
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('calmRate')">倾听</th>
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('excitementRate')">活跃</th>
+												<!-- 
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('waveRate')">波动率</th>
+											
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('valenceFluctuationDeviation')">波动偏差
+											</th>
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('uniformFluctuation')">波动均衡
+											</th>
+											<th style="position: relative; text-align: center"
+												@click="clickTitle('valenceAverage')">平均值</th>
+												 -->
+												 
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="gradeC" v-for="infos in comprehensiveReportList">
+											<td >{{infos.teachername}}</td>
+											<td :title="infos.coursecontents">{{infos.coursecontents
+												| subStrFilter(4)}}</td>
+											<td  class="number-br">{{infos.discussionRate}}</td>
+											<td  class="number-br">{{infos.attendanceRate}}</td>
+											<td  class="number-br">{{infos.practiceRate}}</td>
+
+											<td  class="number-br">{{infos.puzzledRate}}</td>
+											<td  class="number-br">{{infos.calmRate}}</td>
+											<td  class="number-br">{{infos.excitementRate}}</td>
+											
+											<td  class="number-br">{{(parseFloat(infos.emotionCH)*100).toFixed(2)}}</td>
+											<!-- 
+											<td  class="number-br">{{infos.waveRate}}</td>
+											<td  class="number-br">{{infos.valenceFluctuationDeviation}}</td>
+											<td  class="number-br">{{infos.uniformFluctuation}}</td>
+											<td  class="number-br">{{infos.valenceAverage}}</td>
+											 -->
+											 
+											<td><div class="table-operation cursor-my"
+													data-toggle="modal" @click="contrastChart(infos)">对比</div></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="padding: 10px 20px;">
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="dataTables_info" id="dataTables-example_info"
+									role="status" aria-live="polite">显示第 {{cur}} 页 每页
+									{{pageModel.pageRecorders}} 条 共 {{all}} 页</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="dataTables_paginate paging_simple_numbers"
+									id="dataTables-example_paginate" style="text-align: right">
+									<ul class="pagination" style="margin: 0px 0;">
+										<li class="paginate_button next"
+											aria-controls="dataTables-example" tabindex="0"
+											id="dataTables-example_previous" style="width: 11%"
+											v-if="showFirst" @click="preClick"><a><<</a></li>
+										<li class="paginate_button "
+											aria-controls="dataTables-example" tabindex="0"
+											v-for="index in indexs" :class="{ 'active': cur == index}"
+											@click="btnClick(index)"><a>{{index}}</a></li>
+										<li class="paginate_button next"
+											aria-controls="dataTables-example" tabindex="0"
+											id="dataTables-example_next" style="width: 11%"
+											v-if="showLast" @click='nexClick'><a> >></a></li>
+										</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 与优质课对比 -->
+	<div class="modal fade bs-example-modal-lg" id="contrastClass"
+		tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" style="padding: 0px 20px;">优质课对比</h4>
+				</div>
+				<div class="modal-body"
+					style="background-color: #fff; min-height: 660px; padding-top: 0.1rem;">
+					<div class="row maxbox"
+						style="margin: 5px 0px; border-radius: 4px; border: 4px solid #fff;">
+						<div class="col-lg-9" style="text-align: left; padding: 3px 5px;">
+							<ul id="myTabChart" class="nav nav-tabs cursor-my">
+								<li :class="{active:compareListTabActive == 0 }"><a data-toggle="tab"
+									@click="changeChartType(0)"> 活跃度分析 </a></li>
+								<li :class="{active:compareListTabActive == 1 }"><a data-toggle="tab" @click="changeChartType(1)">
+										学生情绪分析</a></li>
+								<li :class="{active:compareListTabActive == 2}"><a data-toggle="tab" @click="changeChartType(2)">
+										教学行为分析</a></li>
+							</ul>
+
+						</div>
+						<div class="col-lg-3" style="text-align: right; padding: 3px 5px;">
+							<button type="button" class="btn btn-success"
+								@click="contrastBack()">返回优质课列表</button>
+						</div>
+					</div>
+					<div class="col-lg-12" style="padding: 0 0 0 0em;">
+						<!-- 当前课堂开始 -->
+						<!-- 活跃度分析 -->
+						<div class="model-box cac-chart-bottom">
+							<div class="model-box-title">
+								<div class="modular-title" style="padding-left:0">当前课堂图表</div>
+							</div>
+							<div class="col-lg-9" style="padding: 0">
+								<div id="valence_Bubble_ECharts_model" style="height: 240px;"></div>
+								<!-- 互动频率分析 -->
+								<div id="interaction_Bubble_ECharts_model"
+									style="height: 240px; display: none;"></div>
+								<!-- 课堂情景分析  -->
+								<div id="scene_Bubble_ECharts_model"
+									style="height: 240px; display: none;"></div>
+							</div>
+							<div class="col-lg-3" style="padding: 0 0 0 0em;">
+								<div
+									style="height: 240px; display: flex; flex-direction: column;">
+									<div class="list-group">
+										<div class="list-group-item-sm">
+											<i class="fa fa-circle-o fa-fw color-blue"></i> 思考 
+											<span class="pull-right text-muted small"> 
+												<em>{{valence_vals.puzzled}}</em>
+												<i class="fa fa-minus" style="color: grey;" v-if="valence_vals_status.puzzled == 0"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.puzzled == 1"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.puzzled == 2"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.puzzled == 3"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.puzzled == 4"></i>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="fa fa-circle-o fa-fw color-green"></i> 倾听 
+											<span class="pull-right text-muted small"> 
+												<em>{{valence_vals.calm}}</em>
+												<i class="fa fa-minus" style="color: grey;" v-if="valence_vals_status.calm == 0"></i>
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.calm == 1"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.calm == 2"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.calm == 3"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.calm == 4"></i>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="fa fa-circle-o fa-fw color-red"></i> 活跃
+											<span class="pull-right text-muted small"> 
+												<em>{{valence_vals.excited}}</em>
+												<i class="fa fa-minus" style="color: grey;" v-if="valence_vals_status.excited == 0"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.excited == 1"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.excited == 2"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.excited == 3"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.excited == 4"></i>
+											</span>
+										</div>
+										<!-- 
+										<div class="list-group-item-sm">
+											<i class="iconfont iconfont-xs2 icon-xindiantu01 color-orange"></i> 波动率 <span
+												class="pull-right text-muted small"> <em>{{valence_vals.waveRate}}</em>
+												<i class="fa fa-minus" style="color: grey;"
+												v-if="valence_vals_status.waveRate == 0"></i> <i
+												class="fa fa-long-arrow-up" style="color: red;"
+												v-if="valence_vals_status.waveRate == 1"></i> <i
+												class="fa fa-long-arrow-up" style="color: green;"
+												v-if="valence_vals_status.waveRate == 2"></i> <i
+												class="fa fa-long-arrow-down" style="color: red;"
+												v-if="valence_vals_status.waveRate == 3"></i> <i
+												class="fa fa-long-arrow-down" style="color: green;"
+												v-if="valence_vals_status.waveRate == 4"></i>
+											</span>
+										</div>
+										
+										<div class="list-group-item-sm">
+											<i class="iconfont iconfont-xs2 icon-xindiantu01 color-blue2"></i> 波动偏差 <span
+												class="pull-right text-muted small"> <em>{{valence_vals.fluctuationDeviation}}</em>
+												<i class="fa fa-minus" style="color: grey;"
+												v-if="valence_vals_status.fluctuationDeviation == 0"></i> <i
+												class="fa fa-long-arrow-up" style="color: red;"
+												v-if="valence_vals_status.fluctuationDeviation == 1"></i> <i
+												class="fa fa-long-arrow-up" style="color: green;"
+												v-if="valence_vals_status.fluctuationDeviation == 2"></i> <i
+												class="fa fa-long-arrow-down" style="color: red;"
+												v-if="valence_vals_status.fluctuationDeviation == 3"></i> <i
+												class="fa fa-long-arrow-down" style="color: green;"
+												v-if="valence_vals_status.fluctuationDeviation == 4"></i>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="iconfont iconfont-xs2 icon-xindiantu01 color-blue3"></i> 波动均衡 <span
+												class="pull-right text-muted small"> <em>{{valence_vals.uniformFluctuation}}</em>
+												<i class="fa fa-minus" style="color: grey;"
+												v-if="valence_vals_status.uniformFluctuation == 0"></i> <i
+												class="fa fa-long-arrow-up" style="color: red;"
+												v-if="valence_vals_status.uniformFluctuation == 1"></i> <i
+												class="fa fa-long-arrow-up" style="color: green;"
+												v-if="valence_vals_status.uniformFluctuation == 2"></i> <i
+												class="fa fa-long-arrow-down" style="color: red;"
+												v-if="valence_vals_status.uniformFluctuation == 3"></i> <i
+												class="fa fa-long-arrow-down" style="color: green;"
+												v-if="valence_vals_status.uniformFluctuation == 4"></i>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="iconfont iconfont-xs2 icon-xindiantu01  color-blue1"></i> 平均值 <span
+												class="pull-right text-muted small"> <em>{{valence_vals.averageVal}}</em>
+												<i class="fa fa-minus" style="color: grey;"
+												v-if="valence_vals_status.averageVal == 0"></i> <i
+												class="fa fa-long-arrow-up" style="color: red;"
+												v-if="valence_vals_status.averageVal == 1"></i> <i
+												class="fa fa-long-arrow-up" style="color: green;"
+												v-if="valence_vals_status.averageVal == 2"></i> <i
+												class="fa fa-long-arrow-down" style="color: red;"
+												v-if="valence_vals_status.averageVal == 3"></i> <i
+												class="fa fa-long-arrow-down" style="color: green;"
+												v-if="valence_vals_status.averageVal == 4"></i>
+											</span>
+										</div>		
+										 -->
+										 <div class="list-group-item-sm">
+											<i class="fa fa-volume-up fa-fw color-blue"></i> 讨论
+											<span class="pull-right text-muted small"> 
+												<em>{{valence_vals.discussion}}</em>
+												<i class="fa fa-minus" style="color: grey;" v-if="valence_vals_status.discussion == 0"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.discussion == 1"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.discussion == 2"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.discussion == 3"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.discussion == 4"></i>
+											</span>
+										</div>							
+										<div class="list-group-item-sm">
+											<i class="fa fa-volume-down fa-fw color-green"></i> 练习 
+											<span class="pull-right text-muted small"> 
+												<em>{{valence_vals.practice}}</em>
+												<i class="fa fa-minus" style="color: grey;" v-if="valence_vals_status.practice == 0"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.practice == 1"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.practice == 2"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.practice == 3"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.practice == 4"></i>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="fa fa-volume-off fa-fw color-red"></i> 听课 
+												<span class="pull-right text-muted small"> 
+												<em>{{valence_vals.listenClass}}</em>
+												<i class="fa fa-minus" style="color: grey;" v-if="valence_vals_status.listenClass == 0"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.listenClass == 1"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.listenClass == 2"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.listenClass == 3"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.listenClass == 4"></i>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="fa fa-gg fa-fw color-red"></i> 课堂参与度 
+												<span class="pull-right text-muted small"> 
+												<em>{{valence_vals.emotionCH}}</em>
+												<i class="fa fa-minus" style="color: grey;" v-if="valence_vals_status.emotionCH == 0"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.emotionCH == 1"></i> 
+												<i class="fa fa-long-arrow-up" style="color: red;" v-if="valence_vals_status.emotionCH == 2"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.emotionCH == 3"></i> 
+												<i class="fa fa-long-arrow-down" style="color: green;" v-if="valence_vals_status.emotionCH == 4"></i>
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 当前课堂结束 -->
+
+					<!-- 优质课堂开始 -->
+					<div class="col-lg-12" style="padding: 0 0 0 0em;">
+						<!-- 活跃度分析 -->
+						<div class="model-box cac-chart-bottom">
+							<div class="model-box-title">
+								<div class="modular-title" style="padding-left:0">优质课堂图表</div>
+							</div>
+							<div class="col-lg-9" style="padding: 0">
+								<div id="valence_Bubble_ECharts_model_0" style="height: 240px;"></div>
+								<!-- 互动频率分析 -->
+								<div id="interaction_Bubble_ECharts_model_0"
+									style="height: 240px; display: none;"></div>
+								<!-- 课堂情景分析  -->
+								<div id="scene_Bubble_ECharts_model_0"
+									style="height: 240px; display: none;"></div>
+							</div>
+							<div class="col-lg-3" style="padding: 0 0 0 0em;">
+								<div
+									style="height: 240px; display: flex; flex-direction: column;">
+									<div class="list-group">
+										<div class="list-group-item-sm">
+											<i class="fa  fa-circle-o fa-fw color-blue"></i> 思考 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.puzzled}}</em>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="fa  fa-circle-o fa-fw color-green"></i> 倾听 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.calm}}</em>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="fa  fa-circle-o fa-fw color-red"></i> 活跃 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.excited}}</em>
+											</span>
+										</div>
+										
+										<!-- 
+										<div class="list-group-item-sm">
+											<i class="iconfont iconfont-xs2 icon-xindiantu01  color-orange"></i> 波动率 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.waveRate}}</em>
+											</span>
+										</div>
+										
+										<div class="list-group-item-sm">
+											<i class="iconfont iconfont-xs2 icon-xindiantu01  color-blue2"></i> 波动偏差 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.fluctuationDeviation}}</em>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="iconfont iconfont-xs2 icon-xindiantu01  color-blue3"></i> 波动均衡 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.uniformFluctuation}}</em>
+											</span>
+										</div>
+										<div class="list-group-item-sm">
+											<i class="iconfont iconfont-xs2 icon-xindiantu01  color-blue1"></i> 平均值 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.averageVal}}</em>
+											</span>
+										</div>										
+										 -->
+										 
+										<div class="list-group-item-sm">
+											<i class="fa fa-volume-up fa-fw color-blue"></i> 讨论 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.discussion}}</em>
+											</span>
+										</div>
+									
+										<div class="list-group-item-sm">
+											<i class="fa fa-volume-down fa-fw color-green"></i> 练习 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.practice}}</em>
+											</span>
+										</div>
+										
+										<div class="list-group-item-sm">
+											<i class="fa fa-volume-off fa-fw color-red"></i> 听课 <span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.listenClass}}</em>
+											</span>
+										</div>
+										
+										<div class="list-group-item-sm">
+											<i class="fa fa-gg fa-fw color-red"></i> 课堂参与度<span
+												class="pull-right text-muted small"> <em>{{valence_vals_high.emotionCH}}</em>
+											</span>
+										</div>
+																				
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 优质课堂结束 -->
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

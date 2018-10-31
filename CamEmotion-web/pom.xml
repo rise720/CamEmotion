@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.cac.CCBCamEmotion</groupId>
+		<artifactId>CCBCamEmotion</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>CamEmotion-web</artifactId>
+	<packaging>war</packaging>
+	<name>CamEmotion-web Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+
+	<dependencies>
+		<!-- 依赖的wechatmall-service jar包 -->
+		<dependency>
+			<groupId>com.cac.CCBCamEmotion</groupId>
+			<artifactId>CamEmotion-service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+		<dependency>
+		    <groupId>org.bouncycastle</groupId>
+		    <artifactId>bcprov-jdk15on</artifactId>
+		    <version>1.54</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.javacsv/javacsv -->
+		<dependency>
+		    <groupId>net.sourceforge.javacsv</groupId>
+		    <artifactId>javacsv</artifactId>
+		    <version>2.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+	<!-- 这样也可以把所有的xml文件，打包到相应位置。 -->
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>*</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<finalName>CamEmotion-web</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

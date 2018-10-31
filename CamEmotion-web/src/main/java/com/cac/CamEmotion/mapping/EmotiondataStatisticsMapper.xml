@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.EmotiondataStatisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.EmotiondataStatistics" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="curriculumid" property="curriculumid" jdbcType="INTEGER" />
+    <result column="charttype" property="charttype" jdbcType="VARCHAR" />
+    <result column="minutes" property="minutes" jdbcType="INTEGER" />
+    <result column="dateTime" property="datetime" jdbcType="VARCHAR" />
+    <result column="value" property="value" jdbcType="DOUBLE" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="percent" property="percent" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="faceCount" property="facecount" jdbcType="INTEGER" />
+    <result column="averageFaceCount" property="averagefacecount" jdbcType="DOUBLE" />
+    <result column="averageValueAll" property="averagevalueall" jdbcType="DOUBLE" />
+    <result column="faceCountPercent" property="facecountpercent" jdbcType="DOUBLE" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="playDuration" property="playduration" jdbcType="INTEGER" />
+<!--     <result column="statisticType" property="statisticType" jdbcType="INTEGER" /> -->
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, curriculumid, charttype, minutes, dateTime, value, number, percent, level, name, 
+    faceCount, averageFaceCount, averageValueAll, faceCountPercent, createtime,playDuration
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from emotiondata_statistics_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="countByModel" resultType="java.lang.Integer" parameterType="com.cac.CamEmotion.model.EmotiondataStatistics">
+  	SELECT COUNT(*) 
+  	FROM emotiondata_statistics_tbl
+  	<where>
+		1=1
+		<if test="id != null and id > 0">
+			and id = #{id,jdbcType=INTEGER}
+		</if>
+	    <if test="curriculumid != null" >
+	      	and curriculumid = #{curriculumid,jdbcType=INTEGER}
+	    </if>
+	    <if test="charttype != null" >
+        	and charttype = #{charttype,jdbcType=VARCHAR}
+      	</if>
+		<if test="minutes != null" >
+		  and minutes = #{minutes,jdbcType=INTEGER}
+		</if>
+		<if test="datetime != null" >
+		  and datetime = #{datetime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="value != null" >
+		  and value = #{value,jdbcType=DOUBLE}
+		</if>
+		<if test="number != null" >
+		  and number = #{number,jdbcType=INTEGER}
+		</if>
+		<if test="percent != null" >
+		  and percent = #{percent,jdbcType=VARCHAR}
+		</if>
+		<if test="level != null" >
+		  and level = #{level,jdbcType=INTEGER}
+		</if>
+		<if test="name != null" >
+		  and name = #{name,jdbcType=VARCHAR}
+		</if>
+		<if test="facecount != null" >
+		  and facecount = #{facecount,jdbcType=INTEGER}
+		</if>
+		<if test="averagefacecount != null" >
+		  and averagefacecount = #{averagefacecount,jdbcType=DOUBLE}
+		</if>
+		<if test="averagevalueall != null" >
+		  and averagevalueall = #{averagevalueall,jdbcType=DOUBLE}
+		</if>
+		<if test="facecountpercent != null" >
+		  and facecountpercent = #{facecountpercent,jdbcType=DOUBLE}
+		</if>
+		<if test="createtime != null" >
+		  and createtime = #{createtime,jdbcType=TIMESTAMP}
+		</if>
+	</where>
+  </select>
+  
+  <select id="getEmotiondataStatistics" resultMap="BaseResultMap" parameterType="com.cac.CamEmotion.model.EmotiondataStatistics" >
+    select 
+    <include refid="Base_Column_List" />
+    FROM emotiondata_statistics_tbl 
+    WHERE curriculumid=#{curriculumid,jdbcType=INTEGER}
+    <if test="charttype != null and charttype != ''">
+    	AND charttype=#{charttype,jdbcType=VARCHAR}
+    </if>
+<!--     <if test="statisticType != null and statisticType != ''"> -->
+<!--     	AND statisticType=#{statisticType,jdbcType=VARCHAR} -->
+<!--     </if> -->
+   	ORDER BY minutes 
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from emotiondata_statistics_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 按课堂id删除对应报表数据 -->
+	<delete id="deleteByModel" parameterType="com.cac.CamEmotion.model.EmotiondataStatistics">
+		delete from emotiondata_statistics_tbl
+		where curriculumid = #{curriculumid,jdbcType=INTEGER}
+		<if test="charttype != null and charttype != ''">
+    		AND charttype=#{charttype,jdbcType=VARCHAR}
+	    </if>
+<!-- 	    <if test="statisticType != null and statisticType != ''"> -->
+<!-- 	    	AND statisticType=#{statisticType,jdbcType=VARCHAR} -->
+<!-- 	    </if> -->
+	</delete>
+  
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.EmotiondataStatistics" >
+    insert into emotiondata_statistics_tbl (id, curriculumid, charttype, 
+      minutes, dateTime, value, 
+      number, percent, level, 
+      name, faceCount, averageFaceCount, 
+      averageValueAll, faceCountPercent, createtime,playDuration
+      )
+    values (#{id,jdbcType=INTEGER}, #{curriculumid,jdbcType=INTEGER}, #{charttype,jdbcType=VARCHAR}, 
+      #{minutes,jdbcType=INTEGER}, #{datetime,jdbcType=VARCHAR}, #{value,jdbcType=DOUBLE}, 
+      #{number,jdbcType=INTEGER}, #{percent,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{facecount,jdbcType=INTEGER}, #{averagefacecount,jdbcType=DOUBLE}, 
+      #{averagevalueall,jdbcType=DOUBLE}, #{facecountpercent,jdbcType=DOUBLE}, now(), #{playduration,jdbcType=INTEGER}
+      )
+  </insert>
+  
+   <insert id="insertBatch" parameterType="list">
+   insert into emotiondata_statistics_tbl (curriculumid, charttype, 
+     minutes, dateTime, value, 
+     number, percent, level, 
+     name, faceCount, averageFaceCount, 
+     averageValueAll, faceCountPercent, createtime,playDuration
+     )
+   values 
+   <foreach collection="emotionDatas" separator="," item="emotiondata">
+    (#{emotiondata.curriculumid,jdbcType=INTEGER}, 
+     #{emotiondata.charttype,jdbcType=VARCHAR}, 
+     #{emotiondata.minutes,jdbcType=INTEGER}, 
+     #{emotiondata.datetime,jdbcType=VARCHAR}, 
+     #{emotiondata.value,jdbcType=DOUBLE}, 
+     #{emotiondata.number,jdbcType=INTEGER}, 
+     #{emotiondata.percent,jdbcType=VARCHAR}, 
+     #{emotiondata.level,jdbcType=INTEGER}, 
+     #{emotiondata.name,jdbcType=VARCHAR}, 
+     #{emotiondata.facecount,jdbcType=INTEGER}, 
+     #{emotiondata.averagefacecount,jdbcType=DOUBLE}, 
+     #{emotiondata.averagevalueall,jdbcType=DOUBLE}, 
+     #{emotiondata.facecountpercent,jdbcType=DOUBLE}, 
+     now(), 
+     #{emotiondata.playduration,jdbcType=INTEGER}
+     )
+  </foreach>
+   
+ </insert>
+  
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.EmotiondataStatistics" >
+    insert into emotiondata_statistics_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="curriculumid != null" >
+        curriculumid,
+      </if>
+      <if test="charttype != null" >
+        charttype,
+      </if>
+      <if test="minutes != null" >
+        minutes,
+      </if>
+      <if test="datetime != null" >
+        dateTime,
+      </if>
+      <if test="value != null" >
+        value,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="percent != null" >
+        percent,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="facecount != null" >
+        faceCount,
+      </if>
+      <if test="averagefacecount != null" >
+        averageFaceCount,
+      </if>
+      <if test="averagevalueall != null" >
+        averageValueAll,
+      </if>
+      <if test="facecountpercent != null" >
+        faceCountPercent,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="playduration != null" >
+        playDuration,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="curriculumid != null" >
+        #{curriculumid,jdbcType=INTEGER},
+      </if>
+      <if test="charttype != null" >
+        #{charttype,jdbcType=VARCHAR},
+      </if>
+      <if test="minutes != null" >
+        #{minutes,jdbcType=INTEGER},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=DOUBLE},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="percent != null" >
+        #{percent,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="facecount != null" >
+        #{facecount,jdbcType=INTEGER},
+      </if>
+      <if test="averagefacecount != null" >
+        #{averagefacecount,jdbcType=DOUBLE},
+      </if>
+      <if test="averagevalueall != null" >
+        #{averagevalueall,jdbcType=DOUBLE},
+      </if>
+      <if test="facecountpercent != null" >
+        #{facecountpercent,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="playduration != null" >
+        #{playduration,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.EmotiondataStatistics" >
+    update emotiondata_statistics_tbl
+    <set >
+      <if test="curriculumid != null" >
+        curriculumid = #{curriculumid,jdbcType=INTEGER},
+      </if>
+      <if test="charttype != null" >
+        charttype = #{charttype,jdbcType=VARCHAR},
+      </if>
+      <if test="minutes != null" >
+        minutes = #{minutes,jdbcType=INTEGER},
+      </if>
+      <if test="datetime != null" >
+        dateTime = #{datetime,jdbcType=VARCHAR},
+      </if>
+      <if test="value != null" >
+        value = #{value,jdbcType=DOUBLE},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="percent != null" >
+        percent = #{percent,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="facecount != null" >
+        faceCount = #{facecount,jdbcType=INTEGER},
+      </if>
+      <if test="averagefacecount != null" >
+        averageFaceCount = #{averagefacecount,jdbcType=DOUBLE},
+      </if>
+      <if test="averagevalueall != null" >
+        averageValueAll = #{averagevalueall,jdbcType=DOUBLE},
+      </if>
+      <if test="facecountpercent != null" >
+        faceCountPercent = #{facecountpercent,jdbcType=DOUBLE},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+       <if test="playduration != null" >
+        playDuration = #{playduration,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.EmotiondataStatistics" >
+    update emotiondata_statistics_tbl
+    set curriculumid = #{curriculumid,jdbcType=INTEGER},
+      charttype = #{charttype,jdbcType=VARCHAR},
+      minutes = #{minutes,jdbcType=INTEGER},
+      dateTime = #{datetime,jdbcType=VARCHAR},
+      value = #{value,jdbcType=DOUBLE},
+      number = #{number,jdbcType=INTEGER},
+      percent = #{percent,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      faceCount = #{facecount,jdbcType=INTEGER},
+      averageFaceCount = #{averagefacecount,jdbcType=DOUBLE},
+      averageValueAll = #{averagevalueall,jdbcType=DOUBLE},
+      faceCountPercent = #{facecountpercent,jdbcType=DOUBLE},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      playDuration = #{playduration,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper> 

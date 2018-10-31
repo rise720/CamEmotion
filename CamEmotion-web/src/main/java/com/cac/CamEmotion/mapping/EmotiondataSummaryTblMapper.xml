@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cac.CamEmotion.dao.EmotiondataSummaryTblMapper" >
+  <resultMap id="BaseResultMap" type="com.cac.CamEmotion.model.EmotiondataSummaryTbl" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="coursename" property="coursename" jdbcType="VARCHAR" />
+    <result column="classNature" property="classnature" jdbcType="VARCHAR" />
+    <result column="charttype" property="charttype" jdbcType="VARCHAR" />
+    <result column="percent" property="percent" jdbcType="VARCHAR" />
+    <result column="levels" property="levels" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, coursename, classNature, charttype, percent, levels
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from emotiondata_summary_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--  -->
+  <select id="selectByModel" resultMap="BaseResultMap" parameterType="com.cac.CamEmotion.model.EmotiondataSummaryTbl" >
+  	select 
+  	<include refid="Base_Column_List"></include> 
+  	 from emotiondata_summary_tbl 
+  	 <where>
+  	 	1=1 
+  	 	<if test="coursename != null and coursename != ''">
+    		and coursename = #{coursename,jdbcType=VARCHAR}
+    	</if>
+    	<if test="classnature != null and classnature != ''">
+    		and classNature = #{classnature,jdbcType=VARCHAR}
+    	</if>
+  	 </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from emotiondata_summary_tbl
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.cac.CamEmotion.model.EmotiondataSummaryTbl" >
+    insert into emotiondata_summary_tbl (id, coursename, classNature, 
+      charttype, percent)
+    values (#{id,jdbcType=INTEGER}, #{coursename,jdbcType=VARCHAR}, #{classnature,jdbcType=VARCHAR}, 
+      #{charttype,jdbcType=VARCHAR}, #{percent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cac.CamEmotion.model.EmotiondataSummaryTbl" >
+    insert into emotiondata_summary_tbl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="coursename != null" >
+        coursename,
+      </if>
+      <if test="classnature != null" >
+        classNature,
+      </if>
+      <if test="charttype != null" >
+        charttype,
+      </if>
+      <if test="percent != null" >
+        percent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="coursename != null" >
+        #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="classnature != null" >
+        #{classnature,jdbcType=VARCHAR},
+      </if>
+      <if test="charttype != null" >
+        #{charttype,jdbcType=VARCHAR},
+      </if>
+      <if test="percent != null" >
+        #{percent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cac.CamEmotion.model.EmotiondataSummaryTbl" >
+    update emotiondata_summary_tbl
+    <set >
+      <if test="coursename != null" >
+        coursename = #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="classnature != null" >
+        classNature = #{classnature,jdbcType=VARCHAR},
+      </if>
+      <if test="charttype != null" >
+        charttype = #{charttype,jdbcType=VARCHAR},
+      </if>
+      <if test="percent != null" >
+        percent = #{percent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cac.CamEmotion.model.EmotiondataSummaryTbl" >
+    update emotiondata_summary_tbl
+    set coursename = #{coursename,jdbcType=VARCHAR},
+      classNature = #{classnature,jdbcType=VARCHAR},
+      charttype = #{charttype,jdbcType=VARCHAR},
+      percent = #{percent,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
