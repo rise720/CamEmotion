@@ -1,4 +1,4 @@
-package com.cac.CamEmotion.controller;
+﻿package com.cac.CamEmotion.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,7 +22,8 @@ import com.cac.CamEmotion.jsonModel.SocketMessage;
 import com.cac.CamEmotion.service.EmotionServerClient;
 import com.google.gson.Gson;
 
-@Component
+//@Component
+@Controller
 public class MyHandler extends TextWebSocketHandler {
 	@Resource
 	EmotionServerClient emotionServerClient;
