@@ -22,8 +22,7 @@ import com.cac.CamEmotion.jsonModel.SocketMessage;
 import com.cac.CamEmotion.service.EmotionServerClient;
 import com.google.gson.Gson;
 
-//@Component
-@Controller
+@Component
 public class MyHandler extends TextWebSocketHandler {
 	@Resource
 	EmotionServerClient emotionServerClient;
