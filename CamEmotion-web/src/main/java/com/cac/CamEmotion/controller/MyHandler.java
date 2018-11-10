@@ -1,4 +1,4 @@
-﻿package com.cac.CamEmotion.controller;
+package com.cac.CamEmotion.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
