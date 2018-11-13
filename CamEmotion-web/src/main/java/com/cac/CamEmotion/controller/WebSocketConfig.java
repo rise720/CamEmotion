@@ -18,6 +18,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public WebSocketHandler myHandler() {
+    	System.out.println("准备返回MyHandler...");
         return new MyHandler();
     }
 
