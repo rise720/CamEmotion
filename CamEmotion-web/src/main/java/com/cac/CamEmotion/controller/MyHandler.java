@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
@@ -22,7 +22,8 @@ import com.cac.CamEmotion.jsonModel.SocketMessage;
 import com.cac.CamEmotion.service.EmotionServerClient;
 import com.google.gson.Gson;
 
-@Component
+//@Component
+@Controller
 public class MyHandler extends TextWebSocketHandler {
 	@Resource
 	EmotionServerClient emotionServerClient;
